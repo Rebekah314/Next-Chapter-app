@@ -7,8 +7,10 @@
 <body>
 <header>  <h1 th:text="${title}">Next Chapter</h1>
     <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="/user">User Info</a></li>
-        <li class="nav-item"><a class="nav-link" href="/user/create">Create User</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users">User Info</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users/create">Create User</a></li>
+        <li class="nav-item"><a class="nav-link" href="/clubs">Club Info</a></li>
+        <li class="nav-item"><a class="nav-link" href="/clubs/create">Create Club</a></li>
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 
     </ul>
@@ -19,7 +21,7 @@
 <form method="post">
     <div class="form-group">
         <label>Username
-            <input th:field="${user.name}" class="form-control">
+            <input th:field="${user.username}" class="form-control">
         </label>
 <!--        <p class="error" th:errors="${event.name}"></p>-->
     </div>

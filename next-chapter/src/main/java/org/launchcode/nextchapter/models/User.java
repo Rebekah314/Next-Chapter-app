@@ -3,6 +3,7 @@ package org.launchcode.nextchapter.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,9 @@ public class User {
 
     private String displayName;
 
-//    private List<Club> clubs = new ArrayList<>();
+//    @ManyToMany(mappedBy = "members")
+//    private final List<Club> clubs = new ArrayList<>();
+    //need to set up DTO, chapter 18.5
 
     public User(String username, String displayName) {
         this.username = username;

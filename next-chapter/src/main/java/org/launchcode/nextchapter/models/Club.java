@@ -4,6 +4,7 @@ package org.launchcode.nextchapter.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,7 +21,9 @@ public class Club {
 
     private String displayName;
 
-//    private List<User> members = new ArrayList<>();
+//    @ManyToMany
+//    private final List<User> members = new ArrayList<>();
+    //need to set up DTO, chapter 18.5
 
     private String activeBook;
 
