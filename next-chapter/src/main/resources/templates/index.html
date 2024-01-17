@@ -5,7 +5,16 @@
     <title>Next Chapter</title>
 </head>
 <body>
-<h1>Welcome to your Next Chapter!</h1>
+
+<h1 th:text="${title}">Next Chapter</h1>
+<ul class="nav">
+    <li class="nav-item"><a class="nav-link" href="/users">User Info</a></li>
+    <li class="nav-item"><a class="nav-link" href="/users/create">Create User</a></li>
+    <li class="nav-item"><a class="nav-link" href="/clubs">Club Info</a></li>
+    <li class="nav-item"><a class="nav-link" href="/clubs/create">Create Club</a></li>
+    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
+</ul>
 
 <h3>"With the new day comes new strength and new thoughts."</h3>
 <p>Eleanor Roosevelt</p>
