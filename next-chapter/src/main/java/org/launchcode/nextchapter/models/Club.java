@@ -34,6 +34,10 @@ public class Club {
 
     public Club() {}
 
+    public int getId() {
+        return id;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
