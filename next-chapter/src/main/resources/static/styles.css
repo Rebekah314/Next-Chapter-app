@@ -7,5 +7,12 @@ body {
   color: red;
 }
 
+.homepage-login {
+    background-color: #FFCBA4;
+    padding: 18px;
+}
 
-
+.homepage-table {
+    background-color: #E0FFFF;
+    padding: 18px;
+}
