@@ -7,7 +7,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Blog {
@@ -16,7 +17,7 @@ public class Blog {
     @GeneratedValue
     private int id;
 
-    private LocalDate time;
+    private LocalDateTime time;
 
 //    @ManyToOne
 //    private Club club;
@@ -29,15 +30,26 @@ public class Blog {
     @Size(min = 1, max = 40, message = "Title must be between 1 and 40 characters.")
     private String title;
 
+    private String bookContext;
+
+    public String getBookContext() {
+        return bookContext;
+    }
+
+    public void setBookContext(String bookContext) {
+        this.bookContext = bookContext;
+    }
+
     private String content;
 
     public Blog(){
-        this.time = LocalDate.now();
+        this.time = LocalDateTime.now();
     }
 
-    public Blog(String title, String content) {
+    public Blog(String title, String bookContext, String content) {
         this();
         this.title = title;
+        this.bookContext = bookContext;
         this.content = content;
     }
 
@@ -46,7 +58,7 @@ public class Blog {
     }
 
 
-    public LocalDate getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 

@@ -15,6 +15,11 @@
         <span th:errors="${blog.title}"></span>
     </label>
     <br/>
+    <label>What Book Are You Reading?
+        <input type="text" th:field="${blog.bookContext}">
+        <span th:errors="${blog.bookContext}"></span>
+    </label>
+    <br/>
     <label>Add Content:
         <br/>
         <textarea th:field="${blog.content}" cols="50" rows="10"></textarea>
