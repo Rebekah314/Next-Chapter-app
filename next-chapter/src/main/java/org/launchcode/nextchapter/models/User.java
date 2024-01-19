@@ -10,15 +10,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class User {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class User extends AbstractEntity{
 
     private String username;
-
-    private String displayName;
 
 //    @ManyToMany(mappedBy = "members")
 //    private final List<Club> clubs = new ArrayList<>();
@@ -26,7 +20,7 @@ public class User {
 
     public User(String username, String displayName) {
         this.username = username;
-        this.displayName = displayName;
+        this.setDisplayName(displayName);
     }
 
     public User() {}
@@ -39,14 +33,6 @@ public class User {
         this.username = username;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
 //    public List<Club> getClubs() {
 //        return clubs;
 //    }
@@ -55,16 +41,4 @@ public class User {
 //        this.clubs = clubs;
 //    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username);
-    }
 }

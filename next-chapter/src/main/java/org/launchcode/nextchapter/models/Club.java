@@ -13,13 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Club {
-
-    @Id
-    @GeneratedValue
-    private int id;
-
-    private String displayName;
+public class Club extends AbstractEntity {
 
 //    @ManyToMany
 //    private final List<User> members = new ArrayList<>();
@@ -28,23 +22,11 @@ public class Club {
     private String activeBook;
 
     public Club(String displayName, String activeBook) {
-        this.displayName = displayName;
+        this.setDisplayName(displayName);
         this.activeBook = activeBook;
     }
 
     public Club() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 
 //    public List<User> getMembers() {
 //        return members;
@@ -62,16 +44,4 @@ public class Club {
         this.activeBook = activeBook;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Club club = (Club) o;
-        return id == club.id && Objects.equals(displayName, club.displayName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, displayName);
-    }
 }
