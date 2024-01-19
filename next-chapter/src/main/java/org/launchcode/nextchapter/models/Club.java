@@ -22,15 +22,14 @@ public class Club extends AbstractEntity {
 
     private String activeBook;
 
-    @NotNull
     private String adminPwHash;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public Club(String displayName, String activeBook, String adminPw) {
+    public Club(String displayName, String activeBook) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
-        this.adminPwHash = encoder.encode(adminPw);
+        //this.adminPwHash = encoder.encode(adminPw);
     }
 
     public Club() {}
