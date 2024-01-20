@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,14 @@ public class Club extends AbstractEntity {
 
     private String activeBook;
 
+    private String adminPwHash;
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public Club(String displayName, String activeBook) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
+        //this.adminPwHash = encoder.encode(adminPw);
     }
 
     public Club() {}
@@ -42,6 +48,14 @@ public class Club extends AbstractEntity {
 
     public void setActiveBook(String activeBook) {
         this.activeBook = activeBook;
+    }
+
+    public String getPwHash() {
+        return adminPwHash;
+    }
+
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, adminPwHash);
     }
 
 }
