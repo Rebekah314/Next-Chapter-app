@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/profiles")
-public class MemberProfileController {
+class MemberProfileController {
 
     private final MemberProfileRepository profileRepository;
 
