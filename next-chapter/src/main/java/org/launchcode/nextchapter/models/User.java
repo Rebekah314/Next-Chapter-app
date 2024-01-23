@@ -24,10 +24,10 @@ public class User extends AbstractEntity{
 //    private final List<Club> clubs = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
-    public User(String username, String displayName) {
+    public User(String username, String displayName, String password) {
         this.username = username;
         this.setDisplayName(displayName);
-        //this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);
     }
 
     public User() {}
