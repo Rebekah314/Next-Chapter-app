@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.launchcode.nextchapter.NextChapterApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-23T19:23:39" hostname="cathrines-Air.lan" time="0.351">
+  <properties/>
+  <testcase name="contextLoads()" classname="org.launchcode.nextchapter.NextChapterApplicationTests" time="0.351"/>
+  <system-out><![CDATA[13:23:36.482 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.launchcode.nextchapter.NextChapterApplicationTests]: NextChapterApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:23:36.547 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.launchcode.nextchapter.NextChapterApplication for test class org.launchcode.nextchapter.NextChapterApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2024-01-23T13:23:36.769-06:00  INFO 12023 --- [    Test worker] o.l.n.NextChapterApplicationTests        : Starting NextChapterApplicationTests using Java 17.0.8 with PID 12023 (started by cathrinekitushabby in /Users/cathrinekitushabby/Desktop/group-madison-31/next-chapter)
+2024-01-23T13:23:36.770-06:00  INFO 12023 --- [    Test worker] o.l.n.NextChapterApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2024-01-23T13:23:37.202-06:00  INFO 12023 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-23T13:23:37.234-06:00  INFO 12023 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 3 JPA repository interfaces.
+2024-01-23T13:23:37.515-06:00  INFO 12023 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-23T13:23:37.553-06:00  INFO 12023 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-23T13:23:37.573-06:00  INFO 12023 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-23T13:23:37.713-06:00  INFO 12023 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-23T13:23:37.731-06:00  INFO 12023 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-23T13:23:38.010-06:00  INFO 12023 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5464b97c
+2024-01-23T13:23:38.011-06:00  INFO 12023 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-23T13:23:38.058-06:00  WARN 12023 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-01-23T13:23:38.059-06:00  WARN 12023 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-01-23T13:23:38.607-06:00  INFO 12023 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-23T13:23:38.669-06:00  INFO 12023 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-23T13:23:38.877-06:00  WARN 12023 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-23T13:23:38.891-06:00  INFO 12023 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-01-23T13:23:39.118-06:00  INFO 12023 --- [    Test worker] o.l.n.NextChapterApplicationTests        : Started NextChapterApplicationTests in 2.476 seconds (process running for 3.275)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
