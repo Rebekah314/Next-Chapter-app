@@ -22,4 +22,12 @@ public class HomeController {
         model.addAttribute("clubs", clubRepository.findAll());
         return "index";
     }
+
+    @GetMapping("home")
+    public String home(Model model) {
+
+        model.addAttribute("title", "Welcome to your Next Chapter!");
+        model.addAttribute("clubs", clubRepository.findAll());
+        return "index";
+    }
 }
