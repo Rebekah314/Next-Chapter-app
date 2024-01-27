@@ -5,7 +5,7 @@ import java.util.List;
 public class SearchResultBook {
     private String key;
     private String title;
-    private int cover_i;
+    private String cover_i;
     private List<String> author_name;
 
     public String getKey() {
@@ -24,11 +24,11 @@ public class SearchResultBook {
         this.title = title;
     }
 
-    public int getCover_i() {
+    public String getCover_i() {
         return cover_i;
     }
 
-    public void setCover_i(int cover_i) {
+    public void setCover_i(String cover_i) {
         this.cover_i = cover_i;
     }
 
