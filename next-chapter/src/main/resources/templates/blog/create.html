@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<form method="post">
+<!--    <label>User:-->
+<!--        <select th:field="${blog.user}">-->
+<!--            <option th:each="user:${users}" th:text="${user.username}" th:value="${user.id}"></option>-->
+<!--        </select>-->
+<!--    </label>-->
+    <label>Title:
+        <input type="text" th:field="${blog.title}">
+        <span th:errors="${blog.title}"></span>
+    </label>
+    <br/>
+    <label>What Book Are You Reading?
+        <input type="text" th:field="${blog.bookContext}">
+        <span th:errors="${blog.bookContext}"></span>
+    </label>
+    <br/>
+    <label>Add Content:
+        <br/>
+        <textarea th:field="${blog.content}" cols="50" rows="10"></textarea>
+        <span th:errors="${blog.content}"></span>
+    </label>
+    <br/>
+    <input type="submit" value="Post">
+</form>
+
+</body>
+</html>
