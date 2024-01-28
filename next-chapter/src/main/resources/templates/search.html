@@ -5,16 +5,37 @@
     <title></title>
 </head>
 <body>
-<div class="card-group" th:each="result : ${searchResults}">
 
-    <a th:href="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-L.jpg'">link</a>
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" th:src="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-M.jpg'" th:alt="${result.cover_i}">
+<!--<form method="post">-->
+
+<!--    <th:block th:each="event : ${events}">-->
+<!--        <div class="form-group">-->
+<!--            <label>-->
+<!--                <span th:text="${event.name}"></span>-->
+<!--                <input type="checkbox" name="eventIds" th:value="${event.id}" class="form-control">-->
+<!--            </label>-->
+<!--        </div>-->
+<!--    </th:block>-->
+
+<!--    <input type="submit" value="Delete" class="btn btn-danger">-->
+<!--</form>-->
+<!--<form method="post">-->
+<!--    <div>-->
+<!--        <label>Book Title: </label>-->
+<!--        <input type="text" name="${query}" th:value="${query}">-->
+<!--        <input type="submit" value="Search">-->
+<!--    </div>-->
+<!--</form>-->
+<!--<div class="card-group">-->
+
+<!--    <a th:href="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-L.jpg'">link</a>-->
+    <div class="card" style="flex: 0 0 30%"  th:each="result : ${searchResults}">
+        <img class="card-img-top" th:src="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-M.jpg'" alt="...">
         <div class="card-body">
             <h5 class="card-title" th:text="${result.title}">Book Title</h5>
+            <p class="card-text" th:text="by + ${result.author_name}">Author Name</p>
+            <a href="#" th:href="@{'/'}" class="btn btn-primary">Set This As Current Book (eventually)</a>
         </div>
-
-<!--<h5 th:text="${searchResult.size}">Cover Number</h5> -->
     </div>
 </div>
 </body>

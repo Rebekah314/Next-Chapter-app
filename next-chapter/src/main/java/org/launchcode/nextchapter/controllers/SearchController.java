@@ -5,6 +5,7 @@ import org.launchcode.nextchapter.models.SearchResultBook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -46,7 +47,7 @@ public class SearchController {
         SearchResult result = resultsMono.block();
         List<SearchResultBook> books = result.getDocs()
                 .stream()
-                .limit(10)
+                .limit(1)
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);
