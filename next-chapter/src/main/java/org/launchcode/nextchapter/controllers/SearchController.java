@@ -47,7 +47,7 @@ public class SearchController {
         SearchResult result = resultsMono.block();
         List<SearchResultBook> books = result.getDocs()
                 .stream()
-                .limit(1)
+                .limit(5)
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);

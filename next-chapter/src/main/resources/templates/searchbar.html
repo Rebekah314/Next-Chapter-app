@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="container">
 <header th:replace="fragments :: header"></header>
 <div>
-<!--    <form action="search.html" th:attr="action=@{/search}">-->
-<!--        <div class="input-group mb-3">-->
-<!--            <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2">-->
-<!--            <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>-->
-<!--        </div>-->
-<!--    </form>-->
+    <form action="search.html" th:attr="action=@{/search}">
+        <div class="input-group mb-3">
+            <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2">
+            <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+        </div>
+    </form>
+    hello
 </div>
 </body>
 </html>
