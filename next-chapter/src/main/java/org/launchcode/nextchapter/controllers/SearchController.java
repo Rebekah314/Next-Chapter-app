@@ -19,15 +19,17 @@ import java.util.stream.Collectors;
 @Controller
 public class SearchController {
 
+    //WebClient -- included within the dependency WebFlux -- seems to be the most current tool within SpringBoot to handle HTTP calls.
     private final WebClient webClient;
 
-    //passing in this argument below allows the method to build a Web Client (MH)
+    //passing in this builder argument (seen below) allows the method to build a Web Client (MH)
     public SearchController(WebClient.Builder webClientBuilder) {
-        //below builds a Web Client which is able to make a call to the included URL (MH)
-// the original does not work, due to exceeding buffer limits
+
+// note: what is commented out directly below is the original code: does not work, because it exceeds buffer limits
 //        this.webClient = webClientBuilder
 //                .baseUrl("https://openlibrary.org/search.json").build();
 
+        //This builds a Web Client which is able to make a call to the included URL (MH)
         this.webClient = webClientBuilder.exchangeStrategies(ExchangeStrategies.builder()
                 .codecs(configurer -> configurer
                         .defaultCodecs()
@@ -48,6 +50,7 @@ public class SearchController {
         List<SearchResultBook> books = result.getDocs()
                 .stream()
                 .limit(5)
+                //this, above, limits the results to only showing 5 of the most relevant search results.
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);

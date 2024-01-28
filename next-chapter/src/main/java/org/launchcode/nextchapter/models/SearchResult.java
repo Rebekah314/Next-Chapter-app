@@ -2,6 +2,12 @@ package org.launchcode.nextchapter.models;
 
 import java.util.List;
 
+
+//This class was created to handle the first layer of data returned by the json,
+// viewable (with Lord of the Rings used as an example) here: https://openlibrary.org/search.json?q=the+lord+of+the+rings
+
+//The relevant data, contained within a "docs" arraylist within this class, will be further parsed by the model SearchResultBook.
+
 public class SearchResult {
 
     private int numFound;

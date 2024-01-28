@@ -2,6 +2,9 @@ package org.launchcode.nextchapter.models;
 
 import java.util.List;
 
+//This class handles all relevant data within the json returned by the OpenLibrary API,
+// viewable within "docs" here: https://openlibrary.org/search.json?q=the+lord+of+the+rings
+
 public class SearchResultBook {
     private String key;
     private String title;
