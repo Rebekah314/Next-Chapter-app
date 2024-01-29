@@ -16,8 +16,8 @@ import java.util.Objects;
 @Entity
 public class Club extends AbstractEntity {
 
-//    @ManyToMany
-//    private final List<User> members = new ArrayList<>();
+   @ManyToMany
+    private List<User> members = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
     private String activeBook;
@@ -34,13 +34,13 @@ public class Club extends AbstractEntity {
 
     public Club() {}
 
-//    public List<User> getMembers() {
-//        return members;
-//    }
+    public List<User> getMembers() {
+        return members;
+    }
 
-//    public void setMembers(List<User> members) {
-//        this.members = members;
-//    }
+    public void setMembers(List<User> members) {
+       this.members = members;
+    }
 
     public String getActiveBook() {
         return activeBook;

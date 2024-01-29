@@ -1,10 +1,7 @@
 package org.launchcode.nextchapter.models;
-// MemberProfile.java
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class MemberProfile {
@@ -15,7 +12,13 @@ public class MemberProfile {
 
     private String name;
     private String email;
-    private String role;
+    private String book;
+
+    @ManyToMany
+    @JoinTable(name = "member_profile_club",
+            joinColumns = @JoinColumn(name = "member_profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id"))
+    private List<Club> clubs;
 
     // Constructors, getters, and setters (you can use Lombok to simplify)
 
@@ -27,7 +30,7 @@ public class MemberProfile {
     public MemberProfile(String name, String email, String role) {
         this.name = name;
         this.email = email;
-        this.role = role;
+        this.book = book;
     }
 
     // Getters and setters for all fields
@@ -57,10 +60,18 @@ public class MemberProfile {
     }
 
     public String getRole() {
-        return role;
+        return book;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.book = role;
+    }
+
+    public List<Club> getClubs() {
+        return clubs;
+    }
+
+    public void setClubs(List<Club> clubs) {
+        this.clubs = clubs;
     }
 }
