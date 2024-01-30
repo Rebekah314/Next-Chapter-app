@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<table class="table table-striped">
+
+    <tr>
+        <th>Name</th>
+        <td th:text="${club.displayName}"></td>
+    </tr>
+    <tr>
+        <th>Currently Reading</th>
+        <td th:text="${club.activeBook}"></td>
+    </tr>
+</table>
+
+<button></button>
+
+</body>
+</html>
