@@ -19,11 +19,11 @@ public class Blog {
 
     private LocalDateTime time;
 
-//    @ManyToOne
-//    private Club club;
-//
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    private Club club;
+
+   @ManyToOne
+   private User user;
     // need to set up DTO
 
     @NotBlank(message = "Title cannot be blank.")

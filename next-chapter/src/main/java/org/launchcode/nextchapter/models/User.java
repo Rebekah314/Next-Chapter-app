@@ -20,8 +20,8 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-//    @ManyToMany(mappedBy = "members")
-//    private final List<Club> clubs = new ArrayList<>();
+    @ManyToMany(mappedBy = "members")
+    private List<Club> clubs = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
     public User(String username, String displayName, String password) {
@@ -48,12 +48,12 @@ public class User extends AbstractEntity{
         return encoder.matches(password, pwHash);
     }
 
-//    public List<Club> getClubs() {
-//        return clubs;
-//    }
-//
-//    public void setClubs(List<Club> clubs) {
-//        this.clubs = clubs;
-//    }
+   public List<Club> getClubs() {
+       return clubs;
+    }
+
+    public void setClubs(List<Club> clubs) {
+        this.clubs = clubs;
+    }
 
 }
