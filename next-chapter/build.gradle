@@ -24,6 +24,8 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.32'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//WebFlux adds WebClient, a web client tool that makes HTTP calls to other services -MH
+	implementation('org.springframework.boot:spring-boot-starter-webflux')
 }
 
 tasks.named('test') {

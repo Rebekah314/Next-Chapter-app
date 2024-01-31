@@ -26,7 +26,7 @@ public class Club extends AbstractEntity {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public Club(String displayName, String activeBook) {
+    public Club(String displayName, String activeBook, String password) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
         CharSequence adminPw = null;

@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tr th:each="club : ${clubs}">
-        <td> <a th:href="'/clubs/detail?eventId=' + ${club.id}" th:text="${club.displayName}"></a></td>
+        <td> <a th:href="'/clubs/detail?clubId=' + ${club.id}" th:text="${club.displayName}"></a></td>
         <td th:text="${club.activeBook}">Current Book</td>
     </tr>
 </table>
