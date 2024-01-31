@@ -29,7 +29,8 @@ public class Club extends AbstractEntity {
     public Club(String displayName, String activeBook) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
-        //this.adminPwHash = encoder.encode(adminPw);
+        CharSequence adminPw = null;
+        this.adminPwHash = encoder.encode(adminPw);
     }
 
     public Club() {}
@@ -58,4 +59,7 @@ public class Club extends AbstractEntity {
         return encoder.matches(password, adminPwHash);
     }
 
+    public void setAdminPwHash(String adminPwHash) {
+        this.adminPwHash = adminPwHash;
+    }
 }
