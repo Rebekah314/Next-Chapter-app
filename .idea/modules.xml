@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/group-madison-3.iml" filepath="$PROJECT_DIR$/.idea/group-madison-3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/next-chapter.iml" filepath="$PROJECT_DIR$/.idea/modules/next-chapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/next-chapter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/next-chapter.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/next-chapter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/next-chapter.test.iml" />
     </modules>
   </component>
 </project>
