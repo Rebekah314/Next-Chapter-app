@@ -84,7 +84,7 @@ public class ClubController {
         Optional<Club> result = clubRepository.findById(clubId);
 
         if (result.isEmpty()) {
-            model.addAttribute("title", "Invalid Club ID: " + clubId);
+            return "redirect:/";
         } else {
             Club club = result.get();
             model.addAttribute("title", club.getDisplayName());
