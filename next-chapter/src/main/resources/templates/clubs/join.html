@@ -5,11 +5,11 @@
 <body>
 <header th:replace="fragments :: header"></header>
 
-<p>Hello!</p>
 
-<p th:text="${clubId}"></p>
-<p th:text="${clubMember.member.displayName}"></p>
-<p th:text="${club.displayName}"></p>
+
+
+<p th:text="${'Welcome, ' + clubMember.member.displayName + '! Please click Join Club to be added to ' + club.displayName + '.'}"></p>
+
 
 <form method="post">
     <div class="form-group">
