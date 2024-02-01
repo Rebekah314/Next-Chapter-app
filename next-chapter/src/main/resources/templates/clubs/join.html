@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+
+
+
+<p th:text="${'Welcome, ' + clubMember.member.displayName + '! Please click Join Club to be added to ' + club.displayName + '.'}"></p>
+
+
+<form method="post">
+    <div class="form-group">
+        <input type="hidden" th:field="${clubMember.member}">
+        <select th:field="${clubMember.club}">
+            <option th:value="${club.id}"
+                    th:text="${club.displayName}"
+            ></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Join Club" class="btn btn-success">
+    </div>
+</form>
+
+</body>
+</html>

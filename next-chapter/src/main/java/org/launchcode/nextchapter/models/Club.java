@@ -29,7 +29,7 @@ public class Club extends AbstractEntity {
     public Club(String displayName, String activeBook, String password) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
-        //this.adminPwHash = encoder.encode(adminPw);
+        this.adminPwHash = encoder.encode(password);
     }
 
     public Club() {}
