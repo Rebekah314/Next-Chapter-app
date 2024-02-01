@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.netty:netty-handler-proxy:4.1.104.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.netty" artifactId="netty-handler-proxy" version="4.1.104.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.104.Final/50a2d899a8f8a68daed1a9b6d7750184310cc45f/netty-handler-proxy-4.1.104.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
