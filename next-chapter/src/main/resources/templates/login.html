@@ -7,10 +7,10 @@
 <form method="post" class="homepage-login">
     <div class="form-group">
         <p>Welcome back to your Next Chapter! Log in here:</p>
-        <label th:for="username">Username:
-            <input class="form-control" th:field="${loginFormDTO.username}">
+        <label th:for="email">Email:
+            <input class="form-control" th:field="${loginFormDTO.email}">
         </label>
-        <p class="error" th:errors="${loginFormDTO.username}"></p>
+        <p class="error" th:errors="${loginFormDTO.email}"></p>
         </div>
     <div class="form-group">
         <label>Password:

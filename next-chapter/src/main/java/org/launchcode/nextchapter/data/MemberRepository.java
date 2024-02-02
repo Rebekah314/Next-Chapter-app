@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends CrudRepository<Member, Integer> {
 
-    Member findByUsername(String username); //method signature creates SQL query
+    Member findByEmail(String username); //method signature creates SQL query
 
 }

@@ -61,7 +61,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        Member existingMember = memberRepository.findByUsername(registerFormDTO.getUsername());
+        Member existingMember = memberRepository.findByEmail(registerFormDTO.getEmail());
 
         if (existingMember != null) {
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
@@ -77,7 +77,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        Member newMember = new Member(registerFormDTO.getUsername(),
+        Member newMember = new Member(registerFormDTO.getEmail(),
                 registerFormDTO.getDisplayName(),
                 registerFormDTO.getPassword());
         memberRepository.save(newMember);
@@ -102,7 +102,7 @@ public class AuthenticationController {
             return "login";
         }
 
-        Member theMember = memberRepository.findByUsername(loginFormDTO.getUsername());
+        Member theMember = memberRepository.findByEmail(loginFormDTO.getEmail());
 
         if (theMember == null) {
             errors.rejectValue("username", "user.invalid",
