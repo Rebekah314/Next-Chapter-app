@@ -2,22 +2,17 @@ package org.launchcode.nextchapter.models;
 
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Club extends AbstractEntity {
 
    @ManyToMany
-    private List<User> members = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
     private String activeBook;
@@ -34,11 +29,11 @@ public class Club extends AbstractEntity {
 
     public Club() {}
 
-    public List<User> getMembers() {
+    public List<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(List<User> members) {
+    public void setMembers(List<Member> members) {
        this.members = members;
     }
 

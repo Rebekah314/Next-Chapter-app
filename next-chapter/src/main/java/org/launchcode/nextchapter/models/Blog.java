@@ -23,7 +23,7 @@ public class Blog {
     private Club club;
 
    @ManyToOne
-   private User user;
+   private Member member;
     // need to set up DTO
 
     @NotBlank(message = "Title cannot be blank.")

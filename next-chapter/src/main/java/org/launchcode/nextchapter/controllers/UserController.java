@@ -1,7 +1,7 @@
 package org.launchcode.nextchapter.controllers;
 
-import org.launchcode.nextchapter.data.UserRepository;
-import org.launchcode.nextchapter.models.User;
+import org.launchcode.nextchapter.data.MemberRepository;
+import org.launchcode.nextchapter.models.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,30 +12,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("users")
+@RequestMapping("members")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @GetMapping
     public String displayUserInfo(Model model) {
-        model.addAttribute("title", "User Info");
+        model.addAttribute("title", "Member Info");
         model.addAttribute("user", "INSERT USER INFO HERE");
-        return "users/index";
+        return "members/index";
     }
 
 
     @GetMapping("create")
     public String displayCreateUserForm(Model model) {
-        model.addAttribute("title", "Create User");
-        model.addAttribute(new User());
-        return "users/create";
+        model.addAttribute("title", "Create Member");
+        model.addAttribute(new Member());
+        return "members/create";
     }
 
     @PostMapping("create")
-    public String processCreateUserForm(@ModelAttribute User newUser, Errors errors, Model model){
-        userRepository.save(newUser);
-        return "redirect:/users";
+    public String processCreateUserForm(@ModelAttribute Member newMember, Errors errors, Model model){
+        memberRepository.save(newMember);
+        return "redirect:/members";
     }
 }

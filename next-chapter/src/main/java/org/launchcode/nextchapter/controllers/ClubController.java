@@ -1,22 +1,19 @@
 package org.launchcode.nextchapter.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.launchcode.nextchapter.data.ClubRepository;
-import org.launchcode.nextchapter.data.UserRepository;
+import org.launchcode.nextchapter.data.MemberRepository;
 import org.launchcode.nextchapter.models.Club;
-import org.launchcode.nextchapter.models.User;
+import org.launchcode.nextchapter.models.Member;
 import org.launchcode.nextchapter.models.dto.ClubMemberDTO;
 import org.launchcode.nextchapter.models.dto.CreateClubFormDTO;
-import org.launchcode.nextchapter.models.dto.RegisterFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,7 +24,7 @@ public class ClubController {
     private ClubRepository clubRepository;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @GetMapping
     public String displayClubInfo(Model model) {
@@ -99,7 +96,7 @@ public class ClubController {
                                       Model model, HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute("user");
-        Optional<User> currentUser = userRepository.findById(userId);
+        Optional<Member> currentUser = memberRepository.findById(userId);
         Optional<Club> clubResult = clubRepository.findById(clubId);
 
         if (clubResult.isEmpty()) {
@@ -109,10 +106,10 @@ public class ClubController {
             model.addAttribute("title", "Please log in to join " + club.getDisplayName());
             return "clubs/join";
         } else {
-                User user = currentUser.get();
+                Member member = currentUser.get();
                 Club club = clubResult.get();
                 ClubMemberDTO clubMember = new ClubMemberDTO();
-                clubMember.setMember(user);
+                clubMember.setMember(member);
                 clubMember.setClub(club);
                 model.addAttribute("title", "Join " + club.getDisplayName());
                 model.addAttribute("club", club);
@@ -127,7 +124,7 @@ public class ClubController {
     public String processJoinClubForm(@ModelAttribute @Valid ClubMemberDTO clubMember,
                                       Errors errors, Model model) {
         if(!errors.hasErrors()) {
-            User member = clubMember.getMember();
+            Member member = clubMember.getMember();
             Club club = clubMember.getClub();
             if(!club.getMembers().contains(member)) {
                 club.getMembers().add(member);

@@ -2,7 +2,7 @@ package org.launchcode.nextchapter.models.dto;
 
 import jakarta.validation.constraints.NotNull;
 import org.launchcode.nextchapter.models.Club;
-import org.launchcode.nextchapter.models.User;
+import org.launchcode.nextchapter.models.Member;
 
 public class ClubMemberDTO {
 
@@ -10,7 +10,7 @@ public class ClubMemberDTO {
     private Club club;
 
     @NotNull
-    private User member;
+    private Member member;
 
     public ClubMemberDTO() {}
 
@@ -22,11 +22,11 @@ public class ClubMemberDTO {
         this.club = club;
     }
 
-    public User getMember() {
+    public Member getMember() {
         return member;
     }
 
-    public void setMember(User member) {
+    public void setMember(Member member) {
         this.member = member;
     }
 }

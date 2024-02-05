@@ -1,20 +1,16 @@
 package org.launchcode.nextchapter.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class User extends AbstractEntity{
+public class Member extends AbstractEntity{
 
-    private String username;
+    private String email;
 
     private String pwHash;
 
@@ -24,20 +20,20 @@ public class User extends AbstractEntity{
     private List<Club> clubs = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
-    public User(String username, String displayName, String password) {
-        this.username = username;
+    public Member(String email, String displayName, String password) {
+        this.email = email;
         this.setDisplayName(displayName);
         this.pwHash = encoder.encode(password);
     }
 
-    public User() {}
+    public Member() {}
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPwHash() {
