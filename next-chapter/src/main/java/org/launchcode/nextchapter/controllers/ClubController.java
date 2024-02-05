@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -150,6 +152,52 @@ public class ClubController {
             return "clubs/detail";
         }
         return "redirect:club/join";
+    }
+
+    @GetMapping("leave")
+    public String displayLeaveClubForm(@RequestParam Integer clubId,
+                                       Model model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+
+        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Member member = currentUser.get();
+            Club club = clubResult.get();
+
+
+            model.addAttribute("title", "Leave " + club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("member", member);
+        }
+
+        return "clubs/leave";
+    }
+
+    @PostMapping("leave")
+    public String processLeaveClubForm(@RequestParam int clubId,
+                                       Model model, HttpSession session) {
+
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+            Member member = currentUser.get();
+            List<Member> memberList = club.getMembers();
+            memberList.remove(member);
+            club.setMembers(memberList);
+            clubRepository.save(club);
+
+            model.addAttribute("title", club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("existingMember", false);
+            return "clubs/detail";
+        }
     }
 
 }
