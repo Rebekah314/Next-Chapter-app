@@ -27,6 +27,7 @@
                     <li th:text="${member.displayName}"></li>
                 </th:block>
                 </ul>
+                <a th:href="'/clubs/leave?clubId=' + ${club.id}" >Click here to leave</a>
             </span>
 
             <span th:unless="${existingMember}">
