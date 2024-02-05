@@ -76,9 +76,11 @@ public class ClubController {
 
     @GetMapping("detail")
     public String displayClubDetails(@RequestParam Integer clubId,
-                                     Model model) {
+                                     Model model, HttpSession session) {
 
         Optional<Club> result = clubRepository.findById(clubId);
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
 
         if (result.isEmpty()) {
             return "redirect:/";
@@ -86,6 +88,17 @@ public class ClubController {
             Club club = result.get();
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
+
+            if (currentUser.isEmpty()) {
+                return "redirect:/";
+            }
+            Member member = currentUser.get();
+
+            if(club.getMembers().contains(member)) {
+                model.addAttribute("existingMember", true);
+            } else {
+                model.addAttribute("existingMember", false);
+            }
         }
         return "clubs/detail";
 
@@ -111,6 +124,7 @@ public class ClubController {
                 ClubMemberDTO clubMember = new ClubMemberDTO();
                 clubMember.setMember(member);
                 clubMember.setClub(club);
+
                 model.addAttribute("title", "Join " + club.getDisplayName());
                 model.addAttribute("club", club);
                 model.addAttribute("clubId", clubId);
@@ -132,6 +146,7 @@ public class ClubController {
             }
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
+            model.addAttribute("existingMember", true);
             return "clubs/detail";
         }
         return "redirect:club/join";
