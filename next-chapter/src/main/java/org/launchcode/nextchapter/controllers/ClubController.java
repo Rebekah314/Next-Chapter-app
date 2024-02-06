@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -76,9 +78,11 @@ public class ClubController {
 
     @GetMapping("detail")
     public String displayClubDetails(@RequestParam Integer clubId,
-                                     Model model) {
+                                     Model model, HttpSession session) {
 
         Optional<Club> result = clubRepository.findById(clubId);
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
 
         if (result.isEmpty()) {
             return "redirect:/";
@@ -86,6 +90,17 @@ public class ClubController {
             Club club = result.get();
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
+
+            if (currentUser.isEmpty()) {
+                return "redirect:/";
+            }
+            Member member = currentUser.get();
+
+            if(club.getMembers().contains(member)) {
+                model.addAttribute("existingMember", true);
+            } else {
+                model.addAttribute("existingMember", false);
+            }
         }
         return "clubs/detail";
 
@@ -111,6 +126,7 @@ public class ClubController {
                 ClubMemberDTO clubMember = new ClubMemberDTO();
                 clubMember.setMember(member);
                 clubMember.setClub(club);
+
                 model.addAttribute("title", "Join " + club.getDisplayName());
                 model.addAttribute("club", club);
                 model.addAttribute("clubId", clubId);
@@ -132,9 +148,56 @@ public class ClubController {
             }
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
+            model.addAttribute("existingMember", true);
             return "clubs/detail";
         }
         return "redirect:club/join";
+    }
+
+    @GetMapping("leave")
+    public String displayLeaveClubForm(@RequestParam Integer clubId,
+                                       Model model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+
+        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Member member = currentUser.get();
+            Club club = clubResult.get();
+
+
+            model.addAttribute("title", "Leave " + club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("member", member);
+        }
+
+        return "clubs/leave";
+    }
+
+    @PostMapping("leave")
+    public String processLeaveClubForm(@RequestParam int clubId,
+                                       Model model, HttpSession session) {
+
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+            Member member = currentUser.get();
+            List<Member> memberList = club.getMembers();
+            memberList.remove(member);
+            club.setMembers(memberList);
+            clubRepository.save(club);
+
+            model.addAttribute("title", club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("existingMember", false);
+            return "clubs/detail";
+        }
     }
 
 }

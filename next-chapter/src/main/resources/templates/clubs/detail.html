@@ -20,18 +20,25 @@
     </tr>
     <tr>
         <th>Club Members</th>
-        <td ><ul>
-            <th:block th:each="member : ${club.members}">
-                <li th:text="${member.displayName}"></li>
-            </th:block>
-        </ul>
+        <td >
+            <span th:if="${existingMember}">
+                <ul>
+                <th:block th:each="member : ${club.members}">
+                    <li th:text="${member.displayName}"></li>
+                </th:block>
+                </ul>
+                <a th:href="'/clubs/leave?clubId=' + ${club.id}" >Click here to leave</a>
+            </span>
+
+            <span th:unless="${existingMember}">
+                <a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a>
+            </span>
 
         </td>
     </tr>
 </table>
 
 
-<p><a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a></p>
 
 </body>
 </html>
