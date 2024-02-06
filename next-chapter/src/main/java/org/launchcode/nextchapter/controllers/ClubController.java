@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.launchcode.nextchapter.data.BlogRepository;
 import org.launchcode.nextchapter.data.ClubRepository;
 import org.launchcode.nextchapter.data.MemberRepository;
+import org.launchcode.nextchapter.models.Blog;
 import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.Member;
 import org.launchcode.nextchapter.models.dto.ClubMemberDTO;
@@ -16,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,9 +94,11 @@ public class ClubController {
             return "redirect:/";
         } else {
             Club club = result.get();
+            List<Blog> blogPosts = club.getBlogPosts();
+            Collections.reverse(blogPosts);
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
-            model.addAttribute("blogs", club.getBlogPosts());
+            model.addAttribute("blogs", blogPosts);
 
             if (currentUser.isEmpty()) {
                 return "redirect:/";
