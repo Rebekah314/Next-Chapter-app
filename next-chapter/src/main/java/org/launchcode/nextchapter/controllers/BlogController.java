@@ -90,9 +90,15 @@ public class BlogController {
 
 
     @GetMapping("create")
-    public String displayCreateBlogPost(Model model) {
+    public String displayCreateBlogPost(Model model,
+    HttpSession session) {
+
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+
         model.addAttribute("title", "Create Post");
         model.addAttribute("clubs", clubRepository.findAll());
+        model.addAttribute("member", currentUser);
         model.addAttribute(new Blog());
         return "blog/create";
     }

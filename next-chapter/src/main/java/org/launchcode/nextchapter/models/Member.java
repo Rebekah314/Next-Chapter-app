@@ -2,6 +2,7 @@ package org.launchcode.nextchapter.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class Member extends AbstractEntity{
     @ManyToMany(mappedBy = "members")
     private List<Club> clubs = new ArrayList<>();
     //need to set up DTO, chapter 18.5
+
+    @OneToMany(mappedBy = "member")
+    private final List<Blog> blogPosts = new ArrayList<>();
 
     public Member(String email, String displayName, String password) {
         this.email = email;
