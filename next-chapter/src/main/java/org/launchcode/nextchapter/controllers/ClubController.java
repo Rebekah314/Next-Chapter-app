@@ -2,6 +2,7 @@ package org.launchcode.nextchapter.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.launchcode.nextchapter.data.BlogRepository;
 import org.launchcode.nextchapter.data.ClubRepository;
 import org.launchcode.nextchapter.data.MemberRepository;
 import org.launchcode.nextchapter.models.Club;
@@ -27,6 +28,9 @@ public class ClubController {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    private BlogRepository blogRepository;
 
     @GetMapping
     public String displayClubInfo(Model model) {
@@ -90,6 +94,7 @@ public class ClubController {
             Club club = result.get();
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
+            model.addAttribute("blogs", club.getBlogPosts());
 
             if (currentUser.isEmpty()) {
                 return "redirect:/";
@@ -102,6 +107,7 @@ public class ClubController {
                 model.addAttribute("existingMember", false);
             }
         }
+
         return "clubs/detail";
 
     }

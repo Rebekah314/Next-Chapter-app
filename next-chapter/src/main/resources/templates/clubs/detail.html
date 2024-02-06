@@ -38,6 +38,27 @@
     </tr>
 </table>
 
+<div>
+    <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Ongoing Discussion
+                </tr>
+                </thead>
+        <tr th:each="blog : ${blogs}">
+            <td> <th:block>
+                <div>
+                    <h2 th:text="${blog.title}"></h2>
+                    <p style="font-style:italic" th:text="${'(currently reading: ' + blog.bookContext + ')'}"></p>
+                    <p th:text="${blog.content}"></p>
+                    <p th:text="${'Posted by: ' + 'INSERT USER HERE' + ' on ' + blog.time}"></p>
+                </div>
+            </th:block>
+            </td>
+        </tr>
+    </table>
+</div>
+
 
 
 </body>
