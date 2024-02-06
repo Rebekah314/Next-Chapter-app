@@ -37,7 +37,7 @@
         </td>
     </tr>
 </table>
-
+<span th:if="${existingMember}">
 <div>
     <table class="table table-striped">
                 <thead>
@@ -45,6 +45,7 @@
                     <th>Ongoing Discussion
                 </tr>
                 </thead>
+
         <tr th:each="blog : ${blogs}">
             <td> <th:block>
                 <div>
@@ -56,8 +57,14 @@
             </th:block>
             </td>
         </tr>
+                <tr><td>
+            <a th:href="@{~/blog/create}">
+            Contribute to the conversation!
+                                </a>
+        </td></tr>
     </table>
 </div>
+</span>
 
 
 
