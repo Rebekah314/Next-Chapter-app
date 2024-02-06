@@ -7,7 +7,12 @@
 <form method="post">
     <label>Club:
         <select th:field="${blog.club}">
-            <option th:each="club:${clubs}" th:text="${club.displayName}" th:value="${club.id}"></option>
+            <option
+                    th:text="${club.displayName}"
+                    th:value="${club.id}">
+
+
+            </option>
         </select>
     </label>
 

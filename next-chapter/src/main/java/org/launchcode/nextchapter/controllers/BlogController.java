@@ -90,24 +90,33 @@ public class BlogController {
 
 
     @GetMapping("create")
-    public String displayCreateBlogPost(Model model,
-    HttpSession session) {
+    public String displayCreateBlogPost(@RequestParam Integer clubId,
+                                        Model model, HttpSession session) {
+
+        Optional<Club> result = clubRepository.findById(clubId);
+        Club club = result.get();
 
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
         Member member = currentUser.get();
 
         model.addAttribute("title", "Create Post");
-        model.addAttribute("clubs", clubRepository.findAll());
+        model.addAttribute("club", club);
         model.addAttribute("member", member);
         model.addAttribute(new Blog());
         return "blog/create";
     }
 
     @PostMapping("create")
-    public String processCreateBlogForm(@ModelAttribute Blog newBlog, Errors errors, Model model){
+    public String processCreateBlogForm(
+            @ModelAttribute Blog newBlog, Errors errors, Model model){
         blogRepository.save(newBlog);
+        Club club = newBlog.getClub();
 
-        return "redirect:/blog";
+//        model.addAttribute("title", club.getDisplayName());
+        model.addAttribute("club", club);
+
+
+        return "clubs/detail";
     }
 }

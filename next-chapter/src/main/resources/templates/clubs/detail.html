@@ -60,7 +60,7 @@
                 <tr><td>
 <!--fyi to my friends: the "@{~ ... }" removes the current resource context se we can link to a different resource within the server
     in this case, I want to link to blogs/create, which is NOT within the "clubs" resource (MH)-->
-            <a th:href="@{~/blog/create}">
+            <a th:href="@{'~/blog/create?clubId=' + ${club.id}}">
             Contribute to the conversation!
                                 </a>
         </td></tr>
