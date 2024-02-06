@@ -95,10 +95,11 @@ public class BlogController {
 
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
+        Member member = currentUser.get();
 
         model.addAttribute("title", "Create Post");
         model.addAttribute("clubs", clubRepository.findAll());
-        model.addAttribute("member", currentUser);
+        model.addAttribute("member", member);
         model.addAttribute(new Blog());
         return "blog/create";
     }

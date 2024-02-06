@@ -27,6 +27,15 @@
         <span th:errors="${blog.content}"></span>
     </label>
     <br/>
+<!--    note for all
+this is not my fave way to do this; i want to pass the current member info without having to declare it in the form
+however this way works for now until i figure that out-->
+    <label>submitted by:
+        <select th:field="${blog.member}">
+            <option th:text="${member.displayName}" th:value="${member.id}"></option>
+        </select>
+    </label>
+    <br/>
     <input type="submit" value="Post">
 </form>
 

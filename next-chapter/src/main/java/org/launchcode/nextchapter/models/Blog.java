@@ -61,6 +61,11 @@ public class Blog {
         this.time = LocalDateTime.now();
     }
 
+    public Blog(Member member) {
+        this();
+        this.member = member;
+    }
+
     public Blog(String title, String bookContext, String content) {
         this();
         this.title = title;
