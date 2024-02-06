@@ -3,6 +3,7 @@ package org.launchcode.nextchapter.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class Club extends AbstractEntity {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    @OneToMany(mappedBy = "club")
+    private final List<Blog> blogPosts = new ArrayList<>();
+
     public Club(String displayName, String activeBook, String password) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
@@ -32,6 +36,8 @@ public class Club extends AbstractEntity {
     public List<Member> getMembers() {
         return members;
     }
+
+
 
     public void setMembers(List<Member> members) {
        this.members = members;
@@ -53,4 +59,7 @@ public class Club extends AbstractEntity {
         return encoder.matches(password, adminPwHash);
     }
 
+    public List<Blog> getBlogPosts() {
+        return blogPosts;
+    }
 }

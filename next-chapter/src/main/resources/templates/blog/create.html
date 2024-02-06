@@ -5,12 +5,13 @@
 <header th:replace="fragments :: header"></header>
 
 <form method="post">
-<!--    <label>Member:-->
-<!--        <select th:field="${blog.user}">-->
-<!--            <option th:each="user:${members}" th:text="${user.username}" th:value="${user.id}"></option>-->
-<!--        </select>-->
-<!--    </label>-->
-    <label>Title:
+    <label>Club:
+        <select th:field="${blog.club}">
+            <option th:each="club:${clubs}" th:text="${club.displayName}" th:value="${club.id}"></option>
+        </select>
+    </label>
+
+    <label>Post Title:
         <input type="text" th:field="${blog.title}">
         <span th:errors="${blog.title}"></span>
     </label>
