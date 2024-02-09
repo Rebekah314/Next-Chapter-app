@@ -117,6 +117,6 @@ public class BlogController {
         model.addAttribute("club", club);
 
 
-        return "clubs/detail";
+        return "redirect:/clubs/detail?clubId=" + club.getId();
     }
 }
