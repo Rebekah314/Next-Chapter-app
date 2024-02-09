@@ -67,17 +67,22 @@ public class SearchController {
     }
 
     @PostMapping("search")
-    public String processSearchResults(Model model, Integer clubId, String coverId) {
+    public String processSearchResults(
+//            Model model,
+//                                       Integer clubId,
+                                       String coverId) {
 //        if (clubId != null) {
 //            Optional<Club> result = clubRepository.findById(clubId);
 //            Club club = result.get();
         //what is even the plan, below. girl.
-        Optional<Club> result = clubRepository.findById(clubId);
-        Club club = result.get();
-        club.setCoverId(coverId);
+//        Optional<Club> result = clubRepository.findById(1);
+//        Club club = result.get();
+//        Optional<Club> clubResult = clubRepository.findById(clubId);
+//        Club club = clubResult.get();
+//        club.setCoverId(coverId);
+//        "https://covers.openlibrary.org/b/id/" + coverId + "-M.jpg"
 
-
-        return "index";
+        return coverId;
     }
 
 //        hey molly

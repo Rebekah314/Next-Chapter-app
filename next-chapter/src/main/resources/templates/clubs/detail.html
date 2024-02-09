@@ -16,7 +16,8 @@
     </tr>
     <tr>
         <th>Currently Reading</th>
-        <td th:text="${club.activeBook}"></td>
+        <td><img th:src="'https://covers.openlibrary.org/b/id/' + ${club.coverId} + '-M.jpg'" alt="...">
+        <p th:text="${club.activeBook}"></p></td>
     </tr>
     <tr>
         <th>Club Members</th>

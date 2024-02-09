@@ -6,16 +6,14 @@
 
 
 <form method="post">
-
-
-    <label>Club:
-        <select th:field="${club.id}">
-            <option th:each="club : ${clubs}"
-                    th:text="${club.displayName}"
-                    th:value="${club.id}">
-            </option>
-        </select>
-    </label>
+<!--    <label>Club:-->
+<!--        <select th:field="${club.id}">-->
+<!--            <option th:each="club : ${clubs}"-->
+<!--                    th:text="${club.displayName}"-->
+<!--                    th:value="${club.id}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--    </label>-->
 <label>Set As Current Book:
     <li th:each="result : ${searchResults}">
 

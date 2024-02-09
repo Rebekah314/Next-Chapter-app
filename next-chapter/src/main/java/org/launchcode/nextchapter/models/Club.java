@@ -26,9 +26,6 @@ public class Club extends AbstractEntity {
     @OneToMany(mappedBy = "club")
     private final List<Blog> blogPosts = new ArrayList<>();
 
-//    @OneToOne
-//    private SearchResultBook activeBookFromAPI;
-
     private String coverId = "0";
 
     public String getCoverId() {
@@ -50,7 +47,6 @@ public class Club extends AbstractEntity {
     public List<Member> getMembers() {
         return members;
     }
-
 
 
     public void setMembers(List<Member> members) {
