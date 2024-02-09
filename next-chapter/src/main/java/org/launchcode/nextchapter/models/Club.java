@@ -4,6 +4,7 @@ package org.launchcode.nextchapter.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -24,6 +25,19 @@ public class Club extends AbstractEntity {
 
     @OneToMany(mappedBy = "club")
     private final List<Blog> blogPosts = new ArrayList<>();
+
+//    @OneToOne
+//    private SearchResultBook activeBookFromAPI;
+
+    private String coverId = "0";
+
+    public String getCoverId() {
+        return coverId;
+    }
+
+    public void setCoverId(String coverId) {
+        this.coverId = coverId;
+    }
 
     public Club(String displayName, String activeBook, String password) {
         this.setDisplayName(displayName);

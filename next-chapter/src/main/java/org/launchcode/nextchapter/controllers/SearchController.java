@@ -1,23 +1,30 @@
 package org.launchcode.nextchapter.controllers;
 
+import org.launchcode.nextchapter.data.ClubRepository;
+import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.SearchResult;
 import org.launchcode.nextchapter.models.SearchResultBook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //guided by Java Brains on YT: https://www.youtube.com/watch?v=6K0im9vcoCk (MH)
 
 @Controller
 public class SearchController {
+
+
+    @Autowired
+    private ClubRepository clubRepository;
 
     //WebClient -- included within the dependency WebFlux -- seems to be the most current tool within SpringBoot to handle HTTP calls.
     private final WebClient webClient;
@@ -54,7 +61,38 @@ public class SearchController {
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);
+        model.addAttribute("clubs", clubRepository.findAll());
 
         return "search";
     }
+
+    @PostMapping("search")
+    public String processSearchResults(Model model, Integer clubId, String coverId) {
+//        if (clubId != null) {
+//            Optional<Club> result = clubRepository.findById(clubId);
+//            Club club = result.get();
+        //what is even the plan, below. girl.
+        Optional<Club> result = clubRepository.findById(clubId);
+        Club club = result.get();
+        club.setCoverId(coverId);
+
+
+        return "index";
+    }
+
+//        hey molly
+    //take a look at these and see if you could just save the coverID into its own repo
+//        @GetMapping("create")
+//    public String displayCreateUserForm(Model model) {
+//        model.addAttribute("title", "Create Member");
+//        model.addAttribute(new Member());
+//        return "members/create";
+//    }
+//
+//    @PostMapping("create")
+//    public String processCreateUserForm(@ModelAttribute Member newMember, Errors errors, Model model){
+//        memberRepository.save(newMember);
+//        return "redirect:/members";
+//    }
+
 }
