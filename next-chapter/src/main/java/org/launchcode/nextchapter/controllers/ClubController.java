@@ -68,14 +68,15 @@ public class ClubController {
             return "clubs/create";
         }
 
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+
         Club newClub = new Club(createClubFormDTO.getDisplayName(),
                 createClubFormDTO.getActiveBook(),
-                createClubFormDTO.getPassword());
+                createClubFormDTO.getPassword(), userId);
         clubRepository.save(newClub);
 
         //Add club creator as first member of club
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
         if (!currentUser.isEmpty()) {
             Member member = currentUser.get();
             newClub.getMembers().add(member);
