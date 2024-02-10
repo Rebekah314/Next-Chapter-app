@@ -19,12 +19,15 @@ public class Club extends AbstractEntity {
 
     private String adminPwHash;
 
+    private int adminId;
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public Club(String displayName, String activeBook, String password) {
+    public Club(String displayName, String activeBook, String password, int adminId) {
         this.setDisplayName(displayName);
         this.activeBook = activeBook;
         this.adminPwHash = encoder.encode(password);
+        this.adminId = adminId;
     }
 
     public Club() {}
@@ -47,6 +50,18 @@ public class Club extends AbstractEntity {
 
     public String getPwHash() {
         return adminPwHash;
+    }
+
+    public int getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
+    }
+
+    public void setAdminPwHash(String adminPwHash) {
+        this.adminPwHash = adminPwHash;
     }
 
     public boolean isMatchingPassword(String password) {
