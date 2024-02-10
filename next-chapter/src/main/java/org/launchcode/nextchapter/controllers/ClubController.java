@@ -51,7 +51,7 @@ public class ClubController {
 
     @PostMapping("create")
     public String processCreateClubForm(@ModelAttribute @Valid CreateClubFormDTO createClubFormDTO,
-                                        Errors errors, Model model){
+                                        Errors errors, Model model, HttpSession session){
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create Club");
@@ -74,10 +74,21 @@ public class ClubController {
             return "clubs/create";
         }
 
+        Integer userId = (Integer) session.getAttribute("user");
+        Optional<Member> currentUser = memberRepository.findById(userId);
+
         Club newClub = new Club(createClubFormDTO.getDisplayName(),
                 createClubFormDTO.getActiveBook(),
-                createClubFormDTO.getPassword());
+                createClubFormDTO.getPassword(), userId);
         clubRepository.save(newClub);
+
+        //Add club creator as first member of club
+        if (!currentUser.isEmpty()) {
+            Member member = currentUser.get();
+            newClub.getMembers().add(member);
+            clubRepository.save(newClub);
+        }
+
 
         return "redirect:/clubs";
     }
