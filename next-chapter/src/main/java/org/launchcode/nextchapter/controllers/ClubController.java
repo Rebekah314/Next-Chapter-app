@@ -160,7 +160,7 @@ public class ClubController {
             model.addAttribute("title", club.getDisplayName());
             model.addAttribute("club", club);
             model.addAttribute("existingMember", true);
-            return "clubs/detail";
+            return "redirect:/clubs/detail?clubId=" + club.getId();
         }
         return "redirect:club/join";
     }
