@@ -1,6 +1,7 @@
 package org.launchcode.nextchapter.controllers;
 
 import org.launchcode.nextchapter.data.ClubRepository;
+import org.launchcode.nextchapter.models.Blog;
 import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.SearchResult;
 import org.launchcode.nextchapter.models.SearchResultBook;
@@ -13,6 +14,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,7 +48,7 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public String getSearchResults(@RequestParam String query, Model model) {
+    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model) {
         //this builds a single GET request
         //fyi: Mono is a class object, as almost a placeholder for a future singular object(???)
         Mono<SearchResult> resultsMono = this.webClient.get()
@@ -61,16 +63,27 @@ public class SearchController {
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);
-        model.addAttribute("clubs", clubRepository.findAll());
+        model.addAttribute("clubId", clubId);
 
         return "search";
     }
 
     @PostMapping("search")
-    public String processSearchResults(
-//            Model model,
-//                                       Integer clubId,
-                                       String coverId) {
+    public String processSearchResults(@RequestParam int clubId, @RequestParam String coverId, Model model) {
+
+        Optional<Club> result = clubRepository.findById(clubId);
+        Club club = result.get();
+        club.setCoverId(coverId);
+
+        //This is the part Bekah was missing!! UPDATE the repository with the change to the club.
+        clubRepository.save(club);
+        List<Blog> blogPosts = club.getBlogPosts();
+        Collections.reverse(blogPosts);
+        model.addAttribute("club", club);
+        model.addAttribute("title", club.getDisplayName());
+        model.addAttribute("blogs", blogPosts);
+
+
 //        if (clubId != null) {
 //            Optional<Club> result = clubRepository.findById(clubId);
 //            Club club = result.get();
@@ -82,7 +95,7 @@ public class SearchController {
 //        club.setCoverId(coverId);
 //        "https://covers.openlibrary.org/b/id/" + coverId + "-M.jpg"
 
-        return coverId;
+        return "redirect:clubs/detail?clubId=" + clubId;
     }
 
 //        hey molly

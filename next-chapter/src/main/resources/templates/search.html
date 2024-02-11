@@ -21,6 +21,7 @@
         <label><img th:src="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-M.jpg'" alt="..."></label>
         <input type="radio" name="coverId" th:value="${result.cover_i}">
     </li>
+    <input type="hidden" name="clubId" th:value="${clubId}">
 </label>
 <input type="submit" value="Choose This Cover">
 </form>

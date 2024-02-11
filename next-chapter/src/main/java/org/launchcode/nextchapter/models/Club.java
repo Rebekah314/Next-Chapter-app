@@ -26,7 +26,7 @@ public class Club extends AbstractEntity {
     @OneToMany(mappedBy = "club")
     private final List<Blog> blogPosts = new ArrayList<>();
 
-    private String coverId = "0";
+    private String coverId = "99";
 
     public String getCoverId() {
         return coverId;
