@@ -248,7 +248,8 @@ public class ClubController {
     public String processClubAdminForm(@ModelAttribute @Valid AdminFormDTO adminFormDTO, Errors errors,
                                        @RequestParam int clubId, @RequestParam(required = false) String displayName,
                                        @RequestParam(required = false) boolean confirmDeleteClub,
-                                       @RequestParam(required = false) boolean deleteClub, Model model) {
+                                       @RequestParam(required = false) boolean deleteClub,
+                                       @RequestParam(required = false) int[] blogIds, Model model) {
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         if (clubResult.isEmpty()) {
@@ -278,6 +279,12 @@ public class ClubController {
             if (!(displayName == "")) {
                 club.setDisplayName(displayName);
                 clubRepository.save(club);
+            }
+
+            if (blogIds != null) {
+                for (int id : blogIds) {
+                    blogRepository.deleteById(id);
+                }
             }
 
             if (deleteClub && confirmDeleteClub) {

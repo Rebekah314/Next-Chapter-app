@@ -46,39 +46,50 @@
     <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Delete a Blog Post
+                    <th>Check box to DELETE a Blog Post
                 </tr>
                 </thead>
 
-<!--        <tr th:each="blog : ${blogs}">-->
-<!--            <td> <th:block>-->
-<!--                <div>-->
-<!--                    <h2 th:text="${blog.title}"></h2>-->
-<!--                    <p style="font-style:italic" th:text="${'(currently reading: ' + blog.bookContext + ')'}"></p>-->
-<!--                    <p th:text="${blog.content}"></p>-->
-<!--                    <p th:text="${'Posted by: ' + blog.member.displayName + ' on ' + blog.time}"></p>-->
-<!--                </div>-->
-<!--                <input type="checkbox" th:value="blog.id" >-->
-<!--            </th:block>-->
-<!--            </td>-->
-<!--        </tr>-->
+        <tr th:each="blog : ${blogs}">
+            <td> <th:block>
+                <div>
+                    <label>
+                        <input type="checkbox" name="blogIds" th:value="${blog.id}" >
+                        <h2 th:text="${blog.title}"></h2>
+                    </label>
+                    <p style="font-style:italic" th:text="${'(currently reading: ' + blog.bookContext + ')'}"></p>
+                    <p th:text="${blog.content}"></p>
+                    <p th:text="${'Posted by: ' + blog.member.displayName + ' on ' + blog.time}"></p>
+                </div>
+
+            </th:block>
+            </td>
+        </tr>
 
     </table>
 </div>
 </span>
 
+<table class="table table-striped">
+    <tr>
+        <th>Delete Club</th>
+    </tr>
+    <tr>
+        <td>
+            <label><input type="checkbox" name="deleteClub" value="true">
+                Check box to DELETE this club (WARNING: this cannot be undone)
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
 
-
-    <div class="form-group">
-        <label>DELETE this club (WARNING: this cannot be undone)
-            <input type="checkbox" name="deleteClub" value="true">
-        </label>
-        <p>Are you sure you are ready to delete this club?</p>
-        <label>Yes, I'm sure.
-            <input type="checkbox" name="confirmDeleteClub" value="true">
-        </label>
-
-    </div>
+            <label><input type="checkbox" name="confirmDeleteClub" value="true">
+                Check box to CONFIRM club deletion
+            </label>
+        </td>
+    </tr>
+</table>
 
     <div class="form-group">
         <label>Admin password required to save changes:
