@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+
+<form method="post">
+
+<table class="table table-striped">
+
+    <tr>
+        <th>Current Name</th>
+        <td th:text="${club.displayName}"></td>
+    </tr>
+
+    <tr>
+        <th>New Name</th>
+        <td>
+           <label><input type="text" name="displayName"></label>
+        </td>
+    </tr>
+
+<!--    <tr>-->
+<!--        <th>Current Club Members</th>-->
+<!--        <td >-->
+<!--            <span th:if="${existingMember}">-->
+<!--                <ul>-->
+<!--                <th:block th:each="member : ${club.members}">-->
+<!--                    <li th:text="${member.displayName}"></li>-->
+<!--                </th:block>-->
+<!--                </ul>-->
+<!--                <a th:href="'/clubs/leave?clubId=' + ${club.id}" >Click here to leave</a>-->
+<!--            </span>-->
+
+<!--            <span th:unless="${existingMember}">-->
+<!--                <a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a>-->
+<!--            </span>-->
+
+<!--        </td>-->
+<!--    </tr>-->
+</table>
+<span th:if="${existingMember}">
+<div>
+    <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Delete a Blog Post
+                </tr>
+                </thead>
+
+<!--        <tr th:each="blog : ${blogs}">-->
+<!--            <td> <th:block>-->
+<!--                <div>-->
+<!--                    <h2 th:text="${blog.title}"></h2>-->
+<!--                    <p style="font-style:italic" th:text="${'(currently reading: ' + blog.bookContext + ')'}"></p>-->
+<!--                    <p th:text="${blog.content}"></p>-->
+<!--                    <p th:text="${'Posted by: ' + blog.member.displayName + ' on ' + blog.time}"></p>-->
+<!--                </div>-->
+<!--                <input type="checkbox" th:value="blog.id" >-->
+<!--            </th:block>-->
+<!--            </td>-->
+<!--        </tr>-->
+
+    </table>
+</div>
+</span>
+
+
+
+    <div class="form-group">
+        <label>DELETE this club (WARNING: this cannot be undone)
+            <input type="checkbox" name="deleteClub" value="true">
+        </label>
+        <p>Are you sure you are ready to delete this club?</p>
+        <label>Yes, I'm sure.
+            <input type="checkbox" name="confirmDeleteClub" value="true">
+        </label>
+
+    </div>
+
+    <div class="form-group">
+        <label>Admin password required to save changes:
+            <input class="form-control" th:field="${adminFormDTO.password}" type="password">
+        </label>
+        <p class="error" th:errors="${adminFormDTO.password}"></p>
+
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" name="clubId" th:value="${club.id}">
+        <input type="submit" value="Save Changes" class="btn btn-success">
+    </div>
+
+</form>
+<hr>
+<div class="form-group">
+    <a th:href="${'/clubs/detail?clubId=' + club.id}" class="btn btn-info">Back to club page</a>
+</div>
+
+</body>
+</html>

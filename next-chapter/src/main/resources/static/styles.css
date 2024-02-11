@@ -16,3 +16,7 @@ body {
     background-color: #E0FFFF;
     padding: 18px;
 }
+
+.admin-changes-link {
+    text-align: right;
+}
