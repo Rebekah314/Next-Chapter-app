@@ -16,7 +16,21 @@
     </tr>
     <tr>
         <th>Currently Reading</th>
-        <td th:text="${club.activeBook}"></td>
+        <td><p th:text="${'cover id is ' + club.coverId}"></p>
+<!--            <span th:if="${club.coverId == null}" th:replace="fragments :: searchbar"></span>-->
+            <img th:src="'https://covers.openlibrary.org/b/id/' + ${club.coverId} + '-M.jpg'" alt="...">
+        <p th:text="${club.activeBook}"></p>
+
+
+        <p>Set a new active book:</p>
+            <form action="search.html" th:attr="action=@{/search}">
+                <div class="input-group mb-3">
+                    <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2">
+                    <input type="hidden" name="clubId" class="form-control" th:value="${club.id}" aria-label="Search query" aria-describedby="button-addon2">
+                    <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+                </div>
+            </form>
+        </td>
     </tr>
     <tr>
         <th>Club Members</th>

@@ -1,23 +1,32 @@
 package org.launchcode.nextchapter.controllers;
 
+import org.launchcode.nextchapter.data.ClubRepository;
+import org.launchcode.nextchapter.models.Blog;
+import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.SearchResult;
 import org.launchcode.nextchapter.models.SearchResultBook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //guided by Java Brains on YT: https://www.youtube.com/watch?v=6K0im9vcoCk (MH)
 
 @Controller
 public class SearchController {
+
+
+    @Autowired
+    private ClubRepository clubRepository;
 
     //WebClient -- included within the dependency WebFlux -- seems to be the most current tool within SpringBoot to handle HTTP calls.
     private final WebClient webClient;
@@ -39,7 +48,7 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public String getSearchResults(@RequestParam String query, Model model) {
+    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model) {
         //this builds a single GET request
         //fyi: Mono is a class object, as almost a placeholder for a future singular object(???)
         Mono<SearchResult> resultsMono = this.webClient.get()
@@ -54,7 +63,27 @@ public class SearchController {
                 .collect(Collectors.toList());
 
         model.addAttribute("searchResults", books);
+        model.addAttribute("clubId", clubId);
 
         return "search";
+    }
+
+    @PostMapping("search")
+    public String processSearchResults(@RequestParam int clubId, @RequestParam String coverId, @RequestParam String activeBook, Model model) {
+
+        Optional<Club> result = clubRepository.findById(clubId);
+        Club club = result.get();
+        club.setCoverId(coverId);
+        club.setActiveBook(activeBook);
+
+        //This is the part Bekah was missing!! UPDATE the repository with the change to the club.
+        clubRepository.save(club);
+        List<Blog> blogPosts = club.getBlogPosts();
+        Collections.reverse(blogPosts);
+        model.addAttribute("club", club);
+        model.addAttribute("title", club.getDisplayName());
+        model.addAttribute("blogs", blogPosts);
+
+        return "redirect:clubs/detail?clubId=" + clubId;
     }
 }
