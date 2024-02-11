@@ -6,6 +6,7 @@
 
 <form method="post">
     <label>Club:
+        <p th:text="${club.displayName}"></p>
         <select th:field="${blog.club}">
             <option
                     th:text="${club.displayName}"
