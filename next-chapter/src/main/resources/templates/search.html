@@ -6,15 +6,14 @@
 
 
 <form method="post">
-<!--    <label>Club:-->
-<!--        <select th:field="${club.id}">-->
-<!--            <option th:each="club : ${clubs}"-->
-<!--                    th:text="${club.displayName}"-->
-<!--                    th:value="${club.id}">-->
-<!--            </option>-->
-<!--        </select>-->
-<!--    </label>-->
-<label>Set As Current Book:
+<div>
+    <label>Title:
+        <input type="text" name="activeBook">
+    </label>
+</div>
+    <div>
+<label>Cover Art to Display:
+
     <li th:each="result : ${searchResults}">
 
 
@@ -23,7 +22,9 @@
     </li>
     <input type="hidden" name="clubId" th:value="${clubId}">
 </label>
-<input type="submit" value="Choose This Cover">
+    </div>
+    <div>
+<input type="submit" value="Set As Active Book"> </div>
 </form>
 
 

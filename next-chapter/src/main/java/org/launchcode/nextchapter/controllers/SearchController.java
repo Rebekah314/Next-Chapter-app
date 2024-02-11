@@ -69,11 +69,12 @@ public class SearchController {
     }
 
     @PostMapping("search")
-    public String processSearchResults(@RequestParam int clubId, @RequestParam String coverId, Model model) {
+    public String processSearchResults(@RequestParam int clubId, @RequestParam String coverId, @RequestParam String activeBook, Model model) {
 
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
         club.setCoverId(coverId);
+        club.setActiveBook(activeBook);
 
         //This is the part Bekah was missing!! UPDATE the repository with the change to the club.
         clubRepository.save(club);
@@ -83,34 +84,6 @@ public class SearchController {
         model.addAttribute("title", club.getDisplayName());
         model.addAttribute("blogs", blogPosts);
 
-
-//        if (clubId != null) {
-//            Optional<Club> result = clubRepository.findById(clubId);
-//            Club club = result.get();
-        //what is even the plan, below. girl.
-//        Optional<Club> result = clubRepository.findById(1);
-//        Club club = result.get();
-//        Optional<Club> clubResult = clubRepository.findById(clubId);
-//        Club club = clubResult.get();
-//        club.setCoverId(coverId);
-//        "https://covers.openlibrary.org/b/id/" + coverId + "-M.jpg"
-
         return "redirect:clubs/detail?clubId=" + clubId;
     }
-
-//        hey molly
-    //take a look at these and see if you could just save the coverID into its own repo
-//        @GetMapping("create")
-//    public String displayCreateUserForm(Model model) {
-//        model.addAttribute("title", "Create Member");
-//        model.addAttribute(new Member());
-//        return "members/create";
-//    }
-//
-//    @PostMapping("create")
-//    public String processCreateUserForm(@ModelAttribute Member newMember, Errors errors, Model model){
-//        memberRepository.save(newMember);
-//        return "redirect:/members";
-//    }
-
 }
