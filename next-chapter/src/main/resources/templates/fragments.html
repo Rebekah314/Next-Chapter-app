@@ -9,6 +9,11 @@
 </head>
 <body>
 <nav th:fragment="header">
+    <div><img src="https://i.imgur.com/tEIYyp5.png" alt=""
+         width="400" height="90"
+              style="float:right"></div>
+<!--        <div style="clear:both">-->
+    <div>
     <h1 th:text="${title}">Next Chapter</h1>
     <ul class="nav">
         <li class="nav-item"><a class="nav-link" href="/members">Member Info</a></li>
@@ -20,7 +25,7 @@
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
 
-    </ul>
+    </ul></div>
 </nav>
 
 <!--th:attr below specifies the action of the form, in this case sending the inputted data to "/search" -->
