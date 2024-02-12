@@ -38,13 +38,13 @@
     <tr>
 
 
-        <th><h3><em>Currently Reading</em></h3></th>
+        <th  style="text-align:right"><h3><em>Currently Reading</em></h3></th>
     </tr>
     </thead>
     <!--        <td><p th:text="${'cover id is ' + club.coverId}"></p>-->
     <!--            <span th:if="${club.coverId == null}" th:replace="fragments :: searchbar"></span>-->
     <tr>
-        <td>
+        <td style="text-align:right">
             <img th:src="'https://covers.openlibrary.org/b/id/' + ${club.coverId} + '-L.jpg'" alt="...">
             <p th:text="${club.activeBook}"></p>
         </td>
