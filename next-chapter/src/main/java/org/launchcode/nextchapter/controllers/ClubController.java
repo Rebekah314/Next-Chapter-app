@@ -282,14 +282,6 @@ public class ClubController {
                 clubRepository.save(club);
             }
 
-            if (blogIds != null) {
-                for (int id : blogIds) {
-                    blogRepository.deleteById(id);
-                }
-                blogPosts = club.getBlogPosts();
-                Collections.reverse(blogPosts);
-            }
-
             if (memberIds != null) {
                 for (int id : memberIds) {
                     Optional<Member> result = memberRepository.findById(id);
@@ -297,6 +289,14 @@ public class ClubController {
                     club.getMembers().remove(member);
                     clubRepository.save(club);
                 }
+            }
+
+            if (blogIds != null) {
+                for (int id : blogIds) {
+                    blogRepository.deleteById(id);
+                }
+                blogPosts = club.getBlogPosts();
+                Collections.reverse(blogPosts);
             }
 
             if (deleteClub && confirmDeleteClub) {
