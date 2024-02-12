@@ -11,6 +11,8 @@ body {
 .homepage-login {
     background-color: #FFCBA4;
     padding: 18px;
+    margin: 25px;
+    border-radius: 10px;
 }
 
 .homepage-table {
