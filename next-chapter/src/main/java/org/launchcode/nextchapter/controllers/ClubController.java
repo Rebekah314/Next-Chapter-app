@@ -249,7 +249,8 @@ public class ClubController {
                                        @RequestParam int clubId, @RequestParam(required = false) String displayName,
                                        @RequestParam(required = false) boolean confirmDeleteClub,
                                        @RequestParam(required = false) boolean deleteClub,
-                                       @RequestParam(required = false) int[] blogIds, Model model) {
+                                       @RequestParam(required = false) int[] blogIds,
+                                       @RequestParam(required = false) int[] memberIds, Model model) {
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         if (clubResult.isEmpty()) {
@@ -285,13 +286,25 @@ public class ClubController {
                 for (int id : blogIds) {
                     blogRepository.deleteById(id);
                 }
+                blogPosts = club.getBlogPosts();
+                Collections.reverse(blogPosts);
+            }
+
+            if (memberIds != null) {
+                for (int id : memberIds) {
+                    Optional<Member> result = memberRepository.findById(id);
+                    Member member = result.get();
+                    club.getMembers().remove(member);
+                    clubRepository.save(club);
+                }
             }
 
             if (deleteClub && confirmDeleteClub) {
                 clubRepository.deleteById(clubId);
                 return "redirect:/";
             }
-
+            model.addAttribute("blogs", blogPosts);
+            model.addAttribute("club", club);
             return "redirect:/clubs/detail?clubId=" + clubId;
         }
     }

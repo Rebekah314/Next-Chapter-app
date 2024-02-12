@@ -9,44 +9,47 @@
 <form method="post">
 
 <table class="table table-striped">
-
+<thead><tr><th>Update Club Name</th></tr></thead>
     <tr>
-        <th>Current Name</th>
-        <td th:text="${club.displayName}"></td>
+
+        <td th:text="${'Current Name: ' + club.displayName}"></td>
     </tr>
 
     <tr>
-        <th>New Name</th>
         <td>
-           <label><input type="text" name="displayName"></label>
+           <label>New Name: <input type="text" name="displayName"></label>
         </td>
     </tr>
+</table>
 
-<!--    <tr>-->
-<!--        <th>Current Club Members</th>-->
-<!--        <td >-->
-<!--            <span th:if="${existingMember}">-->
-<!--                <ul>-->
-<!--                <th:block th:each="member : ${club.members}">-->
-<!--                    <li th:text="${member.displayName}"></li>-->
-<!--                </th:block>-->
-<!--                </ul>-->
-<!--                <a th:href="'/clubs/leave?clubId=' + ${club.id}" >Click here to leave</a>-->
-<!--            </span>-->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Check box to REMOVE Member from this Club</th>
+        </tr>
+    </thead>
+    <th:block th:each="member : ${club.members}">
+        <tr>
+            <td >
+                <label>
+                    <input type="checkbox" name="memberIds" th:value="${member.id}">
+                    <span th:text="${member.displayName}"></span>
+                </label>
 
-<!--            <span th:unless="${existingMember}">-->
-<!--                <a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a>-->
-<!--            </span>-->
+            </td>
+        </tr>
+    </th:block>
 
-<!--        </td>-->
-<!--    </tr>-->
+
+
+
 </table>
 <span th:if="${existingMember}">
 <div>
     <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Check box to DELETE a Blog Post
+                    <th>Check box to DELETE Blog Post
                 </tr>
                 </thead>
 
@@ -72,7 +75,7 @@
 
 <table class="table table-striped">
     <tr>
-        <th>Delete Club</th>
+        <th>Check both boxes to DELETE Club</th>
     </tr>
     <tr>
         <td>
