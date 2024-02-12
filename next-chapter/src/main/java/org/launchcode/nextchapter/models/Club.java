@@ -89,4 +89,6 @@ public class Club extends AbstractEntity {
     public List<Blog> getBlogPosts() {
         return blogPosts;
     }
+
+
 }

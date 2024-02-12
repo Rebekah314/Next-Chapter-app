@@ -105,8 +105,8 @@ public class AuthenticationController {
         Member theMember = memberRepository.findByEmail(loginFormDTO.getEmail());
 
         if (theMember == null) {
-            errors.rejectValue("username", "user.invalid",
-                    "The given username does not exist");
+            errors.rejectValue("email", "user.invalid",
+                    "The given email does not correspond with a user in this system.");
             model.addAttribute("title", "Log In");
             return "login";
         }
@@ -130,6 +130,4 @@ public class AuthenticationController {
         request.getSession().invalidate();
         return "redirect:/login";
     }
-
-
 }

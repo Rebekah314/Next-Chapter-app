@@ -8,8 +8,10 @@ import org.launchcode.nextchapter.data.MemberRepository;
 import org.launchcode.nextchapter.models.Blog;
 import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.Member;
+import org.launchcode.nextchapter.models.dto.AdminFormDTO;
 import org.launchcode.nextchapter.models.dto.ClubMemberDTO;
 import org.launchcode.nextchapter.models.dto.CreateClubFormDTO;
+import org.launchcode.nextchapter.models.dto.LoginFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -172,7 +174,7 @@ public class ClubController {
             model.addAttribute("existingMember", true);
             return "redirect:/clubs/detail?clubId=" + club.getId();
         }
-        return "redirect:club/join";
+        return "redirect:clubs/join";
     }
 
     @GetMapping("leave")
@@ -218,6 +220,92 @@ public class ClubController {
             model.addAttribute("club", club);
             model.addAttribute("existingMember", false);
             return "clubs/detail";
+        }
+    }
+
+    @GetMapping("admin")
+    public String displayClubAdminForm(@RequestParam int clubId, Model model) {
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        if (clubResult.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+
+            List<Blog> blogPosts = club.getBlogPosts();
+            Collections.reverse(blogPosts);
+
+            model.addAttribute("title", "Make Changes to " + club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("blogs", blogPosts);
+            model.addAttribute("existingMember", true);
+            model.addAttribute(new AdminFormDTO());
+
+        }
+        return "clubs/admin";
+    }
+
+    @PostMapping("admin")
+    public String processClubAdminForm(@ModelAttribute @Valid AdminFormDTO adminFormDTO, Errors errors,
+                                       @RequestParam int clubId, @RequestParam(required = false) String displayName,
+                                       @RequestParam(required = false) boolean confirmDeleteClub,
+                                       @RequestParam(required = false) boolean deleteClub,
+                                       @RequestParam(required = false) int[] blogIds,
+                                       @RequestParam(required = false) int[] memberIds, Model model) {
+
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        if (clubResult.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+            List<Blog> blogPosts = club.getBlogPosts();
+            Collections.reverse(blogPosts);
+            model.addAttribute("club", club);
+            model.addAttribute("blogs", blogPosts);
+            model.addAttribute("existingMember", true);
+            model.addAttribute("clubId", clubId);
+
+            if (errors.hasErrors()) {
+                model.addAttribute("title", "Make Changes to " + club.getDisplayName());
+                return "clubs/admin";
+            }
+
+            String password = adminFormDTO.getPassword();
+            if (!club.isMatchingPassword(password)) {
+                errors.rejectValue("password","password.invalid",
+                        "Incorrect password");
+                model.addAttribute("title", "Make Changes to " + club.getDisplayName());
+                return "clubs/admin";
+            }
+
+            if (!(displayName == "")) {
+                club.setDisplayName(displayName);
+                clubRepository.save(club);
+            }
+
+            if (memberIds != null) {
+                for (int id : memberIds) {
+                    Optional<Member> result = memberRepository.findById(id);
+                    Member member = result.get();
+                    club.getMembers().remove(member);
+                    clubRepository.save(club);
+                }
+            }
+
+            if (blogIds != null) {
+                for (int id : blogIds) {
+                    blogRepository.deleteById(id);
+                }
+                blogPosts = club.getBlogPosts();
+                Collections.reverse(blogPosts);
+            }
+
+            if (deleteClub && confirmDeleteClub) {
+                clubRepository.deleteById(clubId);
+                return "redirect:/";
+            }
+            model.addAttribute("blogs", blogPosts);
+            model.addAttribute("club", club);
+            return "redirect:/clubs/detail?clubId=" + clubId;
         }
     }
 

@@ -20,6 +20,12 @@ body {
     padding: 18px;
 }
 
+
 .nav-link {
   color: #A9A9A9;
   }
+
+.admin-changes-link {
+    text-align: right;
+}
+

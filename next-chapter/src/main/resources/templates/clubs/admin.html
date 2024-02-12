@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+
+<form method="post">
+
+<table class="table table-striped">
+<thead><tr><th>Update Club Name</th></tr></thead>
+    <tr>
+
+        <td th:text="${'Current Name: ' + club.displayName}"></td>
+    </tr>
+
+    <tr>
+        <td>
+           <label>New Name: <input type="text" name="displayName"></label>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Check box to REMOVE Member from this Club</th>
+        </tr>
+    </thead>
+    <th:block th:each="member : ${club.members}">
+        <tr>
+            <td >
+                <label>
+                    <input type="checkbox" name="memberIds" th:value="${member.id}">
+                    <span th:text="${member.displayName}"></span>
+                </label>
+
+            </td>
+        </tr>
+    </th:block>
+
+
+
+
+</table>
+<span th:if="${existingMember}">
+<div>
+    <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Check box to DELETE Blog Post
+                </tr>
+                </thead>
+
+        <tr th:each="blog : ${blogs}">
+            <td> <th:block>
+                <div>
+                    <label>
+                        <input type="checkbox" name="blogIds" th:value="${blog.id}" >
+                        <h2 th:text="${blog.title}"></h2>
+                    </label>
+                    <p style="font-style:italic" th:text="${'(currently reading: ' + blog.bookContext + ')'}"></p>
+                    <p th:text="${blog.content}"></p>
+                    <p th:text="${'Posted by: ' + blog.member.displayName + ' on ' + blog.time}"></p>
+                </div>
+
+            </th:block>
+            </td>
+        </tr>
+
+    </table>
+</div>
+</span>
+
+<table class="table table-striped">
+    <tr>
+        <th>Check both boxes to DELETE Club</th>
+    </tr>
+    <tr>
+        <td>
+            <label><input type="checkbox" name="deleteClub" value="true">
+                Check box to DELETE this club (WARNING: this cannot be undone)
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <label><input type="checkbox" name="confirmDeleteClub" value="true">
+                Check box to CONFIRM club deletion
+            </label>
+        </td>
+    </tr>
+</table>
+
+    <div class="form-group">
+        <label>Admin password required to save changes:
+            <input class="form-control" th:field="${adminFormDTO.password}" type="password">
+        </label>
+        <p class="error" th:errors="${adminFormDTO.password}"></p>
+
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" name="clubId" th:value="${club.id}">
+        <input type="submit" value="Save Changes" class="btn btn-success">
+    </div>
+
+</form>
+<hr>
+<div class="form-group">
+    <a th:href="${'/clubs/detail?clubId=' + club.id}" class="btn btn-info">Back to club page</a>
+</div>
+
+</body>
+</html>
