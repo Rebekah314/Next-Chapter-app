@@ -9,29 +9,37 @@
 </head>
 <body>
 <nav th:fragment="header">
-    <h1 th:text="${title}">Next Chapter</h1>
-    <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="/members">Member Info</a></li>
-        <li class="nav-item"><a class="nav-link" href="/register">Create User</a></li>
-        <li class="nav-item"><a class="nav-link" href="/clubs">Club Info</a></li>
-        <li class="nav-item"><a class="nav-link" href="/clubs/create">Create Club</a></li>
-        <li class="nav-item"><a class="nav-link" href="/blog">Blog Index</a></li>
-        <li class="nav-item"><a class="nav-link" href="/blog/create">Create Blog Post</a></li>
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+    <div><img src="https://i.imgur.com/tEIYyp5.png" alt=""
+              width="400" height="90"
+              style="float:right"></div>
+    <div>
+        <h1 th:text="${title}">Next Chapter</h1>
+        <nav class="navbar navbar-light">
+            <nav class="nav">
+                <a class="nav-link" href="/">Home</a></a>
+                <a class="nav-link" href="/members">Member Info</a></a>
+                <a class="nav-link" href="/register">Create User</a></li>
+                <a class="nav-link" href="/clubs">Club Info</a></li>
+                <a class="nav-link" href="/clubs/create">Create Club</a></li>
+                <!--        <li class="nav-item"><a class="nav-link" href="/blog">Blog Index</a></li>-->
+                <!--        <li class="nav-item"><a class="nav-link" href="/blog/create">Create Blog Post</a></li>-->
+                <a class="nav-link" href="/logout">Log Out</a></li>
 
-    </ul>
+            </nav>
+        </nav>
+    </div>
 </nav>
 
-<!--th:attr below specifies the action of the form, in this case sending the inputted data to "/search" -->
-<div th:fragment="searchbar">
-    <form action="search.html" th:attr="action=@{/search}">
-        <div class="input-group mb-3">
-            <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2">
-            <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
-        </div>
-    </form>
-</div>
+    <!--th:attr below specifies the action of the form, in this case sending the inputted data to "/search" -->
+    <div th:fragment="searchbar">
+        <form action="search.html" th:attr="action=@{/search}">
+            <div class="input-group mb-3">
+                <input type="text" name="query" class="form-control" placeholder="Search for a title"
+                       aria-label="Search query" aria-describedby="button-addon2">
+                <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+            </div>
+        </form>
+    </div>
 
 
 </body>
