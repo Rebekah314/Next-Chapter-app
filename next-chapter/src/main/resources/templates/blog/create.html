@@ -5,12 +5,19 @@
 <header th:replace="fragments :: header"></header>
 
 <form method="post">
-<!--    <label>User:-->
-<!--        <select th:field="${blog.user}">-->
-<!--            <option th:each="user:${users}" th:text="${user.username}" th:value="${user.id}"></option>-->
-<!--        </select>-->
-<!--    </label>-->
-    <label>Title:
+    <label>Club:
+        <p th:text="${club.displayName}"></p>
+        <select th:field="${blog.club}">
+            <option
+                    th:text="${club.displayName}"
+                    th:value="${club.id}">
+
+
+            </option>
+        </select>
+    </label>
+
+    <label>Post Title:
         <input type="text" th:field="${blog.title}">
         <span th:errors="${blog.title}"></span>
     </label>
@@ -24,6 +31,15 @@
         <br/>
         <textarea th:field="${blog.content}" cols="50" rows="10"></textarea>
         <span th:errors="${blog.content}"></span>
+    </label>
+    <br/>
+<!--    note for all
+this is not my fave way to do this; i want to pass the current member info without having to declare it in the form
+however this way works for now until i figure that out-->
+    <label>submitted by:
+        <select th:field="${blog.member}">
+            <option th:text="${member.displayName}" th:value="${member.id}"></option>
+        </select>
     </label>
     <br/>
     <input type="submit" value="Post">

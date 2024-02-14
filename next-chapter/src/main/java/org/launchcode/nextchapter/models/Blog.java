@@ -19,12 +19,27 @@ public class Blog {
 
     private LocalDateTime time;
 
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
     @ManyToOne
     private Club club;
 
    @ManyToOne
-   private User user;
-    // need to set up DTO
+   private Member member;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(min = 1, max = 40, message = "Title must be between 1 and 40 characters.")
@@ -44,6 +59,11 @@ public class Blog {
 
     public Blog(){
         this.time = LocalDateTime.now();
+    }
+
+    public Blog(Member member) {
+        this();
+        this.member = member;
     }
 
     public Blog(String title, String bookContext, String content) {
