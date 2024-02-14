@@ -36,13 +36,26 @@ public class ClubController {
     @Autowired
     private BlogRepository blogRepository;
 
-    @GetMapping
-    public String displayClubInfo(Model model) {
+    @GetMapping("home")
+    public String displayClubInfo(Model model, HttpSession session) {
+
+        //Check if user is logged in. If so, club buttons link to club page.
+        Integer userId = (Integer) session.getAttribute("user");
+
+        if (userId == null) {
+            model.addAttribute("existingMember", false);
+        } else {
+            Optional<Member> currentUser = memberRepository.findById(userId);
+            if (!currentUser.isEmpty()) {
+                model.addAttribute("existingMember", true);
+            } else {
+                model.addAttribute("existingMember", false);
+            }
+        }
         model.addAttribute("title", "Browse All Clubs");
         model.addAttribute("clubs", clubRepository.findAll());
         return "clubs/index";
     }
-
 
     @GetMapping("create")
     public String displayCreateClubForm(Model model) {
