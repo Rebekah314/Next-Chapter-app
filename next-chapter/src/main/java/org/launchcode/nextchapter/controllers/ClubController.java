@@ -38,8 +38,8 @@ public class ClubController {
 
     @GetMapping
     public String displayClubInfo(Model model) {
-        model.addAttribute("title", "Club Info");
-        model.addAttribute("club", "INSERT CLUB INFO HERE");
+        model.addAttribute("title", "Browse All Clubs");
+        model.addAttribute("clubs", clubRepository.findAll());
         return "clubs/index";
     }
 
