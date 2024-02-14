@@ -91,9 +91,10 @@ public class ClubController {
             newClub.getMembers().add(member);
             clubRepository.save(newClub);
         }
+        Integer clubId = newClub.getId();
 
 
-        return "redirect:/clubs";
+        return "redirect:/clubs/detail?clubId=" + clubId;
     }
 
     @GetMapping("detail")

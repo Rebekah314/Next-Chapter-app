@@ -39,7 +39,7 @@ public class Club extends AbstractEntity {
     private final List<Blog> blogPosts = new ArrayList<>();
 
 
-    private String coverId = "99";
+    private String coverId = null;
 
     public String getCoverId() {
         return coverId;
