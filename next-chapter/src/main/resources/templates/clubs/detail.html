@@ -8,10 +8,14 @@
 <table class="table table-striped" style="float:left; width:40%">
 
     <tr>
-        <th>Name</th>
-        <td th:text="${club.displayName}"></td>
+<!--        <th>Name</th>-->
+        <td> <h3 th:text="${club.displayName}"></h3>
+        <h5 th:text="${club.description}" style="font-style:italic"></h5></td>
     </tr>
+<!--    <tr>-->
 
+<!--        <h5><td th:text="${club.description}"></td></h5>-->
+<!--    </tr>-->
     <tr>
         <th>Club Members</th>
         <td >

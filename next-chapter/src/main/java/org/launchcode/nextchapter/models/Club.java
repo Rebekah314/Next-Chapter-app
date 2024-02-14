@@ -21,6 +21,16 @@ public class Club extends AbstractEntity {
 
     private String adminPwHash;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     private int adminId;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -40,8 +50,9 @@ public class Club extends AbstractEntity {
     }
 
 
-    public Club(String displayName, String activeBook, String password, int adminId) {
+    public Club(String displayName, String description, String activeBook, String password, int adminId) {
         this.setDisplayName(displayName);
+        this.description = description;
         this.activeBook = activeBook;
         this.adminPwHash = encoder.encode(password);
         this.adminId = adminId;
