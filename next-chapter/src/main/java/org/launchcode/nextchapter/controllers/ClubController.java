@@ -263,9 +263,10 @@ public class ClubController {
             model.addAttribute("blogs", blogPosts);
             model.addAttribute("existingMember", true);
             model.addAttribute("clubId", clubId);
+            model.addAttribute("title", "Make Changes to " + club.getDisplayName());
+
 
             if (errors.hasErrors()) {
-                model.addAttribute("title", "Make Changes to " + club.getDisplayName());
                 return "clubs/admin";
             }
 
@@ -273,11 +274,16 @@ public class ClubController {
             if (!club.isMatchingPassword(password)) {
                 errors.rejectValue("password","password.invalid",
                         "Incorrect password");
-                model.addAttribute("title", "Make Changes to " + club.getDisplayName());
                 return "clubs/admin";
             }
 
             if (!(displayName == "")) {
+                Club existingClub = clubRepository.findByDisplayName(displayName);
+                if (existingClub != null) {
+                    model.addAttribute("displayNameError",
+                            "Cannot rename club [" + displayName + "] because a club with that name already exists");
+                    return "clubs/admin";
+                }
                 club.setDisplayName(displayName);
                 clubRepository.save(club);
             }
