@@ -28,12 +28,21 @@
     </div>
 
     <div class="form-group">
+        <p>Please provide a short description to sum up your club's purpose.</p>
+        <label>Club description:
+            <input th:field="${createClubFormDTO.description}" class="form-control">
+        </label>
+        <!--        <p class="error" th:errors="${event.eventDetails.description}"></p>-->
+    </div>
+
+    <div class="form-group">
         <p>Please choose the first book for this club.</p>
         <label>Active Book:
             <input th:field="${createClubFormDTO.activeBook}" class="form-control">
         </label>
         <!--        <p class="error" th:errors="${event.eventDetails.description}"></p>-->
     </div>
+
 
 
     <div class="form-group">
