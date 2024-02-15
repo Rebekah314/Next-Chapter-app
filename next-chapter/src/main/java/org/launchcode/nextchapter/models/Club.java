@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Club extends AbstractEntity {
 
-   @ManyToMany
+    @ManyToMany
     private List<Member> members = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
@@ -66,7 +66,7 @@ public class Club extends AbstractEntity {
 
 
     public void setMembers(List<Member> members) {
-       this.members = members;
+        this.members = members;
     }
 
     public String getActiveBook() {

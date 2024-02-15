@@ -1,0 +1,867 @@
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/data/UserRepository.java
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/data/UserRepository.java b/next-chapter/src/main/java/org/launchcode/nextchapter/data/UserRepository.java
+deleted file mode 100644
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/data/UserRepository.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ /dev/null	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
+@@ -1,13 +0,0 @@
+-package org.launchcode.nextchapter.data;
+-
+-
+-import org.launchcode.nextchapter.models.User;
+-import org.springframework.data.repository.CrudRepository;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface UserRepository extends CrudRepository<User, Integer> {
+-
+-    User findByUsername(String username); //method signature creates SQL query
+-
+-}
+Index: next-chapter/src/main/resources/templates/fragments.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org/\">\n<head th:fragment=\"head\">\n    <meta charset=\"UTF-8\"/>\n    <title>Next Chapter</title>\n    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js\"></script>\n    <link rel=\"stylesheet\" th:href=\"@{/styles.css}\">\n</head>\n<body>\n<nav th:fragment=\"header\">\n    <h1 th:text=\"${title}\">Next Chapter</h1>\n    <ul class=\"nav\">\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/users\">User Info</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/register\">Create User</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/clubs\">Club Info</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/clubs/create\">Create Club</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/blog\">Blog Index</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/blog/create\">Create Blog Post</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/\">Home</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/logout\">Log Out</a></li>\n\n    </ul>\n</nav>\n\n<!--th:attr below specifies the action of the form, in this case sending the inputted data to \"/search\" -->\n<div th:fragment=\"searchbar\">\n    <form action=\"search.html\" th:attr=\"action=@{/search}\">\n        <div class=\"input-group mb-3\">\n            <input type=\"text\" name=\"query\" class=\"form-control\" placeholder=\"Search for a title\" aria-label=\"Search query\" aria-describedby=\"button-addon2\">\n            <button type=\"submit\" class=\"btn btn-outline-secondary\" id=\"button-addon2\">Search</button>\n        </div>\n    </form>\n</div>\n\n\n</body>\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/fragments.html b/next-chapter/src/main/resources/templates/fragments.html
+--- a/next-chapter/src/main/resources/templates/fragments.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/fragments.html	(date 1707335950578)
+@@ -11,7 +11,7 @@
+ <nav th:fragment="header">
+     <h1 th:text="${title}">Next Chapter</h1>
+     <ul class="nav">
+-        <li class="nav-item"><a class="nav-link" href="/users">User Info</a></li>
++        <li class="nav-item"><a class="nav-link" href="/members">Member Info</a></li>
+         <li class="nav-item"><a class="nav-link" href="/register">Create User</a></li>
+         <li class="nav-item"><a class="nav-link" href="/clubs">Club Info</a></li>
+         <li class="nav-item"><a class="nav-link" href="/clubs/create">Create Club</a></li>
+Index: next-chapter/src/main/resources/templates/register.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org/\">\n<head th:replace=\"fragments :: head\"></head>\n<body >\n<header th:replace=\"fragments :: header\"></header>\n\n<form method=\"post\">\n    <div class=\"form-group\">\n        <label>Username:\n            <input class=\"form-control\" th:field=\"${registerFormDTO.username}\" />\n        </label>\n        <p class=\"error\" th:errors=\"${registerFormDTO.username}\"></p>\n    </div>\n\n    <div class=\"form-group\">\n        <label>Display name: (this is the name other participants will see)\n            <input class=\"form-control\" th:field=\"${registerFormDTO.displayName}\" />\n        </label>\n        <p class=\"error\" th:errors=\"${registerFormDTO.displayName}\"></p>\n    </div>\n\n    <div class=\"form-group\">\n        <label>Password:\n            <input class=\"form-control\" th:field=\"${registerFormDTO.password}\" type=\"password\" />\n        </label>\n        <p class=\"error\" th:errors=\"${registerFormDTO.password}\"></p>\n    </div>\n    <div class=\"form-group\">\n        <label>Verify password:\n            <input class=\"form-control\" th:field=\"${registerFormDTO.verifyPassword}\" type=\"password\" />\n        </label>\n    </div>\n\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Register\" />\n\n</form>\n\n\n\n</body>\n</html>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/register.html b/next-chapter/src/main/resources/templates/register.html
+--- a/next-chapter/src/main/resources/templates/register.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/register.html	(date 1707335950579)
+@@ -6,14 +6,14 @@
+ 
+ <form method="post">
+     <div class="form-group">
+-        <label>Username:
+-            <input class="form-control" th:field="${registerFormDTO.username}" />
++        <label>Email:
++            <input class="form-control" th:field="${registerFormDTO.email}" />
+         </label>
+-        <p class="error" th:errors="${registerFormDTO.username}"></p>
++        <p class="error" th:errors="${registerFormDTO.email}"></p>
+     </div>
+ 
+     <div class="form-group">
+-        <label>Display name: (this is the name other participants will see)
++        <label>Display name: (You choose the name other participants will see)
+             <input class="form-control" th:field="${registerFormDTO.displayName}" />
+         </label>
+         <p class="error" th:errors="${registerFormDTO.displayName}"></p>
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/AuthenticationFilter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport jakarta.servlet.http.HttpServletResponse;\nimport jakarta.servlet.http.HttpSession;\nimport org.launchcode.nextchapter.controllers.AuthenticationController;\nimport org.launchcode.nextchapter.data.UserRepository;\nimport org.launchcode.nextchapter.models.User;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.web.servlet.HandlerInterceptor;\n\nimport java.io.IOException;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class AuthenticationFilter implements HandlerInterceptor {\n\n    @Autowired\n    UserRepository userRepository;\n\n    @Autowired\n    AuthenticationController authenticationController;\n\n    private static final List<String> approvedList = Arrays.asList(\"/login\", \"/register\", \"/logout\", \"/styles\", \"/home\", \"/searchbar\");\n\n    private static boolean isApprovedListed(String path) {\n        for (String pathRoot : approvedList) {\n            if (path.startsWith(pathRoot)) {\n                return true;\n            }\n        }\n        return false;\n    }\n\n    @Override\n    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,\n                             Object handler) throws IOException {\n\n        //Don't require sign-in for approved pages\n        if (isApprovedListed(request.getRequestURI())) {\n            //returning true indicates that the request may proceed\n            return true;\n        }\n\n        HttpSession session = request.getSession();\n        User user = authenticationController.getUserFromSession(session);\n\n        //The user is logged in\n        if (user != null) {\n            return true;\n        }\n\n        //The user is not logged in\n        response.sendRedirect(\"/home\");\n        return false;\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/AuthenticationFilter.java b/next-chapter/src/main/java/org/launchcode/nextchapter/AuthenticationFilter.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/AuthenticationFilter.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/AuthenticationFilter.java	(date 1707335950575)
+@@ -4,8 +4,8 @@
+ import jakarta.servlet.http.HttpServletResponse;
+ import jakarta.servlet.http.HttpSession;
+ import org.launchcode.nextchapter.controllers.AuthenticationController;
+-import org.launchcode.nextchapter.data.UserRepository;
+-import org.launchcode.nextchapter.models.User;
++import org.launchcode.nextchapter.data.MemberRepository;
++import org.launchcode.nextchapter.models.Member;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.web.servlet.HandlerInterceptor;
+ 
+@@ -16,7 +16,7 @@
+ public class AuthenticationFilter implements HandlerInterceptor {
+ 
+     @Autowired
+-    UserRepository userRepository;
++    MemberRepository memberRepository;
+ 
+     @Autowired
+     AuthenticationController authenticationController;
+@@ -43,14 +43,14 @@
+         }
+ 
+         HttpSession session = request.getSession();
+-        User user = authenticationController.getUserFromSession(session);
++        Member member = authenticationController.getUserFromSession(session);
+ 
+-        //The user is logged in
+-        if (user != null) {
++        //The member is logged in
++        if (member != null) {
+             return true;
+         }
+ 
+-        //The user is not logged in
++        //The member is not logged in
+         response.sendRedirect("/home");
+         return false;
+ 
+Index: next-chapter/src/main/resources/templates/clubs/leave.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/clubs/leave.html b/next-chapter/src/main/resources/templates/clubs/leave.html
+new file mode 100644
+--- /dev/null	(date 1707335950578)
++++ b/next-chapter/src/main/resources/templates/clubs/leave.html	(date 1707335950578)
+@@ -0,0 +1,30 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org/">
++<head th:replace="fragments :: head"></head>
++
++<body>
++<header th:replace="fragments :: header"></header>
++
++
++
++
++<p th:text="${member.displayName + ', are you sure you want to leave ' + club.displayName + '?'}"></p>
++
++
++<form method="post">
++    <div class="form-group">
++
++        <select th:field="${club}">
++            <option th:value="${club.id}"
++                    th:text="${club.displayName}"
++            ></option>
++        </select>
++    </div>
++    <div class="form-group">
++        <input type="submit" value="Yes, I want to leave this club." class="btn btn-success">
++    </div>
++</form>
++<p> <a th:href="'/clubs/detail?clubId=' + ${club.id}" >No, I don't want to leave this club.</a></p>
++
++</body>
++</html>
+\ No newline at end of file
+Index: next-chapter/src/main/resources/templates/login.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org/\">\n<head th:replace=\"fragments :: head\"></head>\n<body>\n<header th:replace=\"fragments :: header\"></header>\n\n<form method=\"post\" class=\"homepage-login\">\n    <div class=\"form-group\">\n        <p>Welcome back to your Next Chapter! Log in here:</p>\n        <label th:for=\"username\">Username:\n            <input class=\"form-control\" th:field=\"${loginFormDTO.username}\">\n        </label>\n        <p class=\"error\" th:errors=\"${loginFormDTO.username}\"></p>\n        </div>\n    <div class=\"form-group\">\n        <label>Password:\n            <input class=\"form-control\" th:field=\"${loginFormDTO.password}\" type=\"password\">\n        </label>\n        <p class=\"error\" th:errors=\"${loginFormDTO.password}\"></p>\n\n    </div>\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Log In\" >\n</form>\n<p>Don't have an account? <a href=\"/register\">Register for one.</a></p>\n\n</body>\n</html>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/login.html b/next-chapter/src/main/resources/templates/login.html
+--- a/next-chapter/src/main/resources/templates/login.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/login.html	(date 1707335950578)
+@@ -7,10 +7,10 @@
+ <form method="post" class="homepage-login">
+     <div class="form-group">
+         <p>Welcome back to your Next Chapter! Log in here:</p>
+-        <label th:for="username">Username:
+-            <input class="form-control" th:field="${loginFormDTO.username}">
++        <label th:for="email">Email:
++            <input class="form-control" th:field="${loginFormDTO.email}">
+         </label>
+-        <p class="error" th:errors="${loginFormDTO.username}"></p>
++        <p class="error" th:errors="${loginFormDTO.email}"></p>
+         </div>
+     <div class="form-group">
+         <label>Password:
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/models/Blog.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.models;\n\nimport jakarta.persistence.Entity;\nimport jakarta.persistence.GeneratedValue;\nimport jakarta.persistence.Id;\nimport jakarta.persistence.ManyToOne;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.Size;\n\n\nimport java.time.LocalDateTime;\n\n@Entity\npublic class Blog {\n\n    @Id\n    @GeneratedValue\n    private int id;\n\n    private LocalDateTime time;\n\n    @ManyToOne\n    private Club club;\n\n   @ManyToOne\n   private User user;\n    // need to set up DTO\n\n    @NotBlank(message = \"Title cannot be blank.\")\n    @Size(min = 1, max = 40, message = \"Title must be between 1 and 40 characters.\")\n    private String title;\n\n    private String bookContext;\n\n    public String getBookContext() {\n        return bookContext;\n    }\n\n    public void setBookContext(String bookContext) {\n        this.bookContext = bookContext;\n    }\n\n    private String content;\n\n    public Blog(){\n        this.time = LocalDateTime.now();\n    }\n\n    public Blog(String title, String bookContext, String content) {\n        this();\n        this.title = title;\n        this.bookContext = bookContext;\n        this.content = content;\n    }\n\n    public int getId() {\n        return id;\n    }\n\n\n    public LocalDateTime getTime() {\n        return time;\n    }\n\n\n    public String getTitle() {\n        return title;\n    }\n\n    public void setTitle(String title) {\n        this.title = title;\n    }\n\n    public String getContent() {\n        return content;\n    }\n\n    public void setContent(String content) {\n        this.content = content;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/models/Blog.java b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Blog.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/models/Blog.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Blog.java	(date 1707335950577)
+@@ -23,7 +23,7 @@
+     private Club club;
+ 
+    @ManyToOne
+-   private User user;
++   private Member member;
+     // need to set up DTO
+ 
+     @NotBlank(message = "Title cannot be blank.")
+Index: next-chapter/src/main/resources/templates/clubs/detail.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org/\">\n<head th:replace=\"fragments :: head\"></head>\n\n<body>\n<header th:replace=\"fragments :: header\"></header>\n\n\n\n\n<table class=\"table table-striped\">\n\n    <tr>\n        <th>Name</th>\n        <td th:text=\"${club.displayName}\"></td>\n    </tr>\n    <tr>\n        <th>Currently Reading</th>\n        <td th:text=\"${club.activeBook}\"></td>\n    </tr>\n    <tr>\n        <th>Club Members</th>\n        <td ><ul>\n            <th:block th:each=\"member : ${club.members}\">\n                <li th:text=\"${member.displayName}\"></li>\n            </th:block>\n        </ul>\n\n        </td>\n    </tr>\n</table>\n\n\n<p><a th:href=\"'/clubs/join?clubId=' + ${club.id}\" >Click here to join</a></p>\n\n</body>\n</html>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/clubs/detail.html b/next-chapter/src/main/resources/templates/clubs/detail.html
+--- a/next-chapter/src/main/resources/templates/clubs/detail.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/clubs/detail.html	(date 1707335950578)
+@@ -20,18 +20,25 @@
+     </tr>
+     <tr>
+         <th>Club Members</th>
+-        <td ><ul>
+-            <th:block th:each="member : ${club.members}">
+-                <li th:text="${member.displayName}"></li>
+-            </th:block>
+-        </ul>
++        <td >
++            <span th:if="${existingMember}">
++                <ul>
++                <th:block th:each="member : ${club.members}">
++                    <li th:text="${member.displayName}"></li>
++                </th:block>
++                </ul>
++                <a th:href="'/clubs/leave?clubId=' + ${club.id}" >Click here to leave</a>
++            </span>
++
++            <span th:unless="${existingMember}">
++                <a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a>
++            </span>
+ 
+         </td>
+     </tr>
+ </table>
+ 
+ 
+-<p><a th:href="'/clubs/join?clubId=' + ${club.id}" >Click here to join</a></p>
+ 
+ </body>
+ </html>
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/data/ClubRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.data;\n\nimport org.launchcode.nextchapter.models.Club;\nimport org.launchcode.nextchapter.models.User;\nimport org.springframework.data.repository.CrudRepository;\nimport org.springframework.stereotype.Repository;\n\n@Repository\npublic interface ClubRepository extends CrudRepository<Club, Integer> {\n\n    Club findByDisplayName(String displayName); //method signature creates SQL query\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/data/ClubRepository.java b/next-chapter/src/main/java/org/launchcode/nextchapter/data/ClubRepository.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/data/ClubRepository.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/data/ClubRepository.java	(date 1707335950576)
+@@ -1,7 +1,6 @@
+ package org.launchcode.nextchapter.data;
+ 
+ import org.launchcode.nextchapter.models.Club;
+-import org.launchcode.nextchapter.models.User;
+ import org.springframework.data.repository.CrudRepository;
+ import org.springframework.stereotype.Repository;
+ 
+Index: next-chapter/src/main/resources/templates/blog/create.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org/\">\n<head th:replace=\"fragments :: head\"></head>\n<body>\n<header th:replace=\"fragments :: header\"></header>\n\n<form method=\"post\">\n<!--    <label>User:-->\n<!--        <select th:field=\"${blog.user}\">-->\n<!--            <option th:each=\"user:${users}\" th:text=\"${user.username}\" th:value=\"${user.id}\"></option>-->\n<!--        </select>-->\n<!--    </label>-->\n    <label>Title:\n        <input type=\"text\" th:field=\"${blog.title}\">\n        <span th:errors=\"${blog.title}\"></span>\n    </label>\n    <br/>\n    <label>What Book Are You Reading?\n        <input type=\"text\" th:field=\"${blog.bookContext}\">\n        <span th:errors=\"${blog.bookContext}\"></span>\n    </label>\n    <br/>\n    <label>Add Content:\n        <br/>\n        <textarea th:field=\"${blog.content}\" cols=\"50\" rows=\"10\"></textarea>\n        <span th:errors=\"${blog.content}\"></span>\n    </label>\n    <br/>\n    <input type=\"submit\" value=\"Post\">\n</form>\n\n</body>\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/blog/create.html b/next-chapter/src/main/resources/templates/blog/create.html
+--- a/next-chapter/src/main/resources/templates/blog/create.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/blog/create.html	(date 1707335950578)
+@@ -5,9 +5,9 @@
+ <header th:replace="fragments :: header"></header>
+ 
+ <form method="post">
+-<!--    <label>User:-->
++<!--    <label>Member:-->
+ <!--        <select th:field="${blog.user}">-->
+-<!--            <option th:each="user:${users}" th:text="${user.username}" th:value="${user.id}"></option>-->
++<!--            <option th:each="user:${members}" th:text="${user.username}" th:value="${user.id}"></option>-->
+ <!--        </select>-->
+ <!--    </label>-->
+     <label>Title:
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/LoginFormDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.models.dto;\n\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.Size;\n\npublic class LoginFormDTO {\n\n    @NotNull\n    @NotBlank\n    @Size(min = 3, max = 20, message = \"Invalid username. Must be between 3 and 20 characters.\")\n    private String username;\n\n    @NotNull\n    @NotBlank\n    @Size(min = 5, max = 30, message = \"Invalid password. Must be between 5 and 30 characters.\")\n    private String password;\n\n    public String getUsername() {\n        return username;\n    }\n\n    public void setUsername(String username) {\n        this.username = username;\n    }\n\n    public String getPassword() {\n        return password;\n    }\n\n    public void setPassword(String password) {\n        this.password = password;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/LoginFormDTO.java b/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/LoginFormDTO.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/LoginFormDTO.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/LoginFormDTO.java	(date 1707335950577)
+@@ -1,5 +1,6 @@
+ package org.launchcode.nextchapter.models.dto;
+ 
++import jakarta.validation.constraints.Email;
+ import jakarta.validation.constraints.NotBlank;
+ import jakarta.validation.constraints.NotNull;
+ import jakarta.validation.constraints.Size;
+@@ -8,20 +9,20 @@
+ 
+     @NotNull
+     @NotBlank
+-    @Size(min = 3, max = 20, message = "Invalid username. Must be between 3 and 20 characters.")
+-    private String username;
++    @Email
++    private String email;
+ 
+     @NotNull
+     @NotBlank
+     @Size(min = 5, max = 30, message = "Invalid password. Must be between 5 and 30 characters.")
+     private String password;
+ 
+-    public String getUsername() {
+-        return username;
++    public String getEmail() {
++        return email;
+     }
+ 
+-    public void setUsername(String username) {
+-        this.username = username;
++    public void setEmail(String username) {
++        this.email = username;
+     }
+ 
+     public String getPassword() {
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/models/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/models/User.java b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Member.java
+rename from next-chapter/src/main/java/org/launchcode/nextchapter/models/User.java
+rename to next-chapter/src/main/java/org/launchcode/nextchapter/models/Member.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/models/User.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Member.java	(date 1707335950577)
+@@ -1,20 +1,16 @@
+ package org.launchcode.nextchapter.models;
+ 
+ import jakarta.persistence.Entity;
+-import jakarta.persistence.GeneratedValue;
+-import jakarta.persistence.Id;
+ import jakarta.persistence.ManyToMany;
+-import jakarta.validation.constraints.NotNull;
+ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+-import java.util.Objects;
+ 
+ @Entity
+-public class User extends AbstractEntity{
++public class Member extends AbstractEntity{
+ 
+-    private String username;
++    private String email;
+ 
+     private String pwHash;
+ 
+@@ -24,20 +20,20 @@
+     private List<Club> clubs = new ArrayList<>();
+     //need to set up DTO, chapter 18.5
+ 
+-    public User(String username, String displayName, String password) {
+-        this.username = username;
++    public Member(String email, String displayName, String password) {
++        this.email = email;
+         this.setDisplayName(displayName);
+         this.pwHash = encoder.encode(password);
+     }
+ 
+-    public User() {}
++    public Member() {}
+ 
+-    public String getUsername() {
+-        return username;
++    public String getEmail() {
++        return email;
+     }
+ 
+-    public void setUsername(String username) {
+-        this.username = username;
++    public void setEmail(String email) {
++        this.email = email;
+     }
+ 
+     public String getPwHash() {
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/controllers/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.controllers;\n\nimport org.launchcode.nextchapter.data.UserRepository;\nimport org.launchcode.nextchapter.models.User;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.ui.Model;\nimport org.springframework.validation.Errors;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.ModelAttribute;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestMapping;\n\n@Controller\n@RequestMapping(\"users\")\npublic class UserController {\n\n    @Autowired\n    private UserRepository userRepository;\n\n    @GetMapping\n    public String displayUserInfo(Model model) {\n        model.addAttribute(\"title\", \"User Info\");\n        model.addAttribute(\"user\", \"INSERT USER INFO HERE\");\n        return \"users/index\";\n    }\n\n\n    @GetMapping(\"create\")\n    public String displayCreateUserForm(Model model) {\n        model.addAttribute(\"title\", \"Create User\");\n        model.addAttribute(new User());\n        return \"users/create\";\n    }\n\n    @PostMapping(\"create\")\n    public String processCreateUserForm(@ModelAttribute User newUser, Errors errors, Model model){\n        userRepository.save(newUser);\n        return \"redirect:/users\";\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/UserController.java b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/UserController.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/UserController.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/UserController.java	(date 1707335950576)
+@@ -1,7 +1,7 @@
+ package org.launchcode.nextchapter.controllers;
+ 
+-import org.launchcode.nextchapter.data.UserRepository;
+-import org.launchcode.nextchapter.models.User;
++import org.launchcode.nextchapter.data.MemberRepository;
++import org.launchcode.nextchapter.models.Member;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+@@ -12,30 +12,30 @@
+ import org.springframework.web.bind.annotation.RequestMapping;
+ 
+ @Controller
+-@RequestMapping("users")
++@RequestMapping("members")
+ public class UserController {
+ 
+     @Autowired
+-    private UserRepository userRepository;
++    private MemberRepository memberRepository;
+ 
+     @GetMapping
+     public String displayUserInfo(Model model) {
+-        model.addAttribute("title", "User Info");
++        model.addAttribute("title", "Member Info");
+         model.addAttribute("user", "INSERT USER INFO HERE");
+-        return "users/index";
++        return "members/index";
+     }
+ 
+ 
+     @GetMapping("create")
+     public String displayCreateUserForm(Model model) {
+-        model.addAttribute("title", "Create User");
+-        model.addAttribute(new User());
+-        return "users/create";
++        model.addAttribute("title", "Create Member");
++        model.addAttribute(new Member());
++        return "members/create";
+     }
+ 
+     @PostMapping("create")
+-    public String processCreateUserForm(@ModelAttribute User newUser, Errors errors, Model model){
+-        userRepository.save(newUser);
+-        return "redirect:/users";
++    public String processCreateUserForm(@ModelAttribute Member newMember, Errors errors, Model model){
++        memberRepository.save(newMember);
++        return "redirect:/members";
+     }
+ }
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/models/Club.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.models;\n\n\nimport jakarta.persistence.Entity;\nimport jakarta.persistence.GeneratedValue;\nimport jakarta.persistence.Id;\nimport jakarta.persistence.ManyToMany;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Objects;\n\n@Entity\npublic class Club extends AbstractEntity {\n\n   @ManyToMany\n    private List<User> members = new ArrayList<>();\n    //need to set up DTO, chapter 18.5\n\n    private String activeBook;\n\n    private String adminPwHash;\n\n    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();\n\n    public Club(String displayName, String activeBook, String password) {\n        this.setDisplayName(displayName);\n        this.activeBook = activeBook;\n        this.adminPwHash = encoder.encode(password);\n    }\n\n    public Club() {}\n\n    public List<User> getMembers() {\n        return members;\n    }\n\n    public void setMembers(List<User> members) {\n       this.members = members;\n    }\n\n    public String getActiveBook() {\n        return activeBook;\n    }\n\n    public void setActiveBook(String activeBook) {\n        this.activeBook = activeBook;\n    }\n\n    public String getPwHash() {\n        return adminPwHash;\n    }\n\n    public boolean isMatchingPassword(String password) {\n        return encoder.matches(password, adminPwHash);\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/models/Club.java b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Club.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/models/Club.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/models/Club.java	(date 1707335950577)
+@@ -2,22 +2,17 @@
+ 
+ 
+ import jakarta.persistence.Entity;
+-import jakarta.persistence.GeneratedValue;
+-import jakarta.persistence.Id;
+ import jakarta.persistence.ManyToMany;
+-import jakarta.validation.constraints.NotBlank;
+-import jakarta.validation.constraints.NotNull;
+ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+-import java.util.Objects;
+ 
+ @Entity
+ public class Club extends AbstractEntity {
+ 
+    @ManyToMany
+-    private List<User> members = new ArrayList<>();
++    private List<Member> members = new ArrayList<>();
+     //need to set up DTO, chapter 18.5
+ 
+     private String activeBook;
+@@ -34,11 +29,11 @@
+ 
+     public Club() {}
+ 
+-    public List<User> getMembers() {
++    public List<Member> getMembers() {
+         return members;
+     }
+ 
+-    public void setMembers(List<User> members) {
++    public void setMembers(List<Member> members) {
+        this.members = members;
+     }
+ 
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/ClubMemberDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.models.dto;\n\nimport jakarta.validation.constraints.NotNull;\nimport org.launchcode.nextchapter.models.Club;\nimport org.launchcode.nextchapter.models.User;\n\npublic class ClubMemberDTO {\n\n    @NotNull\n    private Club club;\n\n    @NotNull\n    private User member;\n\n    public ClubMemberDTO() {}\n\n    public Club getClub() {\n        return club;\n    }\n\n    public void setClub(Club club) {\n        this.club = club;\n    }\n\n    public User getMember() {\n        return member;\n    }\n\n    public void setMember(User member) {\n        this.member = member;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/ClubMemberDTO.java b/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/ClubMemberDTO.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/ClubMemberDTO.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/models/dto/ClubMemberDTO.java	(date 1707335950577)
+@@ -2,7 +2,7 @@
+ 
+ import jakarta.validation.constraints.NotNull;
+ import org.launchcode.nextchapter.models.Club;
+-import org.launchcode.nextchapter.models.User;
++import org.launchcode.nextchapter.models.Member;
+ 
+ public class ClubMemberDTO {
+ 
+@@ -10,7 +10,7 @@
+     private Club club;
+ 
+     @NotNull
+-    private User member;
++    private Member member;
+ 
+     public ClubMemberDTO() {}
+ 
+@@ -22,11 +22,11 @@
+         this.club = club;
+     }
+ 
+-    public User getMember() {
++    public Member getMember() {
+         return member;
+     }
+ 
+-    public void setMember(User member) {
++    public void setMember(Member member) {
+         this.member = member;
+     }
+ }
+Index: next-chapter/src/main/resources/templates/users/create.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/resources/templates/users/create.html b/next-chapter/src/main/resources/templates/members/create.html
+rename from next-chapter/src/main/resources/templates/users/create.html
+rename to next-chapter/src/main/resources/templates/members/create.html
+--- a/next-chapter/src/main/resources/templates/users/create.html	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/resources/templates/members/create.html	(date 1707335950579)
+@@ -8,7 +8,7 @@
+ <form method="post">
+     <div class="form-group">
+         <label>Username
+-            <input th:field="${user.username}" class="form-control">
++            <input th:field="${member.username}" class="form-control">
+         </label>
+ <!--        <p class="error" th:errors="${event.name}"></p>-->
+     </div>
+@@ -16,7 +16,7 @@
+ 
+     <div class="form-group">
+         <label>Display Name
+-            <input th:field="${user.displayName}" class="form-control">
++            <input th:field="${member.displayName}" class="form-control">
+         </label>
+ <!--        <p class="error" th:errors="${event.eventDetails.description}"></p>-->
+     </div>
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/data/MemberRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/data/MemberRepository.java b/next-chapter/src/main/java/org/launchcode/nextchapter/data/MemberRepository.java
+new file mode 100644
+--- /dev/null	(date 1707335950577)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/data/MemberRepository.java	(date 1707335950577)
+@@ -0,0 +1,13 @@
++package org.launchcode.nextchapter.data;
++
++
++import org.launchcode.nextchapter.models.Member;
++import org.springframework.data.repository.CrudRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface MemberRepository extends CrudRepository<Member, Integer> {
++
++    Member findByEmail(String username); //method signature creates SQL query
++
++}
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/controllers/AuthenticationController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.controllers;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport jakarta.servlet.http.HttpSession;\nimport jakarta.validation.Valid;\nimport org.launchcode.nextchapter.data.UserRepository;\nimport org.launchcode.nextchapter.models.User;\nimport org.launchcode.nextchapter.models.dto.LoginFormDTO;\nimport org.launchcode.nextchapter.models.dto.RegisterFormDTO;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.ui.Model;\nimport org.springframework.validation.Errors;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.ModelAttribute;\nimport org.springframework.web.bind.annotation.PostMapping;\n\nimport java.util.Optional;\n\n@Controller\npublic class AuthenticationController {\n\n    @Autowired\n    UserRepository userRepository;\n\n    private static final String userSessionKey = \"user\";\n\n    public User getUserFromSession(HttpSession session) {\n        Integer userId = (Integer) session.getAttribute(userSessionKey);\n        if (userId == null) {\n            return null;\n        }\n\n        Optional<User> user = userRepository.findById(userId);\n\n        if (user.isEmpty()) {\n            return null;\n        }\n\n        return user.get();\n    }\n\n    private static void setUserInSession(HttpSession session, User user) {\n        session.setAttribute(userSessionKey, user.getId());\n    }\n\n    @GetMapping(\"/register\")\n    public String displayRegistrationForm(Model model) {\n        model.addAttribute(new RegisterFormDTO());\n        model.addAttribute(\"title\", \"Register\");\n        return \"register\";\n    }\n\n    @PostMapping(\"/register\")\n    public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,\n                                          Errors errors, HttpServletRequest request,\n                                          Model model) {\n\n        if (errors.hasErrors()) {\n            model.addAttribute(\"title\", \"Register\");\n            return \"register\";\n        }\n\n        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());\n\n        if (existingUser != null) {\n            errors.rejectValue(\"username\", \"username.alreadyexists\", \"A user with that username already exists\");\n            model.addAttribute(\"title\", \"Register\");\n            return \"register\";\n        }\n\n        String password = registerFormDTO.getPassword();\n        String verifyPassword = registerFormDTO.getVerifyPassword();\n        if (!password.equals(verifyPassword)) {\n            errors.rejectValue(\"password\", \"passwords.mismatch\", \"Passwords do not match\");\n            model.addAttribute(\"title\", \"Register\");\n            return \"register\";\n        }\n\n        User newUser = new User(registerFormDTO.getUsername(),\n                registerFormDTO.getDisplayName(),\n                registerFormDTO.getPassword());\n        userRepository.save(newUser);\n        setUserInSession(request.getSession(), newUser);\n\n        return \"redirect:\";\n    }\n\n    @GetMapping(\"/login\")\n    public String displayLoginForm(Model model) {\n        model.addAttribute(new LoginFormDTO());\n        model.addAttribute(\"title\", \"Log In\");\n        return \"login\";\n    }\n\n    @PostMapping(\"/login\")\n    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,\n                                   Errors errors, HttpServletRequest request,\n                                   Model model) {\n        if (errors.hasErrors()) {\n            model.addAttribute(\"title\", \"Log In\");\n            return \"login\";\n        }\n\n        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());\n\n        if (theUser == null) {\n            errors.rejectValue(\"username\", \"user.invalid\",\n                    \"The given username does not exist\");\n            model.addAttribute(\"title\", \"Log In\");\n            return \"login\";\n        }\n\n        String password = loginFormDTO.getPassword();\n\n        if (!theUser.isMatchingPassword(password)) {\n            errors.rejectValue(\"password\",\"password.invalid\",\n                    \"Invalid password\");\n            model.addAttribute(\"title\", \"Log In\");\n            return \"login\";\n        }\n\n        setUserInSession(request.getSession(), theUser);\n\n        return \"redirect:\";\n    }\n\n    @GetMapping(\"/logout\")\n    public String logout(HttpServletRequest request) {\n        request.getSession().invalidate();\n        return \"redirect:/login\";\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/AuthenticationController.java b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/AuthenticationController.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/AuthenticationController.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/AuthenticationController.java	(date 1707335950576)
+@@ -3,8 +3,8 @@
+ import jakarta.servlet.http.HttpServletRequest;
+ import jakarta.servlet.http.HttpSession;
+ import jakarta.validation.Valid;
+-import org.launchcode.nextchapter.data.UserRepository;
+-import org.launchcode.nextchapter.models.User;
++import org.launchcode.nextchapter.data.MemberRepository;
++import org.launchcode.nextchapter.models.Member;
+ import org.launchcode.nextchapter.models.dto.LoginFormDTO;
+ import org.launchcode.nextchapter.models.dto.RegisterFormDTO;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -21,17 +21,17 @@
+ public class AuthenticationController {
+ 
+     @Autowired
+-    UserRepository userRepository;
++    MemberRepository memberRepository;
+ 
+     private static final String userSessionKey = "user";
+ 
+-    public User getUserFromSession(HttpSession session) {
++    public Member getUserFromSession(HttpSession session) {
+         Integer userId = (Integer) session.getAttribute(userSessionKey);
+         if (userId == null) {
+             return null;
+         }
+ 
+-        Optional<User> user = userRepository.findById(userId);
++        Optional<Member> user = memberRepository.findById(userId);
+ 
+         if (user.isEmpty()) {
+             return null;
+@@ -40,8 +40,8 @@
+         return user.get();
+     }
+ 
+-    private static void setUserInSession(HttpSession session, User user) {
+-        session.setAttribute(userSessionKey, user.getId());
++    private static void setUserInSession(HttpSession session, Member member) {
++        session.setAttribute(userSessionKey, member.getId());
+     }
+ 
+     @GetMapping("/register")
+@@ -61,9 +61,9 @@
+             return "register";
+         }
+ 
+-        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
++        Member existingMember = memberRepository.findByEmail(registerFormDTO.getEmail());
+ 
+-        if (existingUser != null) {
++        if (existingMember != null) {
+             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+             model.addAttribute("title", "Register");
+             return "register";
+@@ -77,11 +77,11 @@
+             return "register";
+         }
+ 
+-        User newUser = new User(registerFormDTO.getUsername(),
++        Member newMember = new Member(registerFormDTO.getEmail(),
+                 registerFormDTO.getDisplayName(),
+                 registerFormDTO.getPassword());
+-        userRepository.save(newUser);
+-        setUserInSession(request.getSession(), newUser);
++        memberRepository.save(newMember);
++        setUserInSession(request.getSession(), newMember);
+ 
+         return "redirect:";
+     }
+@@ -102,9 +102,9 @@
+             return "login";
+         }
+ 
+-        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
++        Member theMember = memberRepository.findByEmail(loginFormDTO.getEmail());
+ 
+-        if (theUser == null) {
++        if (theMember == null) {
+             errors.rejectValue("username", "user.invalid",
+                     "The given username does not exist");
+             model.addAttribute("title", "Log In");
+@@ -113,14 +113,14 @@
+ 
+         String password = loginFormDTO.getPassword();
+ 
+-        if (!theUser.isMatchingPassword(password)) {
++        if (!theMember.isMatchingPassword(password)) {
+             errors.rejectValue("password","password.invalid",
+                     "Invalid password");
+             model.addAttribute("title", "Log In");
+             return "login";
+         }
+ 
+-        setUserInSession(request.getSession(), theUser);
++        setUserInSession(request.getSession(), theMember);
+ 
+         return "redirect:";
+     }
+Index: next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.launchcode.nextchapter.controllers;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport jakarta.servlet.http.HttpSession;\nimport jakarta.validation.Valid;\nimport org.launchcode.nextchapter.data.ClubRepository;\nimport org.launchcode.nextchapter.data.UserRepository;\nimport org.launchcode.nextchapter.models.Club;\nimport org.launchcode.nextchapter.models.User;\nimport org.launchcode.nextchapter.models.dto.ClubMemberDTO;\nimport org.launchcode.nextchapter.models.dto.CreateClubFormDTO;\nimport org.launchcode.nextchapter.models.dto.RegisterFormDTO;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.ui.Model;\nimport org.springframework.validation.Errors;\nimport org.springframework.web.bind.annotation.*;\n\nimport java.util.List;\nimport java.util.Optional;\n\n@Controller\n@RequestMapping(\"clubs\")\npublic class ClubController {\n\n    @Autowired\n    private ClubRepository clubRepository;\n\n    @Autowired\n    UserRepository userRepository;\n\n    @GetMapping\n    public String displayClubInfo(Model model) {\n        model.addAttribute(\"title\", \"Club Info\");\n        model.addAttribute(\"club\", \"INSERT CLUB INFO HERE\");\n        return \"clubs/index\";\n    }\n\n\n    @GetMapping(\"create\")\n    public String displayCreateClubForm(Model model) {\n        model.addAttribute(new CreateClubFormDTO());\n        model.addAttribute(\"title\", \"Create Club\");\n        return \"clubs/create\";\n    }\n\n    @PostMapping(\"create\")\n    public String processCreateClubForm(@ModelAttribute @Valid CreateClubFormDTO createClubFormDTO,\n                                        Errors errors, Model model){\n\n        if (errors.hasErrors()) {\n            model.addAttribute(\"title\", \"Create Club\");\n            return \"clubs/create\";\n        }\n\n        Club existingClub = clubRepository.findByDisplayName(createClubFormDTO.getDisplayName());\n\n        if (existingClub != null) {\n            errors.rejectValue(\"displayName\", \"displayName.alreadyexists\", \"A club with that username already exists\");\n            model.addAttribute(\"title\", \"Create Club\");\n            return \"clubs/create\";\n        }\n\n        String password = createClubFormDTO.getPassword();\n        String verifyPassword = createClubFormDTO.getVerifyPassword();\n        if (!password.equals(verifyPassword)) {\n            errors.rejectValue(\"password\", \"passwords.mismatch\", \"Passwords do not match\");\n            model.addAttribute(\"title\", \"Create Club\");\n            return \"clubs/create\";\n        }\n\n        Club newClub = new Club(createClubFormDTO.getDisplayName(),\n                createClubFormDTO.getActiveBook(),\n                createClubFormDTO.getPassword());\n        clubRepository.save(newClub);\n\n        return \"redirect:/clubs\";\n    }\n\n    @GetMapping(\"detail\")\n    public String displayClubDetails(@RequestParam Integer clubId,\n                                     Model model) {\n\n        Optional<Club> result = clubRepository.findById(clubId);\n\n        if (result.isEmpty()) {\n            return \"redirect:/\";\n        } else {\n            Club club = result.get();\n            model.addAttribute(\"title\", club.getDisplayName());\n            model.addAttribute(\"club\", club);\n        }\n        return \"clubs/detail\";\n\n    }\n\n    @GetMapping(\"join\")\n    public String displayJoinClubForm(@RequestParam Integer clubId,\n                                      Model model, HttpSession session) {\n\n        Integer userId = (Integer) session.getAttribute(\"user\");\n        Optional<User> currentUser = userRepository.findById(userId);\n        Optional<Club> clubResult = clubRepository.findById(clubId);\n\n        if (clubResult.isEmpty()) {\n            return \"redirect:/\";\n        } else if (currentUser.isEmpty()) {\n            Club club = clubResult.get();\n            model.addAttribute(\"title\", \"Please log in to join \" + club.getDisplayName());\n            return \"clubs/join\";\n        } else {\n                User user = currentUser.get();\n                Club club = clubResult.get();\n                ClubMemberDTO clubMember = new ClubMemberDTO();\n                clubMember.setMember(user);\n                clubMember.setClub(club);\n                model.addAttribute(\"title\", \"Join \" + club.getDisplayName());\n                model.addAttribute(\"club\", club);\n                model.addAttribute(\"clubId\", clubId);\n                model.addAttribute(\"clubMember\", clubMember);\n        }\n\n        return \"clubs/join\";\n    }\n\n    @PostMapping(\"join\")\n    public String processJoinClubForm(@ModelAttribute @Valid ClubMemberDTO clubMember,\n                                      Errors errors, Model model) {\n        if(!errors.hasErrors()) {\n            User member = clubMember.getMember();\n            Club club = clubMember.getClub();\n            if(!club.getMembers().contains(member)) {\n                club.getMembers().add(member);\n                clubRepository.save(club);\n            }\n            model.addAttribute(\"title\", club.getDisplayName());\n            model.addAttribute(\"club\", club);\n            return \"clubs/detail\";\n        }\n        return \"redirect:club/join\";\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java
+--- a/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java	(revision 35ac98c0a4ea6f11b879733fd9d113bb6531dee4)
++++ b/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java	(date 1707335950576)
+@@ -1,21 +1,20 @@
+ package org.launchcode.nextchapter.controllers;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+ import jakarta.servlet.http.HttpSession;
+ import jakarta.validation.Valid;
+ import org.launchcode.nextchapter.data.ClubRepository;
+-import org.launchcode.nextchapter.data.UserRepository;
++import org.launchcode.nextchapter.data.MemberRepository;
+ import org.launchcode.nextchapter.models.Club;
+-import org.launchcode.nextchapter.models.User;
++import org.launchcode.nextchapter.models.Member;
+ import org.launchcode.nextchapter.models.dto.ClubMemberDTO;
+ import org.launchcode.nextchapter.models.dto.CreateClubFormDTO;
+-import org.launchcode.nextchapter.models.dto.RegisterFormDTO;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.validation.Errors;
+ import org.springframework.web.bind.annotation.*;
+ 
++import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Optional;
+ 
+@@ -27,7 +26,7 @@
+     private ClubRepository clubRepository;
+ 
+     @Autowired
+-    UserRepository userRepository;
++    MemberRepository memberRepository;
+ 
+     @GetMapping
+     public String displayClubInfo(Model model) {
+@@ -79,9 +78,11 @@
+ 
+     @GetMapping("detail")
+     public String displayClubDetails(@RequestParam Integer clubId,
+-                                     Model model) {
++                                     Model model, HttpSession session) {
+ 
+         Optional<Club> result = clubRepository.findById(clubId);
++        Integer userId = (Integer) session.getAttribute("user");
++        Optional<Member> currentUser = memberRepository.findById(userId);
+ 
+         if (result.isEmpty()) {
+             return "redirect:/";
+@@ -89,6 +90,17 @@
+             Club club = result.get();
+             model.addAttribute("title", club.getDisplayName());
+             model.addAttribute("club", club);
++
++            if (currentUser.isEmpty()) {
++                return "redirect:/";
++            }
++            Member member = currentUser.get();
++
++            if(club.getMembers().contains(member)) {
++                model.addAttribute("existingMember", true);
++            } else {
++                model.addAttribute("existingMember", false);
++            }
+         }
+         return "clubs/detail";
+ 
+@@ -99,7 +111,7 @@
+                                       Model model, HttpSession session) {
+ 
+         Integer userId = (Integer) session.getAttribute("user");
+-        Optional<User> currentUser = userRepository.findById(userId);
++        Optional<Member> currentUser = memberRepository.findById(userId);
+         Optional<Club> clubResult = clubRepository.findById(clubId);
+ 
+         if (clubResult.isEmpty()) {
+@@ -109,11 +121,12 @@
+             model.addAttribute("title", "Please log in to join " + club.getDisplayName());
+             return "clubs/join";
+         } else {
+-                User user = currentUser.get();
++                Member member = currentUser.get();
+                 Club club = clubResult.get();
+                 ClubMemberDTO clubMember = new ClubMemberDTO();
+-                clubMember.setMember(user);
++                clubMember.setMember(member);
+                 clubMember.setClub(club);
++
+                 model.addAttribute("title", "Join " + club.getDisplayName());
+                 model.addAttribute("club", club);
+                 model.addAttribute("clubId", clubId);
+@@ -127,7 +140,7 @@
+     public String processJoinClubForm(@ModelAttribute @Valid ClubMemberDTO clubMember,
+                                       Errors errors, Model model) {
+         if(!errors.hasErrors()) {
+-            User member = clubMember.getMember();
++            Member member = clubMember.getMember();
+             Club club = clubMember.getClub();
+             if(!club.getMembers().contains(member)) {
+                 club.getMembers().add(member);
+@@ -135,9 +148,56 @@
+             }
+             model.addAttribute("title", club.getDisplayName());
+             model.addAttribute("club", club);
++            model.addAttribute("existingMember", true);
+             return "clubs/detail";
+         }
+         return "redirect:club/join";
+     }
+ 
++    @GetMapping("leave")
++    public String displayLeaveClubForm(@RequestParam Integer clubId,
++                                       Model model, HttpSession session) {
++        Integer userId = (Integer) session.getAttribute("user");
++        Optional<Member> currentUser = memberRepository.findById(userId);
++        Optional<Club> clubResult = clubRepository.findById(clubId);
++
++        if (clubResult.isEmpty() || currentUser.isEmpty()) {
++            return "redirect:/";
++        } else {
++            Member member = currentUser.get();
++            Club club = clubResult.get();
++
++
++            model.addAttribute("title", "Leave " + club.getDisplayName());
++            model.addAttribute("club", club);
++            model.addAttribute("member", member);
++        }
++
++        return "clubs/leave";
++    }
++
++    @PostMapping("leave")
++    public String processLeaveClubForm(@RequestParam int clubId,
++                                       Model model, HttpSession session) {
++
++        Integer userId = (Integer) session.getAttribute("user");
++        Optional<Member> currentUser = memberRepository.findById(userId);
++        Optional<Club> clubResult = clubRepository.findById(clubId);
++        if (clubResult.isEmpty() || currentUser.isEmpty()) {
++            return "redirect:/";
++        } else {
++            Club club = clubResult.get();
++            Member member = currentUser.get();
++            List<Member> memberList = club.getMembers();
++            memberList.remove(member);
++            club.setMembers(memberList);
++            clubRepository.save(club);
++
++            model.addAttribute("title", club.getDisplayName());
++            model.addAttribute("club", club);
++            model.addAttribute("existingMember", false);
++            return "clubs/detail";
++        }
++    }
++
+ }
+diff --git a/next-chapter/src/main/resources/templates/users/index.html b/next-chapter/src/main/resources/templates/members/index.html
+rename from next-chapter/src/main/resources/templates/users/index.html
+rename to next-chapter/src/main/resources/templates/members/index.html

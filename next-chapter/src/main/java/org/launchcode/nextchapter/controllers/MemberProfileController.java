@@ -1,55 +1,65 @@
 package org.launchcode.nextchapter.controllers;
 
 
-
-import org.launchcode.nextchapter.models.MemberProfile;
 import org.launchcode.nextchapter.data.MemberProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/profiles")
-class MemberProfileController {
+public class MemberProfileController {
 
-    private final MemberProfileRepository profileRepository;
+    public final MemberProfileRepository profileRepository;
 
-    @Autowired
-    public MemberProfileController(MemberProfileRepository profileRepository) {
+     MemberProfileController(MemberProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-    @GetMapping
-    public List<MemberProfile> getAllProfiles() {
-        return (List<MemberProfile>) profileRepository.findAll();
+    public MemberProfileRepository getProfileRepository() {
+        return profileRepository;
     }
 
-    @GetMapping("/{id}")
-    public MemberProfile getProfileById(@PathVariable Long id) {
-        return profileRepository.findById( Math.toIntExact( id ) )
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
-    }
+    public class Member {
+        private String email;
+        private String password;
+        private String displayName;
+        private List<String> clubsJoined;
 
-    @PostMapping
-    public MemberProfile createProfile(@RequestBody MemberProfile profile) {
-        return profileRepository.save(profile);
-    }
+        public Member(String email, String password, String displayName) {
+            this.email = email;
+            this.password = password;
+            this.displayName = displayName;
+            this.clubsJoined = new ArrayList<>();
+        }
 
-    @PutMapping("/{id}")
-    public MemberProfile updateProfile(@PathVariable Long id, @RequestBody MemberProfile updatedProfile) {
-        MemberProfile existingProfile = profileRepository.findById( Math.toIntExact( id ) )
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        public void updateEmail(String newEmail) {
+            this.email = newEmail;
+        }
 
-        existingProfile.setName(updatedProfile.getName());
-        existingProfile.setEmail(updatedProfile.getEmail());
-        existingProfile.setRole(updatedProfile.getRole());
+        public void updatePassword(String newPassword) {
+            this.password = newPassword;
+        }
 
-        return profileRepository.save(existingProfile);
-    }
+        public void updateDisplayName(String newDisplayName) {
+            this.displayName = newDisplayName;
+        }
 
-    @DeleteMapping("/{id}")
-    public void deleteProfile(@PathVariable Long id) {
-        profileRepository.deleteById( Math.toIntExact( id ) );
-    }
-}
+        public void joinClub(String clubName) {
+            clubsJoined.add(clubName);
+        }
+
+        public void deleteAccount() {
+            // Perform account deletion logic
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public List<String> getClubsJoined() {
+            return clubsJoined;
+        }
+    }}
