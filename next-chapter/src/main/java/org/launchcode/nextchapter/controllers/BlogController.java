@@ -99,19 +99,29 @@ public class BlogController {
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
         Member member = currentUser.get();
+        Blog blog = new Blog();
+        blog.setBookContext(club.getActiveBook());
 
         model.addAttribute("title", "Create Post");
         model.addAttribute("club", club);
         model.addAttribute("member", member);
-        model.addAttribute(new Blog());
+        model.addAttribute(blog);
         return "blog/create";
     }
 
     @PostMapping("create")
-    public String processCreateBlogForm(
+    public String processCreateBlogForm(@RequestParam Integer clubId, @RequestParam Integer memberId,
             @ModelAttribute Blog newBlog, Errors errors, Model model){
+        Optional<Club> result = clubRepository.findById(clubId);
+        Club club = result.get();
+
+        Optional<Member> currentUser = memberRepository.findById(memberId);
+        Member member = currentUser.get();
+
+        newBlog.setMember(member);
+        newBlog.setClub(club);
         blogRepository.save(newBlog);
-        Club club = newBlog.getClub();
+//        Club club = newBlog.getClub();
 
 //        model.addAttribute("title", club.getDisplayName());
         model.addAttribute("club", club);

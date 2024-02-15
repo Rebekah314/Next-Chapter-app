@@ -1,6 +1,7 @@
 body {
   padding: 10px;
   font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .error {
@@ -10,6 +11,8 @@ body {
 .homepage-login {
     background-color: #FFCBA4;
     padding: 18px;
+    margin: 25px;
+    border-radius: 10px;
 }
 
 .homepage-table {
@@ -17,6 +20,12 @@ body {
     padding: 18px;
 }
 
+
+.nav-link {
+  color: #A9A9A9;
+  }
+
 .admin-changes-link {
     text-align: right;
 }
+

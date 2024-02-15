@@ -21,6 +21,11 @@ public class CreateClubFormDTO {
     @Size(min = 1, max = 100, message = "Invalid book title. Must be between 1 and 100 characters.")
     private String activeBook;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 500, message = "Invalid club description. Must be between 1 and 500 characters.")
+    private String description;
+
     private String verifyPassword;
 
     public String getDisplayName() {
@@ -53,5 +58,13 @@ public class CreateClubFormDTO {
 
     public void setActiveBook(String activeBook) {
         this.activeBook = activeBook;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

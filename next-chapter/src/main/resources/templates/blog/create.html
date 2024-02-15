@@ -5,18 +5,19 @@
 <header th:replace="fragments :: header"></header>
 
 <form method="post">
-    <label>Club:
-        <p th:text="${club.displayName}"></p>
-        <select th:field="${blog.club}">
-            <option
-                    th:text="${club.displayName}"
-                    th:value="${club.id}">
+    <label>
+                <p th:text="'posting onto discussion at ' + ${club.displayName}"> </p>
+                <input type="hidden" name="clubId" th:value="${club.id}">
+<!--        <select th:field="${blog.club}">-->
+<!--            <option-->
+<!--                    th:text="${club.displayName}"-->
+<!--                    th:value="${club.id}">-->
 
 
-            </option>
-        </select>
+<!--            </option>-->
+<!--        </select>-->
     </label>
-
+    <br/>
     <label>Post Title:
         <input type="text" th:field="${blog.title}">
         <span th:errors="${blog.title}"></span>
@@ -24,7 +25,7 @@
     <br/>
     <label>What Book Are You Reading?
         <input type="text" th:field="${blog.bookContext}">
-        <span th:errors="${blog.bookContext}"></span>
+<!--        <span th:errors="${blog.bookContext}"></span>-->
     </label>
     <br/>
     <label>Add Content:
@@ -33,13 +34,12 @@
         <span th:errors="${blog.content}"></span>
     </label>
     <br/>
-<!--    note for all
-this is not my fave way to do this; i want to pass the current member info without having to declare it in the form
-however this way works for now until i figure that out-->
-    <label>submitted by:
-        <select th:field="${blog.member}">
-            <option th:text="${member.displayName}" th:value="${member.id}"></option>
-        </select>
+    <label>
+        <p th:text="'submitted by ' + ${member.displayName}"> </p>
+                    <input type="hidden" name="memberId" th:value="${member.id}">
+<!--        <select th:field="${blog.member}">-->
+<!--            <option th:text="${member.displayName}" th:value="${member.id}"></option>-->
+<!--        </select>-->
     </label>
     <br/>
     <input type="submit" value="Post">
