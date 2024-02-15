@@ -36,13 +36,26 @@ public class ClubController {
     @Autowired
     private BlogRepository blogRepository;
 
-    @GetMapping
-    public String displayClubInfo(Model model) {
-        model.addAttribute("title", "Club Info");
-        model.addAttribute("club", "INSERT CLUB INFO HERE");
+    @GetMapping("home")
+    public String displayClubInfo(Model model, HttpSession session) {
+
+        //Check if user is logged in. If so, club buttons link to club page.
+        Integer userId = (Integer) session.getAttribute("user");
+
+        if (userId == null) {
+            model.addAttribute("existingMember", false);
+        } else {
+            Optional<Member> currentUser = memberRepository.findById(userId);
+            if (!currentUser.isEmpty()) {
+                model.addAttribute("existingMember", true);
+            } else {
+                model.addAttribute("existingMember", false);
+            }
+        }
+        model.addAttribute("title", "Browse All Clubs");
+        model.addAttribute("clubs", clubRepository.findAll());
         return "clubs/index";
     }
-
 
     @GetMapping("create")
     public String displayCreateClubForm(Model model) {
@@ -146,16 +159,16 @@ public class ClubController {
             model.addAttribute("title", "Please log in to join " + club.getDisplayName());
             return "clubs/join";
         } else {
-                Member member = currentUser.get();
-                Club club = clubResult.get();
-                ClubMemberDTO clubMember = new ClubMemberDTO();
-                clubMember.setMember(member);
-                clubMember.setClub(club);
+            Member member = currentUser.get();
+            Club club = clubResult.get();
+            ClubMemberDTO clubMember = new ClubMemberDTO();
+            clubMember.setMember(member);
+            clubMember.setClub(club);
 
-                model.addAttribute("title", "Join " + club.getDisplayName());
-                model.addAttribute("club", club);
-                model.addAttribute("clubId", clubId);
-                model.addAttribute("clubMember", clubMember);
+            model.addAttribute("title", "Join " + club.getDisplayName());
+            model.addAttribute("club", club);
+            model.addAttribute("clubId", clubId);
+            model.addAttribute("clubMember", clubMember);
         }
 
         return "clubs/join";
