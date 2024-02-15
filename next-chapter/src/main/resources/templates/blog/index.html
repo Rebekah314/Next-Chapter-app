@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
-<header th:replace="fragments :: header"></header>
+<header th:replace="~{fragments :: header}"></header>
 
 <p style="color:orange" th:text="${'note to Chapter Flow: each specific club blog posts will eventually be contained on an individualized page; but we will need to set up the Many-To-One relationship in order to complete that step'}"></p>
 

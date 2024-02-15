@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
+<head th:replace="~{fragments :: head}"></head>
 <body class="container">
-<header th:replace="fragments :: header"></header>
+<header th:replace="~{fragments :: header}"></header>
 
 <!--NOTE TO TEAM: I originally created this page as a place to stash the searchbar
 while testing it out, but I ran into an inexplicable issue wherein this page would NOT load
