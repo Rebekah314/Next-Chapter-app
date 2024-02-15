@@ -12,7 +12,6 @@ public class MemberProfile {
 
     private String name;
     private String email;
-    private final String role;
     private String book;
 
     @ManyToMany
@@ -24,15 +23,13 @@ public class MemberProfile {
     // Constructors, getters, and setters (you can use Lombok to simplify)
 
     // Default constructor
-    public MemberProfile(String role) {
-        this.role = role;
+    public MemberProfile() {
     }
 
     // Parameterized constructor
     public MemberProfile(String name, String email, String role) {
         this.name = name;
         this.email = email;
-        this.role = role;
         this.book = book;
     }
 

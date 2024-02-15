@@ -159,16 +159,16 @@ public class ClubController {
             model.addAttribute("title", "Please log in to join " + club.getDisplayName());
             return "clubs/join";
         } else {
-            Member member = currentUser.get();
-            Club club = clubResult.get();
-            ClubMemberDTO clubMember = new ClubMemberDTO();
-            clubMember.setMember(member);
-            clubMember.setClub(club);
+                Member member = currentUser.get();
+                Club club = clubResult.get();
+                ClubMemberDTO clubMember = new ClubMemberDTO();
+                clubMember.setMember(member);
+                clubMember.setClub(club);
 
-            model.addAttribute("title", "Join " + club.getDisplayName());
-            model.addAttribute("club", club);
-            model.addAttribute("clubId", clubId);
-            model.addAttribute("clubMember", clubMember);
+                model.addAttribute("title", "Join " + club.getDisplayName());
+                model.addAttribute("club", club);
+                model.addAttribute("clubId", clubId);
+                model.addAttribute("clubMember", clubMember);
         }
 
         return "clubs/join";
