@@ -8,20 +8,35 @@
 
 <form method="post">
 
-<table class="table table-striped">
-<thead><tr><th>Update Club Name</th></tr></thead>
-    <tr>
+    <table class="table table-striped">
+    <thead><tr><th>Update Club Name</th></tr></thead>
+        <tr>
 
-        <td th:text="${'Current Name: ' + club.displayName}"></td>
-    </tr>
+            <td th:text="${'Current Name: ' + club.displayName}"></td>
+        </tr>
 
-    <tr>
-        <td>
-           <label>New Name: <input type="text" name="displayName"></label>
-            <p class="error" th:text="${displayNameError}"></p>
-        </td>
-    </tr>
-</table>
+        <tr>
+            <td>
+               <label>New Name: <input type="text" name="displayName"></label>
+                <p class="error" th:text="${displayNameError}"></p>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped">
+        <thead><tr><th>Update Club Description</th></tr></thead>
+        <tr>
+
+            <td th:text="${'Current Description: ' + club.description}"></td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>New Description: <input type="text" name="description"></label>
+                <p class="error" th:text="${descriptionError}"></p>
+            </td>
+        </tr>
+    </table>
 
 <table class="table table-striped">
     <thead>
@@ -96,7 +111,12 @@
 </table>
 
     <div class="form-group">
-        <label>Admin password required to save changes:
+        <a th:href="${'/clubs/update-password?clubId=' + club.id}">Click here to update admin PASSWORD</a>
+
+    </div>
+
+    <div class="form-group">
+        <label>Current Admin password required to save changes:
             <input class="form-control" th:field="${adminFormDTO.password}" type="password">
         </label>
         <p class="error" th:errors="${adminFormDTO.password}"></p>
