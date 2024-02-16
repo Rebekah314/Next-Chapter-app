@@ -89,8 +89,8 @@ public class Club extends AbstractEntity {
         this.adminId = adminId;
     }
 
-    public void setAdminPwHash(String adminPwHash) {
-        this.adminPwHash = adminPwHash;
+    public void setAdminPwHash(String password) {
+        this.adminPwHash = encoder.encode(password);
     }
 
     public boolean isMatchingPassword(String password) {

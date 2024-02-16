@@ -8,10 +8,7 @@ import org.launchcode.nextchapter.data.MemberRepository;
 import org.launchcode.nextchapter.models.Blog;
 import org.launchcode.nextchapter.models.Club;
 import org.launchcode.nextchapter.models.Member;
-import org.launchcode.nextchapter.models.dto.AdminFormDTO;
-import org.launchcode.nextchapter.models.dto.ClubMemberDTO;
-import org.launchcode.nextchapter.models.dto.CreateClubFormDTO;
-import org.launchcode.nextchapter.models.dto.LoginFormDTO;
+import org.launchcode.nextchapter.models.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -347,6 +344,67 @@ public class ClubController {
             model.addAttribute("club", club);
             return "redirect:/clubs/detail?clubId=" + clubId;
         }
+    }
+
+    @GetMapping("update-password")
+    public String displayUpdateAdminPasswordForm(@RequestParam int clubId, Model model) {
+
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        if (clubResult.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+
+            model.addAttribute("title", "Change Password for " + club.getDisplayName());
+            model.addAttribute("clubId", club.getId());
+            model.addAttribute(new AdminUpdatePasswordDTO());
+            model.addAttribute("passwordUpdated", false);
+
+        }
+        return "clubs/update-password";
+    }
+
+    @PostMapping("update-password")
+    public String processUpdateAdminPasswordForm(@ModelAttribute @Valid AdminUpdatePasswordDTO adminUpdatePasswordDTO, Errors errors,
+                                                 @RequestParam int clubId, Model model) {
+
+        Optional<Club> clubResult = clubRepository.findById(clubId);
+        model.addAttribute("passwordUpdated", false);
+        if (clubResult.isEmpty()) {
+            return "redirect:/";
+        } else {
+            Club club = clubResult.get();
+            if (errors.hasErrors()) {
+                model.addAttribute("title", "Change Password for " + club.getDisplayName());
+                return "clubs/update-password";
+            }
+
+            //Display an error if both new passwords do not match
+            String newPassword = adminUpdatePasswordDTO.getNewPassword();
+            String verifyNewPassword = adminUpdatePasswordDTO.getVerifyNewPassword();
+            if (!newPassword.equals(verifyNewPassword)) {
+                errors.rejectValue("newPassword", "passwords.mismatch", "Passwords do not match");
+                model.addAttribute("title", "Change Password for " + club.getDisplayName());
+                return "clubs/update-password";
+            }
+
+            //Check if old password was entered correctly
+            String oldPassword = adminUpdatePasswordDTO.getOldPassword();
+            if (!club.isMatchingPassword(oldPassword)) {
+                errors.rejectValue("oldPassword", "password.invalid",
+                        "Incorrect password");
+                return "clubs/update-password";
+            }
+
+            //Save new password to club
+            club.setAdminPwHash(newPassword);
+            clubRepository.save(club);
+            model.addAttribute("passwordUpdated", true);
+
+
+        }
+
+        return "clubs/update-password";
     }
 
 }

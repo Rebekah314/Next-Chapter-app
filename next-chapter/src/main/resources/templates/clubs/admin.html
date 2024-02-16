@@ -111,7 +111,12 @@
 </table>
 
     <div class="form-group">
-        <label>Admin password required to save changes:
+        <a th:href="${'/clubs/update-password?clubId=' + club.id}">Click here to update admin PASSWORD</a>
+
+    </div>
+
+    <div class="form-group">
+        <label>Current Admin password required to save changes:
             <input class="form-control" th:field="${adminFormDTO.password}" type="password">
         </label>
         <p class="error" th:errors="${adminFormDTO.password}"></p>
