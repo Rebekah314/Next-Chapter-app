@@ -262,6 +262,7 @@ public class ClubController {
     @PostMapping("admin")
     public String processClubAdminForm(@ModelAttribute @Valid AdminFormDTO adminFormDTO, Errors errors,
                                        @RequestParam int clubId, @RequestParam(required = false) String displayName,
+                                       @RequestParam(required = false) String description,
                                        @RequestParam(required = false) boolean confirmDeleteClub,
                                        @RequestParam(required = false) boolean deleteClub,
                                        @RequestParam(required = false) int[] blogIds,
@@ -302,6 +303,17 @@ public class ClubController {
                     return "clubs/admin";
                 }
                 club.setDisplayName(displayName);
+                clubRepository.save(club);
+            }
+
+            //If description is not blank, update field
+            if (!(description == "")) {
+                if (description.length() > 500) {
+                    model.addAttribute("descriptionError",
+                            "Invalid club description. Must be between 1 and 500 characters.");
+                    return "clubs/admin";
+                }
+                club.setDescription(description);
                 clubRepository.save(club);
             }
 
