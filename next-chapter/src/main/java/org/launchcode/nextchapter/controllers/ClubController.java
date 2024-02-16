@@ -285,6 +285,7 @@ public class ClubController {
                 return "clubs/admin";
             }
 
+            //If password is incorrect, display error
             String password = adminFormDTO.getPassword();
             if (!club.isMatchingPassword(password)) {
                 errors.rejectValue("password","password.invalid",
@@ -292,6 +293,7 @@ public class ClubController {
                 return "clubs/admin";
             }
 
+            //If displayName is not blank, update field
             if (!(displayName == "")) {
                 Club existingClub = clubRepository.findByDisplayName(displayName);
                 if (existingClub != null) {
@@ -303,6 +305,7 @@ public class ClubController {
                 clubRepository.save(club);
             }
 
+            //if memberIds is not empty, remove any members with matching ids
             if (memberIds != null) {
                 for (int id : memberIds) {
                     Optional<Member> result = memberRepository.findById(id);
@@ -312,6 +315,7 @@ public class ClubController {
                 }
             }
 
+            //if blogIds is not empty, remove any blog posts with matching ids
             if (blogIds != null) {
                 for (int id : blogIds) {
                     blogRepository.deleteById(id);
@@ -320,10 +324,13 @@ public class ClubController {
                 Collections.reverse(blogPosts);
             }
 
+            //If both boxes were checked to delete a club, then delete the club from the repository
             if (deleteClub && confirmDeleteClub) {
                 clubRepository.deleteById(clubId);
                 return "redirect:/";
             }
+
+            //If everything was fine, return to the club detail page and display updated information
             model.addAttribute("blogs", blogPosts);
             model.addAttribute("club", club);
             return "redirect:/clubs/detail?clubId=" + clubId;
