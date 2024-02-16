@@ -67,12 +67,9 @@
         </td>
     </tr>
 </table>
-
-
-
 <span th:if="${existingMember}">
-<div>
-    <table class="table table-striped" style="width:55%">
+<div style="clear:left">
+    <table class="table table-striped" style="float:left; width:55%">
                 <thead>
                 <tr>
                     <th>Ongoing Discussion
@@ -102,7 +99,7 @@
 </div>
 </span>
 
-<p class="admin-changes-link">
+<p style="clear:both" class="admin-changes-link">
     <small>
         <a th:href="${'/clubs/admin?clubId=' + club.id}">Update Club Info (admin password required)</a>
     </small>
