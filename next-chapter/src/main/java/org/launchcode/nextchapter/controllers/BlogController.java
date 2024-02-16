@@ -111,7 +111,21 @@ public class BlogController {
 
     @PostMapping("create")
     public String processCreateBlogForm(@RequestParam Integer clubId, @RequestParam Integer memberId,
-            @ModelAttribute Blog newBlog, Errors errors, Model model){
+            @ModelAttribute Blog newBlog, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            return "redirect:/clubs/detail?clubId=" + clubId;
+        }
+
+//        if (errors.hasErrors()) {
+//        model.addAttribute("title", "Create Post");
+//        model.addAttribute("club", club);
+//        model.addAttribute("member", member);
+//        model.addAttribute("blog", newBlog);
+//        model.addAttribute("error message", "Please make sure all fields are filled out correctly.");
+//        return "blog/create";
+//    }
+
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
 
