@@ -1,6 +1,7 @@
 package org.launchcode.nextchapter.controllers;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.launchcode.nextchapter.data.BlogRepository;
 import org.launchcode.nextchapter.data.ClubRepository;
 import org.launchcode.nextchapter.data.MemberRepository;
@@ -111,7 +112,27 @@ public class BlogController {
 
     @PostMapping("create")
     public String processCreateBlogForm(@RequestParam Integer clubId, @RequestParam Integer memberId,
-            @ModelAttribute Blog newBlog, Errors errors, Model model){
+                                        @ModelAttribute @Valid Blog newBlog, Errors errors, Model model) {
+
+//        if (errors.hasErrors()) {
+//            return "redirect:/clubs/detail?clubId=" + clubId;
+//        }
+
+        if (errors.hasErrors()) {
+            Optional<Club> result = clubRepository.findById(clubId);
+            Club club = result.get();
+
+            Optional<Member> currentUser = memberRepository.findById(memberId);
+            Member member = currentUser.get();
+
+        model.addAttribute("title", "Create Post");
+        model.addAttribute("club", club);
+        model.addAttribute("member", member);
+        model.addAttribute("blog", newBlog);
+        model.addAttribute("error message", "Please make sure all fields are filled out correctly.");
+        return "blog/create";
+    }
+
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
 

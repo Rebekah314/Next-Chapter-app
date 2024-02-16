@@ -55,6 +55,8 @@ public class Blog {
         this.bookContext = bookContext;
     }
 
+    @NotBlank(message = "Blog post cannot be blank.")
+    @Size(min = 1, max = 1000, message = "Blog post must be between 1 and 1000 characters.")
     private String content;
 
     public Blog(){

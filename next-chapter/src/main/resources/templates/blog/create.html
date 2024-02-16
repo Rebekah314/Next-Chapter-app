@@ -20,7 +20,7 @@
     <br/>
     <label>Post Title:
         <input type="text" th:field="${blog.title}">
-        <span th:errors="${blog.title}"></span>
+        <p class="error" th:errors="${blog.title}"></p>
     </label>
     <br/>
     <label>What Book Are You Reading?
@@ -31,7 +31,7 @@
     <label>Add Content:
         <br/>
         <textarea th:field="${blog.content}" cols="50" rows="10"></textarea>
-        <span th:errors="${blog.content}"></span>
+        <p class="error" th:errors="${blog.content}"></p>
     </label>
     <br/>
     <label>
