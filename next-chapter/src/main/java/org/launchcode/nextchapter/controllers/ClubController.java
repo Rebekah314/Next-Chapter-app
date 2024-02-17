@@ -370,12 +370,14 @@ public class ClubController {
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         model.addAttribute("passwordUpdated", false);
+
         if (clubResult.isEmpty()) {
             return "redirect:/";
         } else {
             Club club = clubResult.get();
+            model.addAttribute("title", "Change Password for " + club.getDisplayName());
+            model.addAttribute("clubId", club.getId());
             if (errors.hasErrors()) {
-                model.addAttribute("title", "Change Password for " + club.getDisplayName());
                 return "clubs/update-password";
             }
 
@@ -384,8 +386,12 @@ public class ClubController {
             String verifyNewPassword = adminUpdatePasswordDTO.getVerifyNewPassword();
             if (!newPassword.equals(verifyNewPassword)) {
                 errors.rejectValue("newPassword", "passwords.mismatch", "Passwords do not match");
-                model.addAttribute("title", "Change Password for " + club.getDisplayName());
                 return "clubs/update-password";
+            }
+
+            //Check if new password is the same as the old password
+            if (club.isMatchingPassword(newPassword)) {
+                model.addAttribute("passwordsMatchError", "New password must be different than current password.");
             }
 
             //Check if old password was entered correctly
