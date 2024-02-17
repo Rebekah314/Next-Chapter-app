@@ -72,6 +72,7 @@ public class ClubController {
 
         Club existingClub = clubRepository.findByDisplayName(createClubFormDTO.getDisplayName());
 
+        //check if a club with that name already exists
         if (existingClub != null) {
             errors.rejectValue("displayName", "displayName.alreadyexists", "A club with that username already exists");
             model.addAttribute("title", "Create Club");

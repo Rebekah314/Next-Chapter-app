@@ -8,6 +8,10 @@ body {
   color: red;
 }
 
+.table-create-club {
+    vertical-align: top;
+}
+
 .clubIndex {
     background-color: #FFCBA4;
 }
