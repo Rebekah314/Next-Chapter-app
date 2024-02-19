@@ -10,6 +10,8 @@ public class AdminUpdatePasswordDTO {
     @Size(min = 5, max = 30, message = "Invalid password. Must be between 5 and 30 characters.")
     private String newPassword;
 
+    @NotNull
+    @NotBlank
     private String verifyNewPassword;
 
     @NotNull
