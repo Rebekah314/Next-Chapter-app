@@ -26,6 +26,8 @@ public class CreateClubFormDTO {
     @Size(min = 1, max = 500, message = "Invalid club description. Must be between 1 and 500 characters.")
     private String description;
 
+    @NotNull
+    @NotBlank
     private String verifyPassword;
 
     public String getDisplayName() {

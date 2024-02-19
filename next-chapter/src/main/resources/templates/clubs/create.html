@@ -4,51 +4,70 @@
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
+<h3>Describe this new book club in the spaces below. </h3>
+<br>
 <form method="post">
+    <table >
+        <tr class="table-create-club">
+            <td style="width:250px">
+                <div class="form-group">
+                    <label>Club Name:
+                        <input class="form-control" th:field="${createClubFormDTO.displayName}" size="20">
+                    </label>
+                    <p class="error" th:errors="${createClubFormDTO.displayName}"></p>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>Password (administrative):
+                        <input class="form-control" th:field="${createClubFormDTO.password}" type="password" size="20"/>
+                    </label>
+                    <p class="error" th:errors="${createClubFormDTO.password}"></p>
+                </div>
+            </td>
+        </tr>
+        <tr class="table-create-club">
+            <td>
+                <div class="form-group">
+                    <label>First Book:
+                        <input th:field="${createClubFormDTO.activeBook}" class="form-control" size="20">
+                        <p class="error" th:errors="${createClubFormDTO.activeBook}"></p>
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>Verify password:
+                        <input class="form-control" th:field="${createClubFormDTO.verifyPassword}" type="password"  size="20"/>
+                        <p class="error" th:errors="${createClubFormDTO.verifyPassword}"></p>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr class="table-create-club">
+            <td colspan="2">
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" th:field="${createClubFormDTO.description}" class="form-control">
+                    </textarea>
+                        <p class="error" th:errors="${createClubFormDTO.description}"></p>
+
+                </div>
+            </td>
+        </tr>
+
+    </table>
+<br>
     <div class="form-group">
-        <p>Please choose a name for this club.</p>
-        <label>Club Name:
-            <input class="form-control" th:field="${createClubFormDTO.displayName}">
-        </label>
-        <p class="error" th:errors="${createClubFormDTO.displayName}"></p>
-    </div>
-
-    <div class="form-group">
-        <p>Please choose a password for making administrative changes to the club.</p>
-        <label>Password:
-            <input class="form-control" th:field="${createClubFormDTO.password}" type="password" />
-        </label>
-        <p class="error" th:errors="${createClubFormDTO.password}"></p>
-    </div>
-
-    <div class="form-group">
-        <label>Verify password:
-            <input class="form-control" th:field="${createClubFormDTO.verifyPassword}" type="password" />
-        </label>
-    </div>
-
-    <div class="form-group">
-        <p>Please provide a short description to sum up your club's purpose.</p>
-        <label>Club description:
-            <input th:field="${createClubFormDTO.description}" class="form-control">
-        </label>
-        <!--        <p class="error" th:errors="${event.eventDetails.description}"></p>-->
-    </div>
-
-    <div class="form-group">
-        <p>Please choose the first book for this club.</p>
-        <label>Active Book:
-            <input th:field="${createClubFormDTO.activeBook}" class="form-control">
-        </label>
-        <!--        <p class="error" th:errors="${event.eventDetails.description}"></p>-->
-    </div>
-
-
-
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-success">
+        <input type="submit" value="Create Club" class="btn btn-success">
     </div>
 </form>
+<br>
+<p class="text-center">
+    <small>
+        “Learn from yesterday, live for today, hope for tomorrow. The important thing is not to stop questioning.” - Albert Einstein
+    </small>
+</p>
 
 </body>
 </html>
