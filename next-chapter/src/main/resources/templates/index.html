@@ -5,7 +5,16 @@
 
 <header th:replace="~{fragments :: header}"></header>
 
-<p class="homepage-login">"With the new day comes new strength and new thoughts." - Eleanor Roosevelt</p>
+<div class="homepage-login">
+    <p >"With the new day comes new strength and new thoughts." - Eleanor Roosevelt</p>
+
+
+    <div th:if="${member == null}">
+        <hr>
+        <p>Returning to your Next Chapter? <a href="/login">Log in to your account</a></p>
+        <p>Ready to begin your Next Chapter? <a href="/register">Register for an account</a></p>
+    </div>
+</div>
 
 <div style="background-color: #E0FFFF; padding: 18px; margin: 25px; border-radius: 20px;">
     <h3>Are you ready for your Next Chapter?</h3>
@@ -25,10 +34,7 @@
 </table>
 </div>
 
-<hr>
-<p>Returning to your Next Chapter? <a href="/login">Log in to your account</a></p>
-<p>Ready to begin your Next Chapter? <a href="/register">Register for an account</a></p>
-<hr>
+
 
 
 </body>

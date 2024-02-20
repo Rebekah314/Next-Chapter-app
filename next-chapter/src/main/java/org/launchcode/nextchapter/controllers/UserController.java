@@ -1,5 +1,6 @@
 package org.launchcode.nextchapter.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.launchcode.nextchapter.data.MemberRepository;
 import org.launchcode.nextchapter.models.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("members")
 public class UserController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    //The method is posted in each Controller
+    public Member getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        if (userId == null) {
+            return null;
+        }
+        Optional<Member> user = memberRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
 
     @GetMapping
     public String displayUserInfo(Model model) {

@@ -21,6 +21,19 @@ import java.util.Optional;
 @RequestMapping("blog")
 public class BlogController {
 
+    //The method is posted in each Controller
+    public Member getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        if (userId == null) {
+            return null;
+        }
+        Optional<Member> user = memberRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
     @Autowired
     private BlogRepository blogRepository;
 

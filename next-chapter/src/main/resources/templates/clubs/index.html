@@ -9,11 +9,11 @@
 
 <div class="list-group">
     <th:block th:each="club : ${clubs}">
-        <span th:if="${existingMember}">
+        <span th:unless="${member == null}">
         <a th:href="'/clubs/detail?clubId=' + ${club.id}" th:text="${club.displayName}"
            class="list-group-item list-group-item-action clubIndex"></a>
         </span>
-        <span th:unless="${existingMember}">
+        <span th:if="${member == null}">
         <a href="#" th:text="${club.displayName}"
            class="list-group-item list-group-item-action clubIndex"></a>
         </span>

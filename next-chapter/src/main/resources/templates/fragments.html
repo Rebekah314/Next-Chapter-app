@@ -16,16 +16,18 @@
         <h1 th:text="${title}">Next Chapter</h1>
         <nav class="navbar navbar-light">
             <nav class="nav">
-                <a class="nav-link" href="/">Home</a></a>
-                <a class="nav-link" href="/register">Join Community</a></li>
-                <a class="nav-link" href="/clubs/home">View All Clubs</a></li>
-                <a class="nav-link" href="/clubs/create">Start Club</a></li>
-                <a class="nav-link" href="/members">My Profile</a></a>
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/register">Join Community</a>
+                <a class="nav-link" href="/clubs/home">View All Clubs</a>
+                <a class="nav-link" href="/clubs/create">Start Club</a>
+<!--                <a class="nav-link" href="/members">My Profile</a></a>-->
 
 
                 <!--        <li class="nav-item"><a class="nav-link" href="/blog">Blog Index</a></li>-->
                 <!--        <li class="nav-item"><a class="nav-link" href="/blog/create">Create Blog Post</a></li>-->
-                <a class="nav-link" href="/logout">Log Out</a></li>
+
+                <a th:if="${member == null}" class="nav-link" href="/login">Log In</a>
+                <a th:unless="${member == null}" class="nav-link" href="/logout">Log Out</a>
 
             </nav>
         </nav>
