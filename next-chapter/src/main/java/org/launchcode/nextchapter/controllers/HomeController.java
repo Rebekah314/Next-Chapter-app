@@ -20,7 +20,7 @@ public class HomeController {
 
         model.addAttribute("title", "Welcome to your Next Chapter!");
         model.addAttribute("clubs", clubRepository.findAll());
-        return "index";
+        return "redirect:/home";
     }
 
     @GetMapping("home")
