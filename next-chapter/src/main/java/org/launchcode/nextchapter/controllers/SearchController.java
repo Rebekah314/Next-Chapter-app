@@ -63,7 +63,8 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model) {
+    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model,
+                                   HttpSession session) {
         //this builds a single GET request
         //fyi: Mono is a class object, as almost a placeholder for a future singular object(???)
         Mono<SearchResult> resultsMono = this.webClient.get()
@@ -79,6 +80,7 @@ public class SearchController {
 
         model.addAttribute("searchResults", books);
         model.addAttribute("clubId", clubId);
+        model.addAttribute("member", getUserFromSession(session));
 
         return "search";
     }
