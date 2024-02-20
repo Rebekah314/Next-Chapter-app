@@ -17,7 +17,7 @@
         <nav class="navbar navbar-light">
             <nav class="nav">
                 <a class="nav-link" href="/">Home</a>
-                <a class="nav-link" href="/register">Join Community</a>
+                <a th:if="${member == null}" class="nav-link" href="/register">Join Community</a>
                 <a class="nav-link" href="/clubs/home">View All Clubs</a>
                 <a class="nav-link" href="/clubs/create">Start Club</a>
 <!--                <a class="nav-link" href="/members">My Profile</a></a>-->
