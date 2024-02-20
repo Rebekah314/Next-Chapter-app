@@ -152,20 +152,17 @@ public class ClubController {
     public String displayJoinClubForm(@RequestParam Integer clubId,
                                       Model model, HttpSession session) {
 
-        model.addAttribute("member", getUserFromSession(session));
+
+        Member member = getUserFromSession(session);
+        model.addAttribute("member", member);
 
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
         Optional<Club> clubResult = clubRepository.findById(clubId);
 
-        if (clubResult.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
-        } else if (currentUser.isEmpty()) {
-            Club club = clubResult.get();
-            model.addAttribute("title", "Please log in to join " + club.getDisplayName());
-            return "clubs/join";
         } else {
-                Member member = currentUser.get();
                 Club club = clubResult.get();
                 ClubMemberDTO clubMember = new ClubMemberDTO();
                 clubMember.setMember(member);
@@ -205,22 +202,18 @@ public class ClubController {
     public String displayLeaveClubForm(@RequestParam Integer clubId,
                                        Model model, HttpSession session) {
 
+        Member member = getUserFromSession(session);
         model.addAttribute("member", getUserFromSession(session));
 
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
         Optional<Club> clubResult = clubRepository.findById(clubId);
 
-        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
         } else {
-            Member member = currentUser.get();
             Club club = clubResult.get();
-
 
             model.addAttribute("title", "Leave " + club.getDisplayName());
             model.addAttribute("club", club);
-            model.addAttribute("member", member);
         }
 
         return "clubs/leave";
@@ -230,16 +223,14 @@ public class ClubController {
     public String processLeaveClubForm(@RequestParam int clubId,
                                        Model model, HttpSession session) {
 
+        Member member = getUserFromSession(session);
         model.addAttribute("member", getUserFromSession(session));
 
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
         Optional<Club> clubResult = clubRepository.findById(clubId);
-        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
         } else {
             Club club = clubResult.get();
-            Member member = currentUser.get();
             List<Member> memberList = club.getMembers();
             memberList.remove(member);
             club.setMembers(memberList);
@@ -268,7 +259,6 @@ public class ClubController {
             model.addAttribute("title", "Make Changes to " + club.getDisplayName());
             model.addAttribute("club", club);
             model.addAttribute("blogs", blogPosts);
-            model.addAttribute("existingMember", true);
             model.addAttribute(new AdminFormDTO());
 
         }
@@ -296,10 +286,8 @@ public class ClubController {
             Collections.reverse(blogPosts);
             model.addAttribute("club", club);
             model.addAttribute("blogs", blogPosts);
-            model.addAttribute("existingMember", true);
             model.addAttribute("clubId", clubId);
             model.addAttribute("title", "Make Changes to " + club.getDisplayName());
-
 
             if (errors.hasErrors()) {
                 return "clubs/admin";
@@ -313,7 +301,7 @@ public class ClubController {
                 return "clubs/admin";
             }
 
-            //If displayName is not blank, update field
+            //If displayName is not blank, check if any other club uses that name. If not, update field
             if (!(displayName == "")) {
                 Club existingClub = clubRepository.findByDisplayName(displayName);
                 if (existingClub != null) {
@@ -362,8 +350,6 @@ public class ClubController {
             }
 
             //If everything was fine, return to the club detail page and display updated information
-            model.addAttribute("blogs", blogPosts);
-            model.addAttribute("club", club);
             return "redirect:/clubs/detail?clubId=" + clubId;
         }
     }
