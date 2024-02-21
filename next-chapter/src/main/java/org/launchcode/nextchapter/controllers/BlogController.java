@@ -21,6 +21,19 @@ import java.util.Optional;
 @RequestMapping("blog")
 public class BlogController {
 
+    //The method is posted in each Controller
+    public Member getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        if (userId == null) {
+            return null;
+        }
+        Optional<Member> user = memberRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
     @Autowired
     private BlogRepository blogRepository;
 
@@ -31,7 +44,10 @@ public class BlogController {
     private MemberRepository memberRepository;
 
     @GetMapping
-    public String displayAllBlogPosts(@RequestParam(required = false) Integer clubId, Model model) {
+    public String displayAllBlogPosts(@RequestParam(required = false) Integer clubId, Model model, HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
+
         if (clubId == null) {
             model.addAttribute("title", "Blog Info");
             model.addAttribute("club", "INSERT CLUB INFO HERE");
@@ -94,50 +110,58 @@ public class BlogController {
     public String displayCreateBlogPost(@RequestParam Integer clubId,
                                         Model model, HttpSession session) {
 
+        Member member = getUserFromSession(session);
+        model.addAttribute("member", member);
+
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
 
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
-        Member member = currentUser.get();
         Blog blog = new Blog();
         blog.setBookContext(club.getActiveBook());
 
         model.addAttribute("title", "Create Post");
         model.addAttribute("club", club);
-        model.addAttribute("member", member);
         model.addAttribute(blog);
         return "blog/create";
     }
 
     @PostMapping("create")
     public String processCreateBlogForm(@RequestParam Integer clubId, @RequestParam Integer memberId,
-                                        @ModelAttribute @Valid Blog newBlog, Errors errors, Model model) {
+                                        @ModelAttribute @Valid Blog newBlog, Errors errors, Model model,
+                                        HttpSession session) {
 
 //        if (errors.hasErrors()) {
 //            return "redirect:/clubs/detail?clubId=" + clubId;
 //        }
 
-        if (errors.hasErrors()) {
-            Optional<Club> result = clubRepository.findById(clubId);
-            Club club = result.get();
-
-            Optional<Member> currentUser = memberRepository.findById(memberId);
-            Member member = currentUser.get();
-
-        model.addAttribute("title", "Create Post");
-        model.addAttribute("club", club);
+        Member member = getUserFromSession(session);
         model.addAttribute("member", member);
-        model.addAttribute("blog", newBlog);
-        model.addAttribute("error message", "Please make sure all fields are filled out correctly.");
-        return "blog/create";
-    }
 
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
+        model.addAttribute("club", club);
 
-        Optional<Member> currentUser = memberRepository.findById(memberId);
-        Member member = currentUser.get();
+
+        if (errors.hasErrors()) {
+//            Optional<Club> result = clubRepository.findById(clubId);
+//            Club club = result.get();
+
+//            Optional<Member> currentUser = memberRepository.findById(memberId);
+//            Member member = currentUser.get();
+
+            model.addAttribute("title", "Create Post");
+//            model.addAttribute("club", club);
+//            model.addAttribute("member", member);
+            model.addAttribute("blog", newBlog);
+            model.addAttribute("error message", "Please make sure all fields are filled out correctly.");
+            return "blog/create";
+        }
+
+//        Optional<Club> result = clubRepository.findById(clubId);
+//        Club club = result.get();
+
+//        Optional<Member> currentUser = memberRepository.findById(memberId);
+//        Member member = currentUser.get();
 
         newBlog.setMember(member);
         newBlog.setClub(club);
@@ -145,7 +169,7 @@ public class BlogController {
 //        Club club = newBlog.getClub();
 
 //        model.addAttribute("title", club.getDisplayName());
-        model.addAttribute("club", club);
+//        model.addAttribute("club", club);
 
 
         return "redirect:/clubs/detail?clubId=" + club.getId();

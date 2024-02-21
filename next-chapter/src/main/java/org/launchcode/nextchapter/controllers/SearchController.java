@@ -1,10 +1,9 @@
 package org.launchcode.nextchapter.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.launchcode.nextchapter.data.ClubRepository;
-import org.launchcode.nextchapter.models.Blog;
-import org.launchcode.nextchapter.models.Club;
-import org.launchcode.nextchapter.models.SearchResult;
-import org.launchcode.nextchapter.models.SearchResultBook;
+import org.launchcode.nextchapter.data.MemberRepository;
+import org.launchcode.nextchapter.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +27,22 @@ public class SearchController {
     @Autowired
     private ClubRepository clubRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
+    //The method is posted in each Controller
+    public Member getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        if (userId == null) {
+            return null;
+        }
+        Optional<Member> user = memberRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
     //WebClient -- included within the dependency WebFlux -- seems to be the most current tool within SpringBoot to handle HTTP calls.
     private final WebClient webClient;
 
@@ -48,7 +63,8 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model) {
+    public String getSearchResults(@RequestParam String query, @RequestParam int clubId, Model model,
+                                   HttpSession session) {
         //this builds a single GET request
         //fyi: Mono is a class object, as almost a placeholder for a future singular object(???)
         Mono<SearchResult> resultsMono = this.webClient.get()
@@ -64,6 +80,7 @@ public class SearchController {
 
         model.addAttribute("searchResults", books);
         model.addAttribute("clubId", clubId);
+        model.addAttribute("member", getUserFromSession(session));
 
         return "search";
     }

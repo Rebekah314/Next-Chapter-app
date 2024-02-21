@@ -30,13 +30,10 @@ public class AuthenticationController {
         if (userId == null) {
             return null;
         }
-
         Optional<Member> user = memberRepository.findById(userId);
-
         if (user.isEmpty()) {
             return null;
         }
-
         return user.get();
     }
 
@@ -128,6 +125,6 @@ public class AuthenticationController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/login";
+        return "redirect:/home";
     }
 }

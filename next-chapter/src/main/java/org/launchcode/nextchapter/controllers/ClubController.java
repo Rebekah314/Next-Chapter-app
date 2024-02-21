@@ -33,37 +33,41 @@ public class ClubController {
     @Autowired
     private BlogRepository blogRepository;
 
+    //The method is posted in each Controller
+    public Member getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user");
+        if (userId == null) {
+            return null;
+        }
+        Optional<Member> user = memberRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
     @GetMapping("home")
     public String displayClubInfo(Model model, HttpSession session) {
 
-        //Check if user is logged in. If so, club buttons link to club page.
-        Integer userId = (Integer) session.getAttribute("user");
-
-        if (userId == null) {
-            model.addAttribute("existingMember", false);
-        } else {
-            Optional<Member> currentUser = memberRepository.findById(userId);
-            if (!currentUser.isEmpty()) {
-                model.addAttribute("existingMember", true);
-            } else {
-                model.addAttribute("existingMember", false);
-            }
-        }
         model.addAttribute("title", "Browse All Clubs");
         model.addAttribute("clubs", clubRepository.findAll());
+        model.addAttribute("member", getUserFromSession(session));
         return "clubs/index";
     }
 
     @GetMapping("create")
-    public String displayCreateClubForm(Model model) {
+    public String displayCreateClubForm(Model model, HttpSession session) {
         model.addAttribute(new CreateClubFormDTO());
         model.addAttribute("title", "Create Club");
+        model.addAttribute("member", getUserFromSession(session));
         return "clubs/create";
     }
 
     @PostMapping("create")
     public String processCreateClubForm(@ModelAttribute @Valid CreateClubFormDTO createClubFormDTO,
                                         Errors errors, Model model, HttpSession session){
+
+        model.addAttribute("member", getUserFromSession(session));
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create Club");
@@ -112,6 +116,8 @@ public class ClubController {
     public String displayClubDetails(@RequestParam Integer clubId,
                                      Model model, HttpSession session) {
 
+        model.addAttribute("member", getUserFromSession(session));
+
         Optional<Club> result = clubRepository.findById(clubId);
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
@@ -146,18 +152,17 @@ public class ClubController {
     public String displayJoinClubForm(@RequestParam Integer clubId,
                                       Model model, HttpSession session) {
 
+
+        Member member = getUserFromSession(session);
+        model.addAttribute("member", member);
+
         Integer userId = (Integer) session.getAttribute("user");
         Optional<Member> currentUser = memberRepository.findById(userId);
         Optional<Club> clubResult = clubRepository.findById(clubId);
 
-        if (clubResult.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
-        } else if (currentUser.isEmpty()) {
-            Club club = clubResult.get();
-            model.addAttribute("title", "Please log in to join " + club.getDisplayName());
-            return "clubs/join";
         } else {
-                Member member = currentUser.get();
                 Club club = clubResult.get();
                 ClubMemberDTO clubMember = new ClubMemberDTO();
                 clubMember.setMember(member);
@@ -174,7 +179,10 @@ public class ClubController {
 
     @PostMapping("join")
     public String processJoinClubForm(@ModelAttribute @Valid ClubMemberDTO clubMember,
-                                      Errors errors, Model model) {
+                                      Errors errors, Model model, HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
+
         if(!errors.hasErrors()) {
             Member member = clubMember.getMember();
             Club club = clubMember.getClub();
@@ -193,20 +201,19 @@ public class ClubController {
     @GetMapping("leave")
     public String displayLeaveClubForm(@RequestParam Integer clubId,
                                        Model model, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
+
+        Member member = getUserFromSession(session);
+        model.addAttribute("member", getUserFromSession(session));
+
         Optional<Club> clubResult = clubRepository.findById(clubId);
 
-        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
         } else {
-            Member member = currentUser.get();
             Club club = clubResult.get();
-
 
             model.addAttribute("title", "Leave " + club.getDisplayName());
             model.addAttribute("club", club);
-            model.addAttribute("member", member);
         }
 
         return "clubs/leave";
@@ -216,14 +223,14 @@ public class ClubController {
     public String processLeaveClubForm(@RequestParam int clubId,
                                        Model model, HttpSession session) {
 
-        Integer userId = (Integer) session.getAttribute("user");
-        Optional<Member> currentUser = memberRepository.findById(userId);
+        Member member = getUserFromSession(session);
+        model.addAttribute("member", getUserFromSession(session));
+
         Optional<Club> clubResult = clubRepository.findById(clubId);
-        if (clubResult.isEmpty() || currentUser.isEmpty()) {
+        if (clubResult.isEmpty() || member == null) {
             return "redirect:/";
         } else {
             Club club = clubResult.get();
-            Member member = currentUser.get();
             List<Member> memberList = club.getMembers();
             memberList.remove(member);
             club.setMembers(memberList);
@@ -237,7 +244,9 @@ public class ClubController {
     }
 
     @GetMapping("admin")
-    public String displayClubAdminForm(@RequestParam int clubId, Model model) {
+    public String displayClubAdminForm(@RequestParam int clubId, Model model, HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
         Optional<Club> clubResult = clubRepository.findById(clubId);
         if (clubResult.isEmpty()) {
             return "redirect:/";
@@ -250,7 +259,6 @@ public class ClubController {
             model.addAttribute("title", "Make Changes to " + club.getDisplayName());
             model.addAttribute("club", club);
             model.addAttribute("blogs", blogPosts);
-            model.addAttribute("existingMember", true);
             model.addAttribute(new AdminFormDTO());
 
         }
@@ -264,7 +272,10 @@ public class ClubController {
                                        @RequestParam(required = false) boolean confirmDeleteClub,
                                        @RequestParam(required = false) boolean deleteClub,
                                        @RequestParam(required = false) int[] blogIds,
-                                       @RequestParam(required = false) int[] memberIds, Model model) {
+                                       @RequestParam(required = false) int[] memberIds, Model model,
+                                       HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         if (clubResult.isEmpty()) {
@@ -275,10 +286,8 @@ public class ClubController {
             Collections.reverse(blogPosts);
             model.addAttribute("club", club);
             model.addAttribute("blogs", blogPosts);
-            model.addAttribute("existingMember", true);
             model.addAttribute("clubId", clubId);
             model.addAttribute("title", "Make Changes to " + club.getDisplayName());
-
 
             if (errors.hasErrors()) {
                 return "clubs/admin";
@@ -292,7 +301,7 @@ public class ClubController {
                 return "clubs/admin";
             }
 
-            //If displayName is not blank, update field
+            //If displayName is not blank, check if any other club uses that name. If not, update field
             if (!(displayName == "")) {
                 Club existingClub = clubRepository.findByDisplayName(displayName);
                 if (existingClub != null) {
@@ -341,14 +350,14 @@ public class ClubController {
             }
 
             //If everything was fine, return to the club detail page and display updated information
-            model.addAttribute("blogs", blogPosts);
-            model.addAttribute("club", club);
             return "redirect:/clubs/detail?clubId=" + clubId;
         }
     }
 
     @GetMapping("update-password")
-    public String displayUpdateAdminPasswordForm(@RequestParam int clubId, Model model) {
+    public String displayUpdateAdminPasswordForm(@RequestParam int clubId, Model model, HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         if (clubResult.isEmpty()) {
@@ -367,7 +376,9 @@ public class ClubController {
 
     @PostMapping("update-password")
     public String processUpdateAdminPasswordForm(@ModelAttribute @Valid AdminUpdatePasswordDTO adminUpdatePasswordDTO, Errors errors,
-                                                 @RequestParam int clubId, Model model) {
+                                                 @RequestParam int clubId, Model model, HttpSession session) {
+
+        model.addAttribute("member", getUserFromSession(session));
 
         Optional<Club> clubResult = clubRepository.findById(clubId);
         model.addAttribute("passwordUpdated", false);
