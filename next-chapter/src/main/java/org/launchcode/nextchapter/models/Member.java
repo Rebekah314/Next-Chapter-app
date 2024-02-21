@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+//branch created to maintain all commented-out code before a full project clean-up on feb 21
 @Entity
 public class Member extends AbstractEntity{
 

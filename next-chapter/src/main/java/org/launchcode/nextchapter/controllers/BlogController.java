@@ -66,46 +66,6 @@ public class BlogController {
     }
 
 
-//    @GetMapping("create")
-//    public String displayCreateBlogForm(
-//
-////            Model model) {
-////        model.addAttribute("title", "Create Post");
-////        model.addAttribute("club", );
-////        model.addAttribute(new Blog());
-////        return "blog/create";
-//
-//            @RequestParam Integer clubId,
-//            Model model, HttpSession session) {
-//
-//        Integer userId = (Integer) session.getAttribute("user");
-//        Optional<Member> currentUser = memberRepository.findById(userId);
-//        Optional<Club> clubResult = clubRepository.findById(clubId);
-//
-//        if (clubResult.isEmpty()) {
-//            return "redirect:/";
-//        } else if (currentUser.isEmpty()) {
-////            Club club = clubResult.get();
-//            model.addAttribute("title", "Please log in to create new post.");
-//            return "members/login";
-//        } else {
-//            Member member = currentUser.get();
-//            Club club = clubResult.get();
-//            ClubMemberDTO clubMember = new ClubMemberDTO();
-//            clubMember.setMember(member);
-//            clubMember.setClub(club);
-//
-//            model.addAttribute("club", club);
-//            model.addAttribute("clubId", clubId);
-//            model.addAttribute("clubMember", clubMember);
-//            model.addAttribute("title", "Create Post");
-//            model.addAttribute(new Blog());
-//        }
-//
-//        return "blog/create";
-//    }
-
-
     @GetMapping("create")
     public String displayCreateBlogPost(@RequestParam Integer clubId,
                                         Model model, HttpSession session) {
@@ -130,10 +90,6 @@ public class BlogController {
                                         @ModelAttribute @Valid Blog newBlog, Errors errors, Model model,
                                         HttpSession session) {
 
-//        if (errors.hasErrors()) {
-//            return "redirect:/clubs/detail?clubId=" + clubId;
-//        }
-
         Member member = getUserFromSession(session);
         model.addAttribute("member", member);
 
@@ -143,34 +99,15 @@ public class BlogController {
 
 
         if (errors.hasErrors()) {
-//            Optional<Club> result = clubRepository.findById(clubId);
-//            Club club = result.get();
-
-//            Optional<Member> currentUser = memberRepository.findById(memberId);
-//            Member member = currentUser.get();
-
             model.addAttribute("title", "Create Post");
-//            model.addAttribute("club", club);
-//            model.addAttribute("member", member);
             model.addAttribute("blog", newBlog);
             model.addAttribute("error message", "Please make sure all fields are filled out correctly.");
             return "blog/create";
         }
 
-//        Optional<Club> result = clubRepository.findById(clubId);
-//        Club club = result.get();
-
-//        Optional<Member> currentUser = memberRepository.findById(memberId);
-//        Member member = currentUser.get();
-
         newBlog.setMember(member);
         newBlog.setClub(club);
         blogRepository.save(newBlog);
-//        Club club = newBlog.getClub();
-
-//        model.addAttribute("title", club.getDisplayName());
-//        model.addAttribute("club", club);
-
 
         return "redirect:/clubs/detail?clubId=" + club.getId();
     }
