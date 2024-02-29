@@ -1,10 +1,9 @@
 package org.launchcode.nextchapter.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class Club extends AbstractEntity {
     private List<Member> members = new ArrayList<>();
     //need to set up DTO, chapter 18.5
 
-    private String activeBook;
+
 
     private String adminPwHash;
 
@@ -38,6 +37,9 @@ public class Club extends AbstractEntity {
     @OneToMany(mappedBy = "club")
     private final List<Blog> blogPosts = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private ActiveBook activeBook;
+
 
     private String coverId = null;
 
@@ -50,10 +52,9 @@ public class Club extends AbstractEntity {
     }
 
 
-    public Club(String displayName, String description, String activeBook, String password, int adminId) {
+    public Club(String displayName, String description, String password, int adminId) {
         this.setDisplayName(displayName);
         this.description = description;
-        this.activeBook = activeBook;
         this.adminPwHash = encoder.encode(password);
         this.adminId = adminId;
     }
@@ -69,11 +70,11 @@ public class Club extends AbstractEntity {
        this.members = members;
     }
 
-    public String getActiveBook() {
+    public ActiveBook getActiveBook() {
         return activeBook;
     }
 
-    public void setActiveBook(String activeBook) {
+    public void setActiveBook(ActiveBook activeBook) {
         this.activeBook = activeBook;
     }
 

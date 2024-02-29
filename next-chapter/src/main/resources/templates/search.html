@@ -6,27 +6,26 @@
 
 <p>
 <form method="post">
-<div>
-    <label>Title:
-        <input type="text" name="activeBook">
-    </label>
-</div>
+
     <br>
     <div>
         <table>
             <thead>
-<label>Cover Art to Display:
+            Cover Art to Display:
             </thead>
             <tr>
 
     <td style="padding:10px" th:each="result : ${searchResults}">
 
 
-        <label><img th:src="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-M.jpg'" alt="..."></label>
-        <p style="text-align:center"><input type="radio" name="coverId" th:value="${result.cover_i}"></p>
+        <label for="coverImage"><img th:src="'https://covers.openlibrary.org/b/id/' + ${result.cover_i} + '-M.jpg'" alt="..."></label>
+        <p style="text-align:center"><input id="coverImage" type="radio" name="coverId" th:value="${result.cover_i}"></p>
+        <input type="hidden" name="activeBook" th:value="${result.title}">
+
     </td>
-            </br>
+
         </table>
+
     <input type="hidden" name="clubId" th:value="${clubId}">
 </label>
     </div>

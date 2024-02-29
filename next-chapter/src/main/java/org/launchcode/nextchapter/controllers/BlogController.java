@@ -77,7 +77,7 @@ public class BlogController {
         Club club = result.get();
 
         Blog blog = new Blog();
-        blog.setBookContext(club.getActiveBook());
+        blog.setBookContext(club.getActiveBook().getTitle());
 
         model.addAttribute("title", "Create Post");
         model.addAttribute("club", club);

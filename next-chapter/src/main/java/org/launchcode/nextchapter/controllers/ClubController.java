@@ -96,7 +96,6 @@ public class ClubController {
 
         Club newClub = new Club(createClubFormDTO.getDisplayName(),
                 createClubFormDTO.getDescription(),
-                createClubFormDTO.getActiveBook(),
                 createClubFormDTO.getPassword(), userId);
         clubRepository.save(newClub);
 

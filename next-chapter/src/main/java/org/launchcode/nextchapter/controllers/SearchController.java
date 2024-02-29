@@ -91,7 +91,7 @@ public class SearchController {
         Optional<Club> result = clubRepository.findById(clubId);
         Club club = result.get();
         club.setCoverId(coverId);
-        club.setActiveBook(activeBook);
+        club.getActiveBook().setTitle(activeBook);
 
         //This is the part Bekah was missing!! UPDATE the repository with the change to the club.
         clubRepository.save(club);
