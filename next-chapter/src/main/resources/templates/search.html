@@ -6,11 +6,7 @@
 
 <p>
 <form method="post">
-<div>
-    <label>Title:
-        <input type="text" name="activeBook">
-    </label>
-</div>
+
     <br>
     <div>
         <table>
@@ -29,6 +25,11 @@
         </table>
     <input type="hidden" name="clubId" th:value="${clubId}">
 </label>
+    </div>
+    <div>
+        <label>How Would You Like Book Title Displayed?<br>
+            <input type="text" th:name="activeBook" th:value="${query}">
+        </label>
     </div>
     <div>
 <input type="submit" value="Set As Active Book"> </div>
