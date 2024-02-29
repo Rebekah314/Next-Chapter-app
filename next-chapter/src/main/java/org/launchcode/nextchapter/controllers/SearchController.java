@@ -81,6 +81,7 @@ public class SearchController {
         model.addAttribute("searchResults", books);
         model.addAttribute("clubId", clubId);
         model.addAttribute("member", getUserFromSession(session));
+        model.addAttribute("query", query);
 
         return "search";
     }
