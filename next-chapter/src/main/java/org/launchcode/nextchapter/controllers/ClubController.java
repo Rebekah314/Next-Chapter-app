@@ -426,3 +426,5 @@ public class ClubController {
     }
 
 }
+
+//Testing merge capability in new repository.
