@@ -7,6 +7,10 @@ public class QuoteResult {
     private String c;
     private String h;
 
+    public QuoteResult(String q) {
+        this.q = q;
+    }
+
     public String getQ() {
         return q;
     }

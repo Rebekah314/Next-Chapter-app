@@ -33,7 +33,13 @@ public class HomeController {
     @Autowired
     MemberRepository memberRepository;
 
+    private final WebClient webClient;
 
+    public HomeController(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("https://zenquotes.io/api/").build();
+        //ZenQuotes API documentation here:
+        //https://docs.zenquotes.io/zenquotes-documentation/
+    }
 
     //The method is posted in each Controller
     public Member getUserFromSession(HttpSession session) {
@@ -48,25 +54,38 @@ public class HomeController {
         return user.get();
     }
 
+//    private QuoteResult[] fetchQuotes() {
+//
+//        Mono<QuoteResult[]> foo = this.webClient.get()
+//                .uri("quotes/")
+//                .retrieve().bodyToMono(QuoteResult[].class);
+//        QuoteResult[] quoteList = foo.block();
+//
+//        //returns an arraylist of quotes. In each quote are
+//        // q(quote text), a(author name), and h(html text)
+//
+//        return quoteList;
+//    }
 
+    private String fetchQuotes() {
 
-    private String fetchQuote() {
-        //ZenQuotes API documentation here:
-        //https://docs.zenquotes.io/zenquotes-documentation/
+        Mono<String> foo = this.webClient.get()
+                .uri("quotes/")
+                .retrieve().bodyToMono(String.class);
+        String quoteList = foo.block();
 
         //returns an arraylist of quotes. In each quote are
         // q(quote text), a(author name), and h(html text)
-        //Need to make a model to store these: QuoteResult.
 
-//        WebClient client = WebClient.create("https://zenquotes.io/api/random/");
-//
-//        Mono<List> result = client.get()
-//                .retrieve()
-//                .bodyToMono(List.class);
-//        List<QuoteResult> quoteList = result.block();
+        return quoteList;
+    }
 
+    private String fetchRandomQuote(QuoteResult[] quoteList) {
+        Random rand = new Random();
+        // Obtain a number between [0 - 49].
+        int n = rand.nextInt(50);
 
-        return "Do or do not, there is not try";
+        return quoteList[n].getQ();
     }
 
 
@@ -79,8 +98,14 @@ public class HomeController {
     @GetMapping("home")
     public String home(Model model, HttpSession session) {
 
+        QuoteResult quote = new QuoteResult("Do you like green eggs and ham?");
+        quote.setA("Sam");
 
-        model.addAttribute("quote", fetchQuote());
+        model.addAttribute("quote", fetchQuotes());
+//                [0].getQ());
+        model.addAttribute("author", quote.getA());
+
+//                fetchRandomQuote(fetchQuotes()));
         model.addAttribute("title", "Welcome to your Next Chapter!");
         model.addAttribute("clubs", clubRepository.findAll());
         model.addAttribute("member", getUserFromSession(session));
