@@ -4,11 +4,10 @@ public class QuoteResult {
     private String q;
     private String a;
 
-    private String c;
-    private String h;
 
-    public QuoteResult(String q) {
+    public QuoteResult(String q, String a) {
         this.q = q;
+        this.a = a;
     }
 
     public String getQ() {
@@ -25,21 +24,5 @@ public class QuoteResult {
 
     public void setA(String a) {
         this.a = a;
-    }
-
-    public String getC() {
-        return c;
-    }
-
-    public void setC(String c) {
-        this.c = c;
-    }
-
-    public String getH() {
-        return h;
-    }
-
-    public void setH(String h) {
-        this.h = h;
     }
 }
