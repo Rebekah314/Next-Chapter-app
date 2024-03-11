@@ -5,18 +5,21 @@
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="homepage-login">
-    <p >"With the new day comes new strength and new thoughts." - Eleanor Roosevelt</p>
 
-
-    <div th:if="${member == null}">
-        <hr>
-        <p>Returning to your Next Chapter? <a href="/login">Log in to your account</a></p>
-        <p>Ready to begin your Next Chapter? <a href="/register">Register for an account</a></p>
+<div class="container">
+    <div class=" homepage-welcome">
+        <h4 class="card-title">Welcome!</h4>
+        <div th:if="${member == null}">
+            <p class="card-text"><a href="/login">Log in to your account</a></p>
+            <p class="card-text"><a href="/register">Register for an account</a></p>
+        </div>
+    </div>
+    <div class=" homepage-quote">
+        <p  th:text="${quote + ' - ' + author}"></p>
     </div>
 </div>
 
-<div style="background-color: #E0FFFF; padding: 18px; margin: 25px; border-radius: 20px;">
+<div style="background-color: #E0FFFF; padding: 18px; margin: 25px; border-radius: 20px;clear:left">
     <h3>Are you ready for your Next Chapter?</h3>
     <h5>Join a new book club today!</h5>
 
@@ -35,7 +38,8 @@
 </div>
 
 
-
-
+<div>
+    <p><small>Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></small></p>
+</div>
 </body>
 </html>
