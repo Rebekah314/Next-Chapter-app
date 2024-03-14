@@ -12,6 +12,6 @@ front-end framework: Bootstrap and CSS
 
 relational database mgmt system: MySQL
 
-external API: OpenLibrary
+external APIs: OpenLibrary, ZenQuotes
 
 created by Rebekah Garris and Molly Heininger
