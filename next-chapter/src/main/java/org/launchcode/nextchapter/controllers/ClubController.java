@@ -345,6 +345,9 @@ public class ClubController {
 
             //If both boxes were checked to delete a club, then delete the club from the repository
             if (deleteClub && confirmDeleteClub) {
+
+                //delete club's blogs from blog repo
+
                 clubRepository.deleteById(clubId);
                 return "redirect:/";
             }
