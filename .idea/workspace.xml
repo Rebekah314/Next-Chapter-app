@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbe62998-1d6b-497a-8d9e-74fe32140772" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_1_24__10_07PM__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
