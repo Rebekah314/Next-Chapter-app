@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbe62998-1d6b-497a-8d9e-74fe32140772" name="Changes" comment="" />
+    <list default="true" id="fbe62998-1d6b-497a-8d9e-74fe32140772" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/next-chapter/src/main/java/org/launchcode/nextchapter/controllers/ClubController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +35,27 @@
       </state>
     </system>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2dg15bJYDm2074ZDuB1GrsWgzg6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "delete-club-bug"
+  }
+}]]></component>
   <component name="RunManager">
     <configuration name="next-chapter [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -75,7 +98,15 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fbe62998-1d6b-497a-8d9e-74fe32140772" name="Changes" comment="" />
+      <created>1710414724945</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710414724945</updated>
+    </task>
     <servers />
   </component>
 </project>
